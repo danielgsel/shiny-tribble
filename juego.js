@@ -9,24 +9,14 @@ var config = {
     }
 }
 
-const ANCHO_TAB = 11;
-const LARGO_TAB = 9;
-var tablero = new Array(ANCHO_TAB);
-function Casilla(activa, tipo, ocupacion, color){
-    this.activa = activa;
-}
-
-
-for (i = 0; i < tablero.length; i++) tablero[i] = new Array(LARGO_TAB);
-
 var game = new Phaser.Game(config);
 
 function preload(){
-    this.load.image('im', 'assets/google.jpg');
+    console.log("preload");
 }
 
 function create(){
-    this.add.image(400, 300, 'im');
+   console.log("create");
 }
 
 function update(){
