@@ -14,24 +14,26 @@ export default class Game extends Phaser.Scene {
     console.log("create");
     
     let enemy = this.add.image(700, 400, 'enemy');
-    let movTime = 5;
-    let waitTime = 2;
-    let lastMovTime = 0;
-    let dir = 'x';
+
+    this.movManager = {
+      movTime : 5,
+      waitTime : 2,
+      lastMovTime : 0,
+      dir : 'x'}
   }
 
   update(time, delta) {
 
-    if (lastMovTime + movTime > time){
-      if(dir == 'x'){
+    if (this.movManager.lastMovTime +this.movManager.movTime > time){
+      if(this.movManager.dir == 'x'){
         enemy.x += delta;
       }
       else{
         enemy.y += delta;
       }
     }
-    else if (lastMovTime + movTime + waitTime < time){
-      lastMovTime = time;
+    else if (this.movManager.lastMovTime +this.movManager.movTime + this.movManager.waitTime < time){
+      this.movManager.lastMovTime = time;
     }
   }
 }
