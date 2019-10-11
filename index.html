@@ -1,15 +1,38 @@
-<!doctype html> 
-<html lang="en"> 
-<head> 
-    <meta charset="UTF-8" />
-    <title>Shiny-Tribble</title>
-    <link rel="stylesheet" href="assets/css/maincss.css">
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="favicon.png" type="image/png" />
+    <meta name="viewport" content="width=device-width, initial-scale=2.0">
+    <link rel="stylesheet" href="game.css">
+    <script src="phaser.min.js"></script>
+
+    <title>¡Juego con Phaser!</title>
 </head>
+
 <body>
-    <img src="assets/imagenes/logo.png" alt="Shiny-Tribble">
+    <h1>Shinny-Tribble</h1>
+    <script type="module">
+        import Game from './game.js';
 
-    <script type="text/javascript" src="assets/phaser-3.19.0/phaser-3.19.0/dist/phaser.js"></script> 
-    <script type="text/javascript" src="juego.js"></script>
-
+        var config = {
+            type: Phaser.AUTO,
+            width: 1400,
+            height: 800,
+            pixelArt: true,
+            input: {
+                gamepad: true
+            },
+            scale: {
+                mode: Phaser.Scale.FIT,
+                autoCenter: Phaser.Scale.CENTER_BOTH
+            },
+            scene: [ Game ],
+            physics: { default: 'arcade', arcade: { gravity: { y: 400 }, debug: false } }
+        };
+        new Phaser.Game(config);
+    </script>
 </body>
+
 </html>
