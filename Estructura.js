@@ -1,12 +1,15 @@
 export default class Estructura extends Phaser.GameObjects.Sprite {
-    constructor() {
-      super({ key: 'main' });
+    constructor(scene) {
+
+
+      let x = 0, y = 0;  
+      super(scene,x,y, 'estructura');
 
 
       this.stats = {
-        position,
-        owner,
-        hp
+        position: undefined,
+        owner: undefined,
+        hp: undefined
       }
 
     }

@@ -1,12 +1,14 @@
-export default class Casilla extends Phaser.GameObject.Sprite {
-    constructor() {
-      super({ key: 'main' });
+export default class Casilla extends Phaser.GameObjects.Sprite {
+    constructor(scene, positionArray, exists) {
+      let x = 0, y = 0;  
+      super(scene,x,y, 'casilla');
 
       this.stats = {
-          type,
-          position, 
-          owner,
-          image
+          exists : exists,
+          type : 'empty',
+          position : positionArray, 
+          owner: undefined,
+          image: undefined
 
       }
 

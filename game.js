@@ -1,6 +1,6 @@
 import Tablero from "./Tablero.js";
-//import Estructura from "./Estructura.js";
-//import Unidad from "./Unidad.js";
+import Estructura from "./Estructura.js";
+import Unidad from "./Unidad.js";
 
 export default class Game extends Phaser.Scene {
   constructor() {

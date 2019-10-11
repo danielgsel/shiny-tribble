@@ -1,17 +1,19 @@
 export default class Unidad extends Phaser.GameObjects.Sprite {
-    constructor() {
-      super({ key: 'main' });
+  constructor(scene) {
 
+    let x = 0, y = 0;  
+    super(scene,x,y, 'unidad');
 
-      this.stats = {
-        hp,
-        speed,
-        owner,
-        position
-      }
-
-
+    this.stats = {
+      hp: undefined,
+      speed: undefined,
+      owner: undefined,
+      position: undefined
     }
+
+  }
+
+     
 
     Move(destiny){
       
