@@ -1,3 +1,7 @@
-shiny-tribble
+# Plantilla para juegos en Phaser
 
-<b>GDD: </b> https://docs.google.com/document/d/1VK_U3WA05tg01miBQGWwCjTo4AXo87CXftoFl2qIHZc/edit?usp=sharing
+Plantilla básica para juegos en Phaser. Hace falta un servidor web para que se ejecute. Por ejemplo:
+
+```bash
+npx http-server
+```
