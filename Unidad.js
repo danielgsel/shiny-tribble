@@ -1,4 +1,4 @@
-export default class Unidad extends Phaser.GameObject.Sprite {
+export default class Unidad extends Phaser.GameObjects.Sprite {
     constructor() {
       super({ key: 'main' });
 
@@ -7,7 +7,7 @@ export default class Unidad extends Phaser.GameObject.Sprite {
         hp,
         speed,
         owner,
-        position = {x,y}
+        position
       }
 
 

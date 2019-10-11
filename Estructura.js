@@ -1,4 +1,4 @@
-export default class Estructura extends Phaser.GameObject.Sprite {
+export default class Estructura extends Phaser.GameObjects.Sprite {
     constructor() {
       super({ key: 'main' });
 
