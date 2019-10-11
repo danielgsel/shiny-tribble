@@ -1,3 +1,7 @@
+import Tablero from "./Tablero";
+import Estructura from "./Estructura";
+import Unidad from "./Unidad";
+
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
@@ -13,27 +17,34 @@ export default class Game extends Phaser.Scene {
   create() {
     console.log("create");
     
-    let enemy = this.add.image(700, 400, 'enemy');
-
+    this.enemy = this.add.image(700, 400, 'enemy');
     this.movManager = {
-      movTime : 5,
+      movTime : 1,
       waitTime : 2,
       lastMovTime : 0,
+      
       dir : 'x'}
+
   }
 
   update(time, delta) {
 
-    if (this.movManager.lastMovTime +this.movManager.movTime > time){
+    if (this.movManager.lastMovTime + this.movManager.movTime < time){
       if(this.movManager.dir == 'x'){
-        enemy.x += delta;
+        this.enemy.x += delta;
       }
       else{
-        enemy.y += delta;
+        this.enemy.y += delta;
       }
     }
-    else if (this.movManager.lastMovTime +this.movManager.movTime + this.movManager.waitTime < time){
+    if (this.movManager.lastMovTime + this.movManager.movTime + this.movManager.waitTime > time){
       this.movManager.lastMovTime = time;
     }
+
+    console.log(this.movManager.lastMovTime);
+    console.log(this.movManager.lastMovTime + this.movManager.movTime + this.movManager.waitTime);
+
+    console.log(time);
+
   }
 }
