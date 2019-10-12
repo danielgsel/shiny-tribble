@@ -1,14 +1,15 @@
 export default class Unidad extends Phaser.GameObjects.Sprite {
-  constructor(scene) {
+  constructor(scene, position, hp, speed) {
 
-    let x = 0, y = 0;  
-    super(scene,x,y, 'unidad');
+ 
+
+    super(scene, position[0], position[1], 'unit');
 
     this.stats = {
-      hp: undefined,
-      speed: undefined,
+      hp: hp,
+      speed: speed,
       owner: undefined,
-      position: undefined
+      position: position
     }
 
   }
