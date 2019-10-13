@@ -10,6 +10,7 @@ export default class Casilla extends Phaser.GameObjects.Sprite {
         type : 'empty',
         position : positionArray, 
         owner: undefined,
+        unit: undefined
 
     }
 
