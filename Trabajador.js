@@ -9,9 +9,12 @@ export default class Trabajador extends Unidad {
         type : 'empty',
         position : {positionx, positiony}, 
         owner: undefined,
-        selected: undefined
+        selected: undefined,
+        image: undefined
 
         }
+
+        
 
     }
     
