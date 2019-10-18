@@ -6,6 +6,7 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
       let x = 0, y = 0;  
       super(scene,x,y, 'tablero');
 
+      this.game = scene;
       //INICIALIZACIÓN DE TABLERO (NO INTENTAR COMPRENDER SI NO QUIERES QUE TE DUELA LA CABEZA)
       this.casillas = new Array(9);
 
@@ -123,5 +124,75 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
         }
       }
     }
+
+
+    printTablero(){
+      for (let i = 0; i < 9; i++){
+        for (let j = 0; j < 11; j++){
+          //Comprobar que la casilla está dentro del tablero
+          if (this.casillas[i][j].stats.exists){
+            //Dibujar la casilla dependiendo de su tipo
+            let squareSize = this.game.squareSize;
+            let offset = this.game.offset;
+            switch(this.casillas[i][j].stats.type){
+              case 'empty':
+                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casilla');
+                  break;
+              case 'forest':
+                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaForest');
+                  break;
+              case 'superForest':
+                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaSuperForest');
+                  break;
+              case 'mountain':
+                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaMountain');
+                  break;
+              case 'superMountain':
+                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaSuperMountain');
+                  break;
+              case 'blueBase':
+                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaBlue');
+                  break;
+              case 'redBase':
+                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaRed');
+                  break;
+            }
+          }
+
+        }
+      }
+
+    }
+
+    printCasilla(i, j){
+      let squareSize = this.game.squareSize;
+      let offset = this.game.offset;
+
+      switch(this.tablero.casillas[i][j].stats.type){
+        case 'empty':
+            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casilla');
+            break;
+        case 'forest':
+            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaForest');
+            break;
+        case 'superForest':
+            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaSuperForest');
+            break;
+        case 'mountain':
+            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaMountain');
+            break;
+        case 'superMountain':
+            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaSuperMountain');
+            break;
+        case 'blueBase':
+            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaBlue');
+            break;
+        case 'redBase':
+            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaRed');
+            break;
+      }
+
+    }
+
     
 }
