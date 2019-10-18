@@ -1,8 +1,5 @@
 export default class Unidad extends Phaser.GameObjects.Sprite {
   constructor(scene, position, hp, speed) {
-
- 
-
     super(scene, position[0], position[1], 'unit');
 
     this.stats = {
@@ -13,8 +10,7 @@ export default class Unidad extends Phaser.GameObjects.Sprite {
     }
 
   }
-
-     
+   
 
     Move(destiny){
       

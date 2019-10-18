@@ -130,8 +130,11 @@ export default class Game extends Phaser.Scene {
           Math.abs(x-this.selected.stats.position.positionx) <= 1 && Math.abs(y-this.selected.stats.position.positiony) <= 1){
           if (x>= 0 && x <= 10 && y >= 1 && y <= 7){
               if(this.tablero.casillas[y][x].stats.unit === undefined){
-                this.selected.stats.image.destroy();
+
+                //this.selected.stats.image.destroy();
+
                 this.tablero.casillas[this.selected.stats.position.positiony][this.selected.stats.position.positionx].stats.unit = undefined;
+                
                 this.tablero.casillas[y][x].stats.unit = this.selected;
 
                 //this.printCasilla(this.selected.stats.position.positiony, this.selected.stats.position.positionx);
@@ -158,6 +161,7 @@ export default class Game extends Phaser.Scene {
       }
     }
     }
+
     printTablero(){
       for (let i = 0; i < 9; i++){
         for (let j = 0; j < 11; j++){
