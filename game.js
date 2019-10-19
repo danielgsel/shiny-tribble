@@ -31,11 +31,11 @@ export default class Game extends Phaser.Scene {
       this.mouse = this.input.activePointer;
      
 
-      //-------------------------Trabajadora de prueba ||DEBUG||----------------------------
+      //-------------------------Trabajadora de prueba ||DEBUG||----
       this.workers.push(new Trabajador(this, 5, 5));
       this.tablero.casillas[5][5].stats.unit = this.workers[this.workers.length-1]
       this.printWorkers();
-      //------------------------------------------------------------------------------------
+      //------------------------------------------------------------
 
       this.selectedUnit = undefined;
 
@@ -52,15 +52,22 @@ export default class Game extends Phaser.Scene {
 
   update(time, delta) {
       
+
+
     this.checkForSelection();
 
-    this.printArrow(); 
+    this.processSelection();
 
-    this.moveSelected();
+    //this.printArrow(); 
+
+    //this.moveSelected();
       
       
 
   }
+
+
+//--------------------------METODOS------------------------------------------
 
   loadImages(){
       //Casillas
@@ -69,6 +76,9 @@ export default class Game extends Phaser.Scene {
       //Unidad(es)
       this.load.image('worker',' assets/imagenes/worker.png' );
       this.load.image('workerSelected',' assets/imagenes/workerSelected.png' );
+
+      //Menus
+      this.load.image('arrowMenu', ' assets/imagenes/MenuFlecha.png');
   }
 
   loadCasillas(){
@@ -96,33 +106,24 @@ export default class Game extends Phaser.Scene {
       let x = Math.floor(this.mouse.worldX/this.squareSize -1);
       let y = Math.floor(this.mouse.worldY/this.squareSize -1);
 
-      if (x>= 0 && x <= this.anchoMundo - 1 && y >= 1 && y <= this.altoMundo - 2){
-          if(this.tablero.casillas[y][x].stats.unit !== undefined){
-            if (this.selectedUnit !== undefined) this.selectedUnit.stats.selected = false;    //OJO
-            this.tablero.casillas[y][x].stats.unit.stats.selected = true;
-            this.selectedUnit = this.tablero.casillas[y][x].stats.unit;
+      if (x>= 0 && x <= this.anchoMundo - 1 && y >= 1 && y <= this.altoMundo - 2 && this.tablero.casillas[y][x].stats.unit !== this.selectedUnit){
 
-            this.selectedUnit.stats.image.destroy();
-            this.selectedUnit.stats.image = this.add.image(this.selectedUnit.stats.position.positionx*this.squareSize + this.offset ,this.selectedUnit.stats.position.positiony*this.squareSize + this.offset ,'workerSelected');
-          }
-          // else{
-          //   this.selected = undefined;
-          //   this.flecha.image.destroy();
-          // }
+        if (this.selectedUnit !== undefined) this.selectedUnit.unselected();    //OJO
 
+        this.selectedUnit = this.tablero.casillas[y][x].stats.unit;
+        // else{
+        //   this.selected = undefined;
+        //   this.flecha.image.destroy();
+        // }
       }
     }
+    else if(this.mouse.rightButtonDown()){
 
-    if(this.mouse.rightButtonDown()){
+      if (this.selectedUnit !== undefined) this.selectedUnit.unselected();
 
-      if (this.selectedUnit !== undefined){
-      this.selectedUnit.stats.image.destroy();
-      this.selectedUnit.stats.image = this.add.image(this.selectedUnit.stats.position.positionx*this.squareSize + this.offset ,this.selectedUnit.stats.position.positiony*this.squareSize + this.offset ,'worker');
-      }
       this.selectedUnit = undefined;
-      this.flecha.image.destroy();
+      //this.flecha.image.destroy();
     }
-
   }
 
   moveSelected(){
@@ -215,6 +216,16 @@ export default class Game extends Phaser.Scene {
       for (let i = 0; i < this.workers.length; i++){
         this.workers[i].stats.image = this.add.image(this.workers[i].stats.position.positionx*this.squareSize + this.offset ,this.workers[i].stats.position.positiony*this.squareSize + this.offset ,'worker');
       }
+  }
+
+  processSelection(){
+    if (this.selectedUnit !== undefined ){
+      switch(this.selectedUnit.stats.type){
+        case 'Trabajador':
+          this.selectedUnit.selected('arrowMenu', 'arrowMenu', 'arrowMenu');
+          break;
+      }
+    }
   }
 
 }
