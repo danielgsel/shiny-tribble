@@ -8,6 +8,9 @@ export default class Game extends Phaser.Scene {
     super({ key: 'main' });
     this.squareSize = 100;
     this.offset = 150;
+    this.anchoMundo = 11;
+    this.altoMundo = 9;
+    this.numEstructurasRecursos = 2;
   }
 
   preload() {  
@@ -111,6 +114,7 @@ export default class Game extends Phaser.Scene {
         if (this.selected !== undefined){
         this.selected.stats.image.destroy();
         this.selected.stats.image = this.add.image(this.selected.stats.position.positionx*this.squareSize + this.offset ,this.selected.stats.position.positiony*this.squareSize + this.offset ,'worker');
+        this.tablero.casillas[y][x].stats.unit.stats.selected = false;
       }
         this.selected = undefined;
         this.flecha.image.destroy();
