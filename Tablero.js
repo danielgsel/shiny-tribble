@@ -123,8 +123,8 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
 
 
     printTablero(){
-      for (let i = 0; i < 9; i++){
-        for (let j = 0; j < 11; j++){
+      for (let i = 0; i < this.game.altoMundo; i++){
+        for (let j = 0; j < this.game.anchoMundo; j++){
           //Comprobar que la casilla está dentro del tablero
           if (this.casillas[i][j].stats.exists){
             //Dibujar la casilla dependiendo de su tipo

@@ -9,7 +9,7 @@ export default class Game extends Phaser.Scene {
     this.squareSize = 100;
     this.offset = 150;
     this.anchoMundo = 11;
-    this.altoMundo = 9;
+    this.altoMundo = 11;
     this.numEstructurasRecursos = 2;
   }
 
@@ -93,7 +93,7 @@ export default class Game extends Phaser.Scene {
 
         let x = Math.floor(this.mouse.worldX/this.squareSize -1);
         let y = Math.floor(this.mouse.worldY/this.squareSize -1);
-        if (x>= 0 && x <= 10 && y >= 1 && y <= 7){
+        if (x>= 0 && x <= this.anchoMundo - 1 && y >= 1 && y <= this.altoMundo - 2){
             if(this.tablero.casillas[y][x].stats.unit !== undefined){
               this.tablero.casillas[y][x].stats.unit.stats.selected = true;
               this.selected = this.tablero.casillas[y][x].stats.unit;
