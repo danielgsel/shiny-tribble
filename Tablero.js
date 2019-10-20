@@ -2,29 +2,30 @@ import Casilla from "./Casilla.js";
 
 export default class Tablero extends Phaser.GameObjects.Sprite {
     constructor(scene) {
+      let x = 0, y = 0; 
 
-      let x = 0, y = 0;  
-      super(scene,x,y, 'tablero');
+      super(scene,x,y, 'tablero'); 
 
       this.game = scene;
-      //INICIALIZACIÓN DE TABLERO (NO INTENTAR COMPRENDER SI NO QUIERES QUE TE DUELA LA CABEZA)
-      this.casillas = new Array(9);
 
-      for (let i = 0; i < 9; i++){
+      //INICIALIZACIÓN DE TABLERO (NO INTENTAR COMPRENDER SI NO QUIERES QUE TE DUELA LA CABEZA)
+      this.casillas = new Array(this.game.altoMundo);
+
+      for (let i = 0; i < this.game.altoMundo; i++){
         
-          this.casillas[i] = new Array(11);
+          this.casillas[i] = new Array(this.game.anchoMundo);
         
       }
-      for (let i = 0; i < 9; i++){
-        for (let j= 0; j < 11; j++){
+      for (let i = 0; i < this.game.altoMundo; i++){
+        for (let j= 0; j < this.game.anchoMundo; j++){
 
-          if (( i === 0 && ( j > 2 && j < 8 )) || (i === 1 && ( j > 1 && j < 9)) || (i === 2 && (j > 0 && j < 10)) 
-          || ( i === 3) || i === 4 || i === 5 || 
-          (i === 6 && (j > 0 && j < 10)) || (i === 7 && ( j > 1 && j < 9)) || ( i === 8 && ( j > 2 && j < 8 )) )
-
-              this.casillas[i][j] = new Casilla(scene, {i,j}, true);
-
-          else this.casillas[i][j] = new Casilla(scene, {i,j}, false);
+          if (( i === 0 && ( j > 2 && j < 8 )) || (i === 1 && ( j > 1 && j < 9)) || (i === 2 && (j > 0 && j < 10))  //"escaleras" parte superior
+          || (i >= 3 && i < this.game.altoMundo - 3) ||                                                                    //Mitad mapa
+          (i === this.game.altoMundo - 3 && (j > 0 && j < this.game.anchoMundo - 1)) || (i === this.game.altoMundo - 2 && ( j > 1 && j < this.game.anchoMundo - 2)) || ( i === this.game.altoMundo - 1 && ( j > 2 && j < this.game.anchoMundo - 3 )) )    //"escaleras" parte inferior
+          {
+            this.casillas[i][j] = new Casilla(scene, {i,j}, true);    //crea casilla que existe
+          }
+          else this.casillas[i][j] = new Casilla(scene, {i,j}, false);  //casilla no existente
         }
       }
 
@@ -34,20 +35,16 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
       //Decide casillas mountain (de un lado)
       this.DecideMountains();
 
+      this.casillas[Math.floor(this.game.altoMundo / 2)][Math.floor(this.game.anchoMundo / 3)].stats.type = 'superForest';   //SuperForest
+      this.casillas[Math.floor(this.game.altoMundo / 2)][Math.floor((this.game.anchoMundo / 3) * 2)].stats.type = 'superMountain'; //SuperMountain
 
-
-      this.casillas[4][3].stats.type = 'superForest';
-      this.casillas[4][7].stats.type = 'superMountain';
-
-      for (let j = 3; j < 8; j++ ){
-        this.casillas[8][j].stats.type = 'redBase';
+      for (let j = 3; j < this.game.anchoMundo - 3; j++ ){     //BaseRoja
+        this.casillas[this.game.altoMundo - 1][j].stats.type = 'redBase';
       }
 
-      for (let j = 3; j < 8; j++ ){
+      for (let j = 3; j < this.game.anchoMundo - 3; j++ ){     //BaseAzul
         this.casillas[0][j].stats.type = 'blueBase';
       }
-
-
 
       //FIN DE INICIALIZACIÓN
 
@@ -57,10 +54,10 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
     DecideForests(){
       //Mitad superior
 
-      for (let a = 0; a < 3; a++ ){
+      for (let a = 0; a < this.game.numEstructurasRecursos; a++ ){
 
-        let i = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-        let j = Math.floor(Math.random() * (8 - 2 + 1)) + 2;
+        let i = Math.floor(Math.random() * 3) + 1;
+        let j = Math.floor(Math.random() * (this.game.anchoMundo - 1));
 
 
         if (this.casillas[i][j].stats.type !== 'forest'){ 
@@ -68,15 +65,14 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
             this.casillas[i][j].stats.type = 'forest';
             console.log(i + ' ' + j + ' ' + this.casillas[i][j].stats.type);
         }
-        else {a--;}
+        else a--;
       }
 
       //Mitad inferior
-      for (let a = 0; a < 3; a++ ){
+      for (let a = 0; a < this.game.numEstructurasRecursos; a++ ){
 
-        let i = Math.floor(Math.random() * (7 - 5 + 1)) + 5;
-        let j = Math.floor(Math.random() * (8 - 2 + 1)) + 2;
-
+        let i = (this.game.altoMundo - 1) - (Math.floor(Math.random() * 3) + 1);
+        let j = Math.floor(Math.random() * (this.game.anchoMundo - 1));
 
         if (this.casillas[i][j].stats.type !== 'forest'){ 
 
@@ -92,10 +88,10 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
     DecideMountains(){
 
       //Mitad superior
-      for (let a = 0; a < 3; a++ ){
+      for (let a = 0; a < this.game.numEstructurasRecursos; a++ ){
 
-        let i = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-        let j = Math.floor(Math.random() * (8 - 2 + 1)) + 2;
+        let i = Math.floor(Math.random() * 3) + 1;
+        let j = Math.floor(Math.random() * (this.game.anchoMundo - 1));
 
         if (this.casillas[i][j].stats.type !== 'forest' && this.casillas[i][j].stats.type !== 'mountain' ){
 
@@ -109,10 +105,10 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
 
 
       //Mitad inferior
-      for (let a = 0; a < 3; a++ ){
+      for (let a = 0; a < this.game.numEstructurasRecursos; a++ ){
 
-        let i = Math.floor(Math.random() * (7 - 5 + 1)) + 5;
-        let j = Math.floor(Math.random() * (8 - 2 + 1)) + 2;
+        let i = (this.game.altoMundo - 1) - (Math.floor(Math.random() * 3) + 1);
+        let j = Math.floor(Math.random() * (this.game.anchoMundo - 1));
 
         if (this.casillas[i][j].stats.type !== 'forest' && this.casillas[i][j].stats.type !== 'mountain' ){
 
@@ -127,8 +123,8 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
 
 
     printTablero(){
-      for (let i = 0; i < 9; i++){
-        for (let j = 0; j < 11; j++){
+      for (let i = 0; i < this.game.altoMundo; i++){
+        for (let j = 0; j < this.game.anchoMundo; j++){
           //Comprobar que la casilla está dentro del tablero
           if (this.casillas[i][j].stats.exists){
             //Dibujar la casilla dependiendo de su tipo

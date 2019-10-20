@@ -8,6 +8,9 @@ export default class Game extends Phaser.Scene {
     super({ key: 'main' });
     this.squareSize = 100;
     this.offset = 150;
+    this.anchoMundo = 11;
+    this.altoMundo = 11;
+    this.numEstructurasRecursos = 2;
   }
 
   preload() {  
@@ -18,6 +21,9 @@ export default class Game extends Phaser.Scene {
   create() {
 
       this.input.mouse.disableContextMenu();
+      this.mouseController = true;
+
+      this.input.on('pointerup', pointer => {if (pointer.leftButtonReleased()) {this.mouseController = true;} });
 
       this.tablero = new Tablero(this);
 
@@ -28,13 +34,14 @@ export default class Game extends Phaser.Scene {
       this.mouse = this.input.activePointer;
      
 
-      //Trabajadora de prueba ||DEBUG||
-      this.workers.push(new Trabajador(this, 5, 4));
-      this.tablero.casillas[4][5].stats.unit = this.workers[this.workers.length-1]
+      //-------------------------Trabajadora de prueba ||DEBUG||----
+      this.workers.push(new Trabajador(this, 5, 5));
+      this.tablero.casillas[5][5].stats.unit = this.workers[this.workers.length-1]
       this.printWorkers();
-      //
+      //------------------------------------------------------------
 
-      this.selected = undefined;
+      this.selectedUnit = undefined;
+      this.usingMenu = false;
 
       this.flecha ={
         positionx : undefined,
@@ -42,31 +49,38 @@ export default class Game extends Phaser.Scene {
         exists : false,
         image: undefined
       }
-
       
 
   }
 
-    update(time, delta) {
-      
-      this.moveSelected();
+  update(time, delta) {
 
-      this.checkForSelection();
-      
-      this.printArrow();   
+    this.checkForSelection();
 
-    }
+    this.processSelection();
 
-    loadImages(){
+    //this.printArrow(); 
+
+    //this.moveSelected();
+
+  }
+
+
+//--------------------------METODOS------------------------------------------
+
+  loadImages(){
       //Casillas
       this.loadCasillas();
       
       //Unidad(es)
       this.load.image('worker',' assets/imagenes/worker.png' );
       this.load.image('workerSelected',' assets/imagenes/workerSelected.png' );
-    }
 
-    loadCasillas(){
+      //Menus
+      this.load.image('arrowMenu', ' assets/imagenes/MenuFlecha.png');
+  }
+
+  loadCasillas(){
       //Tipos de casilla
       this.load.image('casilla', 'assets/imagenes/Casilla.png');
       this.load.image('casillaRed', 'assets/imagenes/CasillaRed.png');
@@ -83,95 +97,91 @@ export default class Game extends Phaser.Scene {
       this.load.image('arrowdownright', 'assets/imagenes/arrowdownright.png');
       this.load.image('arrowupleft', 'assets/imagenes/arrowupleft.png');
       this.load.image('arrowdownleft', 'assets/imagenes/arrowdownleft.png');
-    }
+  }
     
-    checkForSelection(){
-      if(this.mouse.leftButtonDown()){
+  checkForSelection(){
 
+    if(this.mouse.leftButtonDown() && this.mouseController && this.usingMenu === false &&
+      (this.selectedUnit === undefined || this.selectedUnit.stats.type === 'Trabajador' && this.selectedUnit.stats.moving === false)){    //Si un trabajador se esta moviendo en este instante no entra
+
+      let x = Math.floor(this.mouse.worldX/this.squareSize -1);
+      let y = Math.floor(this.mouse.worldY/this.squareSize -1);
+
+      if (x>= 0 && x <= this.anchoMundo - 1 && y >= 1 && y <= this.altoMundo - 2 && this.tablero.casillas[y][x].stats.unit !== this.selectedUnit){
+
+        if (this.selectedUnit !== undefined) this.selectedUnit.unselected();    //OJO
+
+        this.selectedUnit = this.tablero.casillas[y][x].stats.unit;
+        // else{
+        //   this.selected = undefined;
+        //   this.flecha.image.destroy();
+        // }
+      }
+      this.mouseController = false;
+    }
+    else if(this.mouse.rightButtonDown()){
+
+      if (this.selectedUnit !== undefined) this.selectedUnit.unselected();
+
+      this.selectedUnit = undefined;
+      //this.flecha.image.destroy();
+    }
+  }
+
+  moveSelected(){
+    if (this.selectedUnit !== undefined && this.mouse.leftButtonDown() && this.mouseController === true){
+      //mover unidad seleccionada
+      let x = Math.floor(this.mouse.worldX/this.squareSize -1);
+      let y = Math.floor(this.mouse.worldY/this.squareSize -1);
+
+      if (x < this.anchoMundo && x >= 0 && y >= 0 && y < this.altoMundo)
+      this.selectedUnit.move(x,y);
+      
+      this.mouseController = false;
+    }
+  }
+
+  // printTablero(){
+  //   this.tablero.printTablero();
+  // }
+
+  printArrow(){
+      if (this.selectedUnit !== undefined){
         let x = Math.floor(this.mouse.worldX/this.squareSize -1);
         let y = Math.floor(this.mouse.worldY/this.squareSize -1);
-        if (x>= 0 && x <= 10 && y >= 1 && y <= 7){
-            if(this.tablero.casillas[y][x].stats.unit !== undefined){
-              this.tablero.casillas[y][x].stats.unit.stats.selected = true;
-              this.selected = this.tablero.casillas[y][x].stats.unit;
-
-              this.selected.stats.image.destroy();
-              this.selected.stats.image = this.add.image(this.selected.stats.position.positionx*this.squareSize + this.offset ,this.selected.stats.position.positiony*this.squareSize + this.offset ,'workerSelected');
-
-            }
-            // else{
-            //   this.selected = undefined;
-            //   this.flecha.image.destroy();
-            // }
-
-        }
-      }
-      if(this.mouse.rightButtonDown()){
-
-        if (this.selected !== undefined){
-        this.selected.stats.image.destroy();
-        this.selected.stats.image = this.add.image(this.selected.stats.position.positionx*this.squareSize + this.offset ,this.selected.stats.position.positiony*this.squareSize + this.offset ,'worker');
-      }
-        this.selected = undefined;
-        this.flecha.image.destroy();
-
-
-      }
-
-    }
-
-    moveSelected(){
-      if (this.selected !== undefined){
-        let x = Math.floor(this.mouse.worldX/this.squareSize -1);
-        let y = Math.floor(this.mouse.worldY/this.squareSize -1);
-        //mover unidad seleccionada
-        if(this.mouse.leftButtonDown()){
-            this.selected.move(x,y);
-      }
-    }
-    }
-
-    // printTablero(){
-    //   this.tablero.printTablero();
-    // }
-
-    printArrow(){
-      if (this.selected !== undefined){
-        let x = Math.floor(this.mouse.worldX/this.squareSize -1);
-        let y = Math.floor(this.mouse.worldY/this.squareSize -1);
-        if (x>= 0 && x <= 10 && y >= 1 && y <= 7){
+        if (x>= 0 && x <= this.anchoMundo - 1 && y >= 1 && y <= this.altoMundo - 2){
 
           //Pintar flecha de casilla a la que mover
 
           if(this.tablero.casillas[y][x].stats.exists === true && this.tablero.casillas[y][x].stats.type !== 'mountain' &&  this.tablero.casillas[y][x].stats.type !== 'superMountain'&&
-          Math.abs(x-this.selected.stats.position.positionx) <= 1 && Math.abs(y-this.selected.stats.position.positiony) <= 1){
+          Math.abs(x-this.selectedUnit.stats.position.positionx) <= 1 && Math.abs(y-this.selectedUnit.stats.position.positiony) <= 1){
 
-            if ((this.flecha.positionx !== x || this.flecha.positiony !== y) && x === this.selected.stats.position.positionx ){
-              if (y < this.selected.stats.position.positiony){
+            if ((this.flecha.positionx !== x || this.flecha.positiony !== y) && x === this.selectedUnit.stats.position.positionx ){
+              if (y < this.selectedUnit.stats.position.positiony){
                 
                
                 if (this.flecha.image !== undefined) {this.flecha.image.destroy();}
                 this.flecha.image = this.add.image(x*this.squareSize + this.offset ,y*this.squareSize + this.offset ,'arrowup');
               }
 
-              else if (y > this.selected.stats.position.positiony){
+              else if (y > this.selectedUnit.stats.position.positiony){
                 if (this.flecha.image !== undefined) {this.flecha.image.destroy();}
                 this.flecha.image = this.add.image(x*this.squareSize + this.offset ,y*this.squareSize + this.offset ,'arrowdown');
 
               }
             }
-            else if ((this.flecha.positionx !== x || this.flecha.positiony !== y) && (x > this.selected.stats.position.positionx ) ){
-              if (y === this.selected.stats.position.positiony){
+            else if ((this.flecha.positionx !== x || this.flecha.positiony !== y) && (x > this.selectedUnit.stats.position.positionx ) ){
+              if (y === this.selectedUnit.stats.position.positiony){
                 if (this.flecha.image !== undefined) {this.flecha.image.destroy();}
                 this.flecha.image = this.add.image(x*this.squareSize + this.offset ,y*this.squareSize + this.offset ,'arrowright');
 
               }
-              else if (y < this.selected.stats.position.positiony){
+              else if (y < this.selectedUnit.stats.position.positiony){
                 if (this.flecha.image !== undefined) {this.flecha.image.destroy();}
                 this.flecha.image = this.add.image(x*this.squareSize + this.offset ,y*this.squareSize + this.offset ,'arrowupright');
 
               }
-              else if (y > this.selected.stats.position.positiony){
+              else if (y > this.selectedUnit.stats.position.positiony){
                 if (this.flecha.image !== undefined) {this.flecha.image.destroy();}
                 this.flecha.image = this.add.image(x*this.squareSize + this.offset ,y*this.squareSize + this.offset ,'arrowdownright');
 
@@ -179,18 +189,18 @@ export default class Game extends Phaser.Scene {
 
             }
 
-            else if ((this.flecha.positionx !== x || this.flecha.positiony !== y) && x < this.selected.stats.position.positionx ){
-              if (y === this.selected.stats.position.positiony){
+            else if ((this.flecha.positionx !== x || this.flecha.positiony !== y) && x < this.selectedUnit.stats.position.positionx ){
+              if (y === this.selectedUnit.stats.position.positiony){
                 if (this.flecha.image !== undefined) {this.flecha.image.destroy();}
                 this.flecha.image = this.add.image(x*this.squareSize + this.offset ,y*this.squareSize + this.offset ,'arrowleft');
 
               }
-              else if (y < this.selected.stats.position.positiony){
+              else if (y < this.selectedUnit.stats.position.positiony){
                 if (this.flecha.image !== undefined) {this.flecha.image.destroy();}
                 this.flecha.image = this.add.image(x*this.squareSize + this.offset ,y*this.squareSize + this.offset ,'arrowupleft');
 
               }
-              else if (y > this.selected.stats.position.positiony){
+              else if (y > this.selectedUnit.stats.position.positiony){
                 if (this.flecha.image !== undefined) {this.flecha.image.destroy();}
                 this.flecha.image = this.add.image(x*this.squareSize + this.offset ,y*this.squareSize + this.offset ,'arrowdownleft');
 
@@ -201,14 +211,33 @@ export default class Game extends Phaser.Scene {
         }
 
       }
-    }
+  }
 
 
-    //Esto se usa una vez. Solo utilizar en debug. Mala idea.
-    printWorkers(){
+  //Esto se usa una vez. Solo utilizar en debug. Mala idea.
+  printWorkers(){
       for (let i = 0; i < this.workers.length; i++){
         this.workers[i].stats.image = this.add.image(this.workers[i].stats.position.positionx*this.squareSize + this.offset ,this.workers[i].stats.position.positiony*this.squareSize + this.offset ,'worker');
       }
+  }
+
+  processSelection(){
+    if (this.selectedUnit !== undefined ){
+      switch(this.selectedUnit.stats.type){
+        case 'Trabajador':
+          if (this.selectedUnit.stats.selected === false){
+            this.selectedUnit.selected('arrowMenu', 'arrowMenu', 'arrowMenu');
+            this.selectedUnit.menuOpciones.movementImage.on('pointerdown', pointer => this.selectedUnit.movementMenuSelected());
+            this.selectedUnit.menuOpciones.buildImage.on('pointerdown', pointer => this.selectedUnit.buildMenuSelected());
+            this.selectedUnit.menuOpciones.resourcesImage.on('pointerdown', pointer => this.selectedUnit.resourcesMenuSelected());
+          }
+          else if (this.selectedUnit.stats.moving === true){
+            this.printArrow(); 
+            this.moveSelected();
+          }
+        break;
+      }
     }
+  }
 
 }
