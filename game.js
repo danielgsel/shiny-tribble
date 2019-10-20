@@ -21,6 +21,9 @@ export default class Game extends Phaser.Scene {
   create() {
 
       this.input.mouse.disableContextMenu();
+      this.mouseController = true;
+
+      this.input.on('pointerup', pointer => {if (pointer.leftButtonReleased()) {this.mouseController = true;} });
 
       this.tablero = new Tablero(this);
 
@@ -38,6 +41,7 @@ export default class Game extends Phaser.Scene {
       //------------------------------------------------------------
 
       this.selectedUnit = undefined;
+      this.usingMenu = false;
 
       this.flecha ={
         positionx : undefined,
@@ -45,14 +49,11 @@ export default class Game extends Phaser.Scene {
         exists : false,
         image: undefined
       }
-
       
 
   }
 
   update(time, delta) {
-      
-
 
     this.checkForSelection();
 
@@ -61,8 +62,6 @@ export default class Game extends Phaser.Scene {
     //this.printArrow(); 
 
     //this.moveSelected();
-      
-      
 
   }
 
@@ -101,7 +100,9 @@ export default class Game extends Phaser.Scene {
   }
     
   checkForSelection(){
-    if(this.mouse.leftButtonDown()){
+
+    if(this.mouse.leftButtonDown() && this.mouseController && this.usingMenu === false &&
+      (this.selectedUnit === undefined || this.selectedUnit.stats.type === 'Trabajador' && this.selectedUnit.stats.moving === false)){    //Si un trabajador se esta moviendo en este instante no entra
 
       let x = Math.floor(this.mouse.worldX/this.squareSize -1);
       let y = Math.floor(this.mouse.worldY/this.squareSize -1);
@@ -116,6 +117,7 @@ export default class Game extends Phaser.Scene {
         //   this.flecha.image.destroy();
         // }
       }
+      this.mouseController = false;
     }
     else if(this.mouse.rightButtonDown()){
 
@@ -127,7 +129,7 @@ export default class Game extends Phaser.Scene {
   }
 
   moveSelected(){
-    if (this.selectedUnit !== undefined && this.mouse.leftButtonDown()){
+    if (this.selectedUnit !== undefined && this.mouse.leftButtonDown() && this.mouseController === true){
       //mover unidad seleccionada
       let x = Math.floor(this.mouse.worldX/this.squareSize -1);
       let y = Math.floor(this.mouse.worldY/this.squareSize -1);
@@ -135,6 +137,7 @@ export default class Game extends Phaser.Scene {
       if (x < this.anchoMundo && x >= 0 && y >= 0 && y < this.altoMundo)
       this.selectedUnit.move(x,y);
       
+      this.mouseController = false;
     }
   }
 
@@ -222,8 +225,17 @@ export default class Game extends Phaser.Scene {
     if (this.selectedUnit !== undefined ){
       switch(this.selectedUnit.stats.type){
         case 'Trabajador':
-          this.selectedUnit.selected('arrowMenu', 'arrowMenu', 'arrowMenu');
-          break;
+          if (this.selectedUnit.stats.selected === false){
+            this.selectedUnit.selected('arrowMenu', 'arrowMenu', 'arrowMenu');
+            this.selectedUnit.menuOpciones.movementImage.on('pointerdown', pointer => this.selectedUnit.movementMenuSelected());
+            this.selectedUnit.menuOpciones.buildImage.on('pointerdown', pointer => this.selectedUnit.buildMenuSelected());
+            this.selectedUnit.menuOpciones.resourcesImage.on('pointerdown', pointer => this.selectedUnit.resourcesMenuSelected());
+          }
+          else if (this.selectedUnit.stats.moving === true){
+            this.printArrow(); 
+            this.moveSelected();
+          }
+        break;
       }
     }
   }

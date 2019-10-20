@@ -47,16 +47,17 @@ export default class Trabajador extends Unidad {
                 
           this.stats.position.positionx = x;
           this.stats.position.positiony = y;
+          
           this.stats.image.destroy();
+          this.stats.image = this.game.add.image(this.stats.position.positionx*this.squareSize + this.game.offset ,this.stats.position.positiony*this.squareSize + this.game.offset ,'workerSelected');
 
-          this.stats.image = this.game.add.image(this.stats.position.positionx*this.squareSize + this.game.offset ,this.stats.position.positiony*this.squareSize + this.game.offset ,'worker');
-
-
+          console.log("ya ta");
           //this.game.tablero.casillas[y][x].stats.unit.stats.selected = false;
 
-          this.stats.selected = false;    //OJO ??
+          //this.stats.selected = false;    //OJO ??  <----------por que funciona esto??
 
-          this.game.selected = undefined;   //Por que?
+          this.game.selectedUnit = undefined;   //Por que?  <----- y esto????
+          this.unselected();
           this.game.flecha.exists = false;
           this.game.flecha.image.destroy();  
         }
@@ -65,19 +66,22 @@ export default class Trabajador extends Unidad {
   }
 
   selected(movImage, buildImage, resImage){
-    if (this.stats.selected === false){
-      this.menuOpciones.movementImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset - 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, movImage).setScale(2.5);
-      this.menuOpciones.buildImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, buildImage).setScale(2.5);
-      this.menuOpciones.resourcesImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset + 55, resImage).setScale(2.5);
 
-      this.stats.image.destroy();
-      this.stats.image = this.game.add.image(this.stats.position.positionx*this.game.squareSize + this.game.offset ,this.stats.position.positiony*this.game.squareSize + this.game.offset ,'workerSelected');
-    
-      this.menuOpciones.active = true;
-      this.stats.selected = true;
+    this.stats.image.destroy();   //cambio de sprite al ser selecccionado
+    this.stats.image = this.game.add.image(this.stats.position.positionx*this.game.squareSize + this.game.offset ,this.stats.position.positiony*this.game.squareSize + this.game.offset ,'workerSelected');
 
-      console.log("selected worker " + this.stats.position.positionx + " " + this.stats.position.positiony);
+    {   //Se construye el menu de opciones
+    this.menuOpciones.movementImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset - 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, movImage).setScale(2.5).setInteractive();
+    this.menuOpciones.buildImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, buildImage).setScale(2.5).setInteractive();
+    this.menuOpciones.resourcesImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset + 55, resImage).setScale(2.5).setInteractive();
     }
+
+    this.usingMenu = true;    //Al ser seleccionado comienza usando su menu
+    this.menuOpciones.active = true;  //Comienza usando el menu opciones
+    this.stats.selected = true;   //La tropa ha sido seleccionada
+
+    console.log("selected worker " + this.stats.position.positionx + " " + this.stats.position.positiony);
+    
   }
 
   unselected(){
@@ -85,31 +89,85 @@ export default class Trabajador extends Unidad {
       this.stats.image.destroy();
       this.stats.image = this.game.add.image(this.stats.position.positionx*this.game.squareSize + this.game.offset ,this.stats.position.positiony*this.game.squareSize + this.game.offset ,'worker');
 
-      if (this.menuOpciones.active === true){
-        this.menuOpciones.movementImage.destroy();
-        this.menuOpciones.movementImage = undefined;
-        this.menuOpciones.buildImage.destroy();
-        this.menuOpciones.buildImage = undefined;
-        this.menuOpciones.resourcesImage.destroy();
-        this.menuOpciones.resourcesImage = undefined;
-        
-        this.menuOpciones.active = false;
+      
+      if (this.menuOpciones.active === true) this.disableMenuOptions(); //Destruir imagenes del menu opciones
+      else if (this.menuBuilding.active === true) this.disableMenuDefenses();   //Destruir imagenes del menu defensas
+      else if (this.stats.moving === true) {
+        this.game.flecha.exists = false;
+        this.game.flecha.image.destroy(); 
       }
-      else if (this.menuBuilding.active === true){
-        this.menuBuilding.canonImage.destroy();
-        this.menuBuilding.canonImage = undefined;
-        this.menuBuilding.mortarImage.destroy();
-        this.menuBuilding.mortarImage = undefined;
-        this.menuBuilding.archerTowerImage.destroy();
-        this.menuBuilding.archerTowerImage = undefined;
-        this.menuBuilding.quarter.destroy();
-        this.menuBuilding.quarter = undefined;
-        
-        this.menuBuilding.active = false;
-      }
+
       this.stats.selected = false;
+      this.game.usingMenu = false;
+      this.stats.moving = false;
 
       console.log("unselected worker " + this.stats.position.positionx + " " + this.stats.position.positiony);
     }
+  }
+
+  movementMenuSelected(){
+    if (this.stats.moving === false){
+      console.log("Menu movimiento seleccionado");
+      this.game.mouseController = false;
+
+      this.game.usingMenu = false;
+      this.menuOpciones.active = false;
+
+      this.disableMenuOptions();    
+
+      this.stats.moving = true;
+    }
+    
+  }
+
+  buildMenuSelected(){
+    if (this.menuBuilding.active === false){
+      console.log("Menu construccion defensas seleccionado");
+      this.game.mouseController = false;
+      this.game.usingMenu = true;
+
+      this.disableMenuOptions();
+
+      this.menuBuilding.canonImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, 'arrowMenu').setScale(2.5).setInteractive();
+      this.menuBuilding.mortarImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset + 55, 'arrowMenu').setScale(2.5).setInteractive();
+      this.menuBuilding.archerTowerImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset - 55, this.stats.position.positiony*this.game.squareSize + this.game.offset + 55, 'arrowMenu').setScale(2.5).setInteractive();
+      this.menuBuilding.quarter = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset - 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, 'arrowMenu').setScale(2.5).setInteractive();
+
+      this.menuBuilding.active = true;
+    }
+    
+  }
+
+  resourcesMenuSelected(){
+    console.log("Menu construccion recursos seleccionado");
+    this.game.mouseController = false;
+    this.game.usingMenu = false;
+
+    this.disableMenuOptions();
+    this.menuOpciones.active = false;
+  }
+
+  disableMenuOptions(){
+    this.menuOpciones.movementImage.destroy();
+    this.menuOpciones.movementImage = undefined;
+    this.menuOpciones.buildImage.destroy();
+    this.menuOpciones.buildImage = undefined;
+    this.menuOpciones.resourcesImage.destroy();
+    this.menuOpciones.resourcesImage = undefined;
+        
+    this.menuOpciones.active = false;
+  }
+
+  disableMenuDefenses(){
+    this.menuBuilding.canonImage.destroy();
+    this.menuBuilding.canonImage = undefined;
+    this.menuBuilding.mortarImage.destroy();
+    this.menuBuilding.mortarImage = undefined;
+    this.menuBuilding.archerTowerImage.destroy();
+    this.menuBuilding.archerTowerImage = undefined;
+    this.menuBuilding.quarter.destroy();
+    this.menuBuilding.quarter = undefined;
+        
+    this.menuBuilding.active = false;
   }
 }
