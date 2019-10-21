@@ -72,8 +72,14 @@ export default class Trabajador extends Unidad {
 
     {   //Se construye el menu de opciones
     this.menuOpciones.movementImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset - 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, 'movingMenu').setScale(0.75).setInteractive();
-    this.menuOpciones.buildImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, 'constructionMenu').setScale(0.75).setInteractive();
-
+    
+    //Si esta en una casilla donde pueda construir estructuras se activa el menu
+    if (this.game.tablero.casillas[this.stats.position.positiony][this.stats.position.positionx].stats.resourcePos === false){
+      this.menuOpciones.buildImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, 'constructionMenuAv').setScale(0.75).setInteractive();
+    } else {
+      this.menuOpciones.buildImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, 'constructionMenuUnav').setScale(0.75).setInteractive();
+    }
+    
     //Elije imagen dependiendo si esta sobre una casilla de recursos o no
     if (this.game.tablero.casillas[this.stats.position.positiony][this.stats.position.positionx].stats.resourcePos === true){
       this.menuOpciones.resourcesImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset + 55, 'factoryMenuAv').setScale(0.75).setInteractive();

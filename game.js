@@ -23,7 +23,8 @@ export default class Game extends Phaser.Scene {
 
     //Menus
     this.load.image('movingMenu', 'assets/imagenes/MovingMenu.png');
-    this.load.image('constructionMenu', 'assets/imagenes/MenuConstruction.png');
+    this.load.image('constructionMenuAv', 'assets/imagenes/MenuConstructionAv.png');
+    this.load.image('constructionMenuUnav', 'assets/imagenes/MenuConstructionUnav.png');
     this.load.image('factoryMenuAv', 'assets/imagenes/FactoryMenuAvailable.png');
     this.load.image('factoryMenuUnav', 'assets/imagenes/FactoryMenuUnavailable.png');
     
