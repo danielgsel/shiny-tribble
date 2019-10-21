@@ -14,7 +14,18 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {  
-    this.loadImages();
+    //Casillas
+    this.loadCasillas();
+      
+    //Unidad(es)
+    this.load.image('worker',' assets/imagenes/worker.png' );
+    this.load.image('workerSelected',' assets/imagenes/workerSelected.png' );
+
+    //Menus
+    this.load.image('movingMenu', 'assets/imagenes/MovingMenu.png');
+    this.load.image('constructionMenu', 'assets/imagenes/MenuConstruction.png');
+    this.load.image('factoryMenuAv', 'assets/imagenes/FactoryMenuAvailable.png');
+    this.load.image('factoryMenuUnav', 'assets/imagenes/FactoryMenuUnavailable.png');
     
   }
 
@@ -32,16 +43,8 @@ export default class Game extends Phaser.Scene {
       this.workers = [];
 
       this.mouse = this.input.activePointer;
-     
-
-      //-------------------------Trabajadora de prueba ||DEBUG||----
-      this.workers.push(new Trabajador(this, 5, 5));
-      this.tablero.casillas[5][5].stats.unit = this.workers[this.workers.length-1]
-      this.printWorkers();
-      //------------------------------------------------------------
 
       this.selectedUnit = undefined;
-      this.usingMenu = false;
 
       this.flecha ={
         positionx : undefined,
@@ -50,6 +53,11 @@ export default class Game extends Phaser.Scene {
         image: undefined
       }
       
+      //-------------------------Trabajadora de prueba ||DEBUG||----
+      this.workers.push(new Trabajador(this, 5, 5));
+      this.tablero.casillas[5][5].stats.unit = this.workers[this.workers.length-1]
+      this.printWorkers();
+      //------------------------------------------------------------
 
   }
 
@@ -59,26 +67,10 @@ export default class Game extends Phaser.Scene {
 
     this.processSelection();
 
-    //this.printArrow(); 
-
-    //this.moveSelected();
-
   }
 
 
 //--------------------------METODOS------------------------------------------
-
-  loadImages(){
-      //Casillas
-      this.loadCasillas();
-      
-      //Unidad(es)
-      this.load.image('worker',' assets/imagenes/worker.png' );
-      this.load.image('workerSelected',' assets/imagenes/workerSelected.png' );
-
-      //Menus
-      this.load.image('arrowMenu', ' assets/imagenes/MenuFlecha.png');
-  }
 
   loadCasillas(){
       //Tipos de casilla
@@ -101,7 +93,7 @@ export default class Game extends Phaser.Scene {
     
   checkForSelection(){
 
-    if(this.mouse.leftButtonDown() && this.mouseController && this.usingMenu === false &&
+    if(this.mouse.leftButtonDown() && this.mouseController &&
       (this.selectedUnit === undefined || this.selectedUnit.stats.type === 'Trabajador' && this.selectedUnit.stats.moving === false)){    //Si un trabajador se esta moviendo en este instante no entra
 
       let x = Math.floor(this.mouse.worldX/this.squareSize -1);
@@ -109,22 +101,33 @@ export default class Game extends Phaser.Scene {
 
       if (x>= 0 && x <= this.anchoMundo - 1 && y >= 1 && y <= this.altoMundo - 2 && this.tablero.casillas[y][x].stats.unit !== this.selectedUnit){
 
-        if (this.selectedUnit !== undefined) this.selectedUnit.unselected();    //OJO
+        if (this.selectedUnit !== undefined) this.selectedUnit.unselected();    //OJO solo lso constructores tienen unselect() de momento
 
         this.selectedUnit = this.tablero.casillas[y][x].stats.unit;
-        // else{
-        //   this.selected = undefined;
-        //   this.flecha.image.destroy();
-        // }
       }
       this.mouseController = false;
     }
     else if(this.mouse.rightButtonDown()){
 
-      if (this.selectedUnit !== undefined) this.selectedUnit.unselected();
+      if (this.selectedUnit !== undefined) this.selectedUnit.unselected();  //Mas de lo mismo que arriba
 
       this.selectedUnit = undefined;
-      //this.flecha.image.destroy();
+    }
+  }
+
+  processSelection(){
+    if (this.selectedUnit !== undefined ){
+      switch(this.selectedUnit.stats.type){
+        case 'Trabajador':
+          if (this.selectedUnit.stats.selected === false){
+            this.selectedUnit.selected();
+          }
+          else if (this.selectedUnit.stats.moving === true){
+            this.printArrow(); 
+            this.moveSelected();
+          }
+        break;
+      }
     }
   }
 
@@ -213,31 +216,10 @@ export default class Game extends Phaser.Scene {
       }
   }
 
-
   //Esto se usa una vez. Solo utilizar en debug. Mala idea.
   printWorkers(){
-      for (let i = 0; i < this.workers.length; i++){
-        this.workers[i].stats.image = this.add.image(this.workers[i].stats.position.positionx*this.squareSize + this.offset ,this.workers[i].stats.position.positiony*this.squareSize + this.offset ,'worker');
-      }
-  }
-
-  processSelection(){
-    if (this.selectedUnit !== undefined ){
-      switch(this.selectedUnit.stats.type){
-        case 'Trabajador':
-          if (this.selectedUnit.stats.selected === false){
-            this.selectedUnit.selected('arrowMenu', 'arrowMenu', 'arrowMenu');
-            this.selectedUnit.menuOpciones.movementImage.on('pointerdown', pointer => this.selectedUnit.movementMenuSelected());
-            this.selectedUnit.menuOpciones.buildImage.on('pointerdown', pointer => this.selectedUnit.buildMenuSelected());
-            this.selectedUnit.menuOpciones.resourcesImage.on('pointerdown', pointer => this.selectedUnit.resourcesMenuSelected());
-          }
-          else if (this.selectedUnit.stats.moving === true){
-            this.printArrow(); 
-            this.moveSelected();
-          }
-        break;
-      }
+    for (let i = 0; i < this.workers.length; i++){
+      this.workers[i].stats.image = this.add.image(this.workers[i].stats.position.positionx*this.squareSize + this.offset ,this.workers[i].stats.position.positiony*this.squareSize + this.offset ,'worker');
     }
-  }
-
+}
 }

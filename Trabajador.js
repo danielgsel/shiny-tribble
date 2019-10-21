@@ -65,20 +65,29 @@ export default class Trabajador extends Unidad {
     }
   }
 
-  selected(movImage, buildImage, resImage){
+  selected(){
 
     this.stats.image.destroy();   //cambio de sprite al ser selecccionado
     this.stats.image = this.game.add.image(this.stats.position.positionx*this.game.squareSize + this.game.offset ,this.stats.position.positiony*this.game.squareSize + this.game.offset ,'workerSelected');
 
     {   //Se construye el menu de opciones
-    this.menuOpciones.movementImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset - 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, movImage).setScale(2.5).setInteractive();
-    this.menuOpciones.buildImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, buildImage).setScale(2.5).setInteractive();
-    this.menuOpciones.resourcesImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset + 55, resImage).setScale(2.5).setInteractive();
+    this.menuOpciones.movementImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset - 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, 'movingMenu').setScale(0.75).setInteractive();
+    this.menuOpciones.buildImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, 'constructionMenu').setScale(0.75).setInteractive();
+
+    //Elije imagen dependiendo si esta sobre una casilla de recursos o no
+    if (this.game.tablero.casillas[this.stats.position.positiony][this.stats.position.positionx].stats.resourcePos === true){
+      this.menuOpciones.resourcesImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset + 55, 'factoryMenuAv').setScale(0.75).setInteractive();
+    } else{
+      this.menuOpciones.resourcesImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset + 55, 'factoryMenuUnav').setScale(0.75).setInteractive();
+    }
     }
 
-    this.usingMenu = true;    //Al ser seleccionado comienza usando su menu
     this.menuOpciones.active = true;  //Comienza usando el menu opciones
     this.stats.selected = true;   //La tropa ha sido seleccionada
+
+    this.menuOpciones.movementImage.on('pointerdown', pointer => this.movementMenuSelected());
+    this.menuOpciones.buildImage.on('pointerdown', pointer => this.buildMenuSelected());
+    this.menuOpciones.resourcesImage.on('pointerdown', pointer => this.resourcesMenuSelected());
 
     console.log("selected worker " + this.stats.position.positionx + " " + this.stats.position.positiony);
     
@@ -108,6 +117,7 @@ export default class Trabajador extends Unidad {
   movementMenuSelected(){
     if (this.stats.moving === false){
       console.log("Menu movimiento seleccionado");
+
       this.game.mouseController = false;
 
       this.game.usingMenu = false;
@@ -123,6 +133,7 @@ export default class Trabajador extends Unidad {
   buildMenuSelected(){
     if (this.menuBuilding.active === false){
       console.log("Menu construccion defensas seleccionado");
+
       this.game.mouseController = false;
       this.game.usingMenu = true;
 

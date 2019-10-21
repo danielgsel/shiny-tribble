@@ -5,6 +5,7 @@ export default class Casilla extends Phaser.GameObjects.Sprite {
       
       this.stats = {
         exists : exists,
+        resourcePos: false,
         type : 'empty',
         position : positionArray, //?
         owner: undefined,

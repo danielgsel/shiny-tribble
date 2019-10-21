@@ -36,7 +36,9 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
       this.DecideMountains();
 
       this.casillas[Math.floor(this.game.altoMundo / 2)][Math.floor(this.game.anchoMundo / 3)].stats.type = 'superForest';   //SuperForest
+      this.casillas[Math.floor(this.game.altoMundo / 2)][Math.floor(this.game.anchoMundo / 3)].stats.resourcePos = true;
       this.casillas[Math.floor(this.game.altoMundo / 2)][Math.floor((this.game.anchoMundo / 3) * 2)].stats.type = 'superMountain'; //SuperMountain
+      this.casillas[Math.floor(this.game.altoMundo / 2)][Math.floor((this.game.anchoMundo / 3) * 2)].stats.resourcePos = true;
 
       for (let j = 3; j < this.game.anchoMundo - 3; j++ ){     //BaseRoja
         this.casillas[this.game.altoMundo - 1][j].stats.type = 'redBase';
@@ -62,8 +64,9 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
 
         if (this.casillas[i][j].stats.type !== 'forest'){ 
 
-            this.casillas[i][j].stats.type = 'forest';
-            console.log(i + ' ' + j + ' ' + this.casillas[i][j].stats.type);
+          this.casillas[i][j].stats.type = 'forest';
+          this.casillas[i][j].stats.resourcePos = true;
+          console.log(i + ' ' + j + ' ' + this.casillas[i][j].stats.type);
         }
         else a--;
       }
@@ -77,6 +80,7 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
         if (this.casillas[i][j].stats.type !== 'forest'){ 
 
             this.casillas[i][j].stats.type = 'forest';
+            this.casillas[i][j].stats.resourcePos = true;
             console.log(i + ' ' + j + ' ' + this.casillas[i][j].stats.type);
         }
         else {a--;}
@@ -95,8 +99,9 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
 
         if (this.casillas[i][j].stats.type !== 'forest' && this.casillas[i][j].stats.type !== 'mountain' ){
 
-            this.casillas[i][j].stats.type = 'mountain';
-            console.log(i + ' ' + j + ' ' + this.casillas[i][j].stats.type );
+          this.casillas[i][j].stats.type = 'mountain';
+          this.casillas[i][j].stats.resourcePos = true;
+          console.log(i + ' ' + j + ' ' + this.casillas[i][j].stats.type );
         }
         else {
           a--;
@@ -113,6 +118,7 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
         if (this.casillas[i][j].stats.type !== 'forest' && this.casillas[i][j].stats.type !== 'mountain' ){
 
             this.casillas[i][j].stats.type = 'mountain';
+            this.casillas[i][j].stats.resourcePos = true;
             console.log(i + ' ' + j + ' ' + this.casillas[i][j].stats.type );
         }
         else {
