@@ -95,7 +95,7 @@ export default class Game extends Phaser.Scene {
   checkForSelection(){
 
     if(this.mouse.leftButtonDown() && this.mouseController &&
-      (this.selectedUnit === undefined || this.selectedUnit.stats.type === 'Trabajador' && this.selectedUnit.stats.moving === false)){    //Si un trabajador se esta moviendo en este instante no entra
+      (this.selectedUnit === undefined || this.selectedUnit.stats.type === 'Trabajador' && !this.selectedUnit.stats.moving)){    //Si un trabajador se esta moviendo en este instante no entra
 
       let x = Math.floor(this.mouse.worldX/this.squareSize -1);
       let y = Math.floor(this.mouse.worldY/this.squareSize -1);
@@ -120,10 +120,10 @@ export default class Game extends Phaser.Scene {
     if (this.selectedUnit !== undefined ){
       switch(this.selectedUnit.stats.type){
         case 'Trabajador':
-          if (this.selectedUnit.stats.selected === false){
+          if (!this.selectedUnit.stats.selected){
             this.selectedUnit.selected();
           }
-          else if (this.selectedUnit.stats.moving === true){
+          else if (this.selectedUnit.stats.moving){
             this.printArrow(); 
             this.moveSelected();
           }
@@ -133,7 +133,7 @@ export default class Game extends Phaser.Scene {
   }
 
   moveSelected(){
-    if (this.selectedUnit !== undefined && this.mouse.leftButtonDown() && this.mouseController === true){
+    if (this.selectedUnit !== undefined && this.mouse.leftButtonDown() && this.mouseController){
       //mover unidad seleccionada
       let x = Math.floor(this.mouse.worldX/this.squareSize -1);
       let y = Math.floor(this.mouse.worldY/this.squareSize -1);
@@ -157,7 +157,7 @@ export default class Game extends Phaser.Scene {
 
           //Pintar flecha de casilla a la que mover
 
-          if(this.tablero.casillas[y][x].stats.exists === true && this.tablero.casillas[y][x].stats.type !== 'mountain' &&  this.tablero.casillas[y][x].stats.type !== 'superMountain'&&
+          if(this.tablero.casillas[y][x].stats.exists && this.tablero.casillas[y][x].stats.type !== 'mountain' &&  this.tablero.casillas[y][x].stats.type !== 'superMountain'&&
           Math.abs(x-this.selectedUnit.stats.position.positionx) <= 1 && Math.abs(y-this.selectedUnit.stats.position.positiony) <= 1){
 
             if ((this.flecha.positionx !== x || this.flecha.positiony !== y) && x === this.selectedUnit.stats.position.positionx ){
