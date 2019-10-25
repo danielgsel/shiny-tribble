@@ -1,7 +1,9 @@
 # Plantilla para juegos en Phaser
 
-Plantilla básica para juegos en Phaser. Hace falta un servidor web para que se ejecute. Por ejemplo:
+
+
+Pivotal Tracker:
 
 ```bash
-npx http-server
+https://www.pivotaltracker.com/n/projects/2406122
 ```
