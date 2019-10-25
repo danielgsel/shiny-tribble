@@ -35,7 +35,7 @@ export default class Trabajador extends Unidad {
   
   move(x,y){
     //mover unidad seleccionada
-    if(this.game.tablero.casillas[y][x].stats.exists === true &&    //Existe la casilla
+    if(this.game.tablero.casillas[y][x].stats.exists &&    //Existe la casilla
       Math.abs(x-this.stats.position.positionx) <= 1 && Math.abs(y-this.stats.position.positiony) <= 1 &&   //Esta a una distancia de 1
       (x>= 0 && x <= this.game.anchoMundo - 1 && y >= 1 && y <= this.game.altoMundo - 2) &&   //El cursor esta dentro del tablero
       this.game.tablero.casillas[y][x].stats.unit === undefined){     //La casilla de destino esta libre
@@ -69,14 +69,14 @@ export default class Trabajador extends Unidad {
     this.menuOpciones.movementImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset - 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, 'movingMenu').setScale(0.75).setInteractive();
     
     //Si esta en una casilla donde pueda construir estructuras se activa el menu
-    if (this.game.tablero.casillas[this.stats.position.positiony][this.stats.position.positionx].stats.resourcePos === false){
+    if (!this.game.tablero.casillas[this.stats.position.positiony][this.stats.position.positionx].stats.resourcePos){
       this.menuOpciones.buildImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, 'constructionMenuAv').setScale(0.75).setInteractive();
     } else {
       this.menuOpciones.buildImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset - 55, 'constructionMenuUnav').setScale(0.75).setInteractive();
     }
     
-    //Elije imagen dependiendo si esta sobre una casilla de recursos o no
-    if (this.game.tablero.casillas[this.stats.position.positiony][this.stats.position.positionx].stats.resourcePos === true){
+    //Elige imagen dependiendo si esta sobre una casilla de recursos o no
+    if (this.game.tablero.casillas[this.stats.position.positiony][this.stats.position.positionx].stats.resourcePos){
       this.menuOpciones.resourcesImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset + 55, 'factoryMenuAv').setScale(0.75).setInteractive();
     } else{
       this.menuOpciones.resourcesImage = this.game.add.image(this.stats.position.positionx * this.game.squareSize + this.game.offset + 55, this.stats.position.positiony*this.game.squareSize + this.game.offset + 55, 'factoryMenuUnav').setScale(0.75).setInteractive();
@@ -95,14 +95,14 @@ export default class Trabajador extends Unidad {
   }
 
   unselected(){
-    if (this.stats.selected === true){
+    if (this.stats.selected){
       this.stats.image.destroy();
       this.stats.image = this.game.add.image(this.stats.position.positionx*this.game.squareSize + this.game.offset ,this.stats.position.positiony*this.game.squareSize + this.game.offset ,'worker');
 
       
-      if (this.menuOpciones.active === true) this.disableMenuOptions(); //Destruir imagenes del menu opciones
-      else if (this.menuBuilding.active === true) this.disableMenuDefenses();   //Destruir imagenes del menu defensas
-      else if (this.stats.moving === true) {
+      if (this.menuOpciones.active) this.disableMenuOptions(); //Destruir imagenes del menu opciones
+      else if (this.menuBuilding.active) this.disableMenuDefenses();   //Destruir imagenes del menu defensas
+      else if (this.stats.moving) {
         this.game.flecha.exists = false;
         this.game.flecha.image.destroy(); 
       }
@@ -116,7 +116,7 @@ export default class Trabajador extends Unidad {
   }
 
   movementMenuSelected(){
-    if (this.stats.moving === false){
+    if (!this.stats.moving){
       console.log("Menu movimiento seleccionado");
 
       this.game.mouseController = false;
@@ -132,7 +132,7 @@ export default class Trabajador extends Unidad {
   }
 
   buildMenuSelected(){
-    if (this.menuBuilding.active === false){
+    if (!this.menuBuilding.active){
       console.log("Menu construccion defensas seleccionado");
 
       this.game.mouseController = false;
