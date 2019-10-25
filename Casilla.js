@@ -17,3 +17,5 @@ export default class Casilla extends Phaser.GameObjects.Sprite {
     }
     
 }
+
+

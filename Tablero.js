@@ -8,7 +8,7 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
 
       this.game = scene;
 
-      //INICIALIZACIÓN DE TABLERO (NO INTENTAR COMPRENDER SI NO QUIERES QUE TE DUELA LA CABEZA)
+      //INICIALIZACIÓN DE TABLERO 
       this.casillas = new Array(this.game.altoMundo);
 
       for (let i = 0; i < this.game.altoMundo; i++){
