@@ -1,4 +1,5 @@
-# Plantilla para juegos en Phaser
+# TRIBES
+By Pablo Villapún y Dani G. Sellán
 
 
 
