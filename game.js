@@ -157,8 +157,8 @@ export default class Game extends Phaser.Scene {
 
           //Pintar flecha de casilla a la que mover
 
-          if(this.tablero.casillas[y][x].stats.exists && this.tablero.casillas[y][x].stats.type !== 'mountain' &&  this.tablero.casillas[y][x].stats.type !== 'superMountain'&&
-          Math.abs(x-this.selectedUnit.stats.position.positionx) <= 1 && Math.abs(y-this.selectedUnit.stats.position.positiony) <= 1){
+          if(this.tablero.casillas[y][x].stats.exists && Math.abs(x-this.selectedUnit.stats.position.positionx) <= 1 && 
+          Math.abs(y-this.selectedUnit.stats.position.positiony) <= 1){
 
             if ((this.flecha.positionx !== x || this.flecha.positiony !== y) && x === this.selectedUnit.stats.position.positionx ){
               if (y < this.selectedUnit.stats.position.positiony){
