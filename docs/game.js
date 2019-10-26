@@ -37,11 +37,11 @@ export default class Game extends Phaser.Scene {
 
       this.input.on('pointerup', pointer => {if (pointer.leftButtonReleased()) {this.mouseController = true;} });
 
-      this.tablero = new Tablero(this);
+      this.tablero = new Tablero(this, 0, 0);
 
       this.tablero.printTablero();
-
-      this.workers = [];
+  }
+      /*this.workers = [];
 
       this.mouse = this.input.activePointer;
 
@@ -59,7 +59,7 @@ export default class Game extends Phaser.Scene {
       this.tablero.casillas[5][5].stats.unit = this.workers[this.workers.length-1]
       this.printWorkers();
       //------------------------------------------------------------
-
+      
   }
 
   update(time, delta) {
@@ -72,7 +72,7 @@ export default class Game extends Phaser.Scene {
 
 
 //--------------------------METODOS------------------------------------------
-
+  */
   loadCasillas(){
       //Tipos de casilla
       this.load.image('casilla', 'assets/imagenes/Casilla.png');
@@ -82,6 +82,9 @@ export default class Game extends Phaser.Scene {
       this.load.image('casillaSuperForest', 'assets/imagenes/CasillaSuperForest.png');
       this.load.image('casillaMountain', 'assets/imagenes/CasillaMountain.png');
       this.load.image('casillaSuperMountain', 'assets/imagenes/CasillaSuperMountain.png');
+      this.load.image('casillaInexistente', 'assets/imagenes/CasillaInexistente.png');
+
+      //Arrows
       this.load.image('arrowleft', 'assets/imagenes/arrowleft.png');
       this.load.image('arrowup', 'assets/imagenes/arrowup.png');
       this.load.image('arrowdown', 'assets/imagenes/arrowdown.png');
@@ -91,7 +94,7 @@ export default class Game extends Phaser.Scene {
       this.load.image('arrowupleft', 'assets/imagenes/arrowupleft.png');
       this.load.image('arrowdownleft', 'assets/imagenes/arrowdownleft.png');
   }
-    
+  /*
   checkForSelection(){
 
     if(this.mouse.leftButtonDown() && this.mouseController &&
@@ -222,5 +225,5 @@ export default class Game extends Phaser.Scene {
     for (let i = 0; i < this.workers.length; i++){
       this.workers[i].stats.image = this.add.image(this.workers[i].stats.position.positionx*this.squareSize + this.offset ,this.workers[i].stats.position.positiony*this.squareSize + this.offset ,'worker');
     }
-}
+    */
 }

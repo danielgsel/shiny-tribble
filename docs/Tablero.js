@@ -1,32 +1,22 @@
-import Casilla from "./Casilla.js";
+import CasillaVacia from "./Casillas/casillaVacia.js";
+import CasillaForest from "./Casillas/casillaForest.js";
+import CasillaMountain from "./Casillas/casillaMountain.js";
+import CasillaSuperForest from "./Casillas/casillaSuperForest.js";
+import CasillaSuperMountain from "./Casillas/casillaSuperMountain.js";
+import CasillaBlue from "./Casillas/casillaBlue.js";
+import CasillaRed from "./Casillas/casillaRed.js";
+import CasillaInexistente from "./Casillas/casillaInexistente.js";
+
 
 export default class Tablero extends Phaser.GameObjects.Sprite {
-    constructor(scene) {
-      let x = 0, y = 0; 
-
+    constructor(scene, x, y) {
       super(scene,x,y, 'tablero'); 
 
-      this.game = scene;
-
       //INICIALIZACIÓN DE TABLERO 
-      this.casillas = new Array(this.game.altoMundo);
+      this.casillas = new Array(this.scene.altoMundo);
 
-      for (let i = 0; i < this.game.altoMundo; i++){
-        
-          this.casillas[i] = new Array(this.game.anchoMundo);
-        
-      }
-      for (let i = 0; i < this.game.altoMundo; i++){
-        for (let j= 0; j < this.game.anchoMundo; j++){
-
-          if (( i === 0 && ( j > 2 && j < 8 )) || (i === 1 && ( j > 1 && j < 9)) || (i === 2 && (j > 0 && j < 10))  //"escaleras" parte superior
-          || (i >= 3 && i < this.game.altoMundo - 3) ||                                                                    //Mitad mapa
-          (i === this.game.altoMundo - 3 && (j > 0 && j < this.game.anchoMundo - 1)) || (i === this.game.altoMundo - 2 && ( j > 1 && j < this.game.anchoMundo - 2)) || ( i === this.game.altoMundo - 1 && ( j > 2 && j < this.game.anchoMundo - 3 )) )    //"escaleras" parte inferior
-          {
-            this.casillas[i][j] = new Casilla(scene, {i,j}, true);    //crea casilla que existe
-          }
-          else this.casillas[i][j] = new Casilla(scene, {i,j}, false);  //casilla no existente
-        }
+      for (let i = 0; i < this.scene.altoMundo; i++){
+        this.casillas[i] = new Array(this.scene.anchoMundo);
       }
 
       //Decide casillas forest (de un lado)
@@ -35,166 +25,160 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
       //Decide casillas mountain (de un lado)
       this.DecideMountains();
 
-      this.casillas[Math.floor(this.game.altoMundo / 2)][Math.floor(this.game.anchoMundo / 3)].stats.type = 'superForest';   //SuperForest
-      this.casillas[Math.floor(this.game.altoMundo / 2)][Math.floor(this.game.anchoMundo / 3)].stats.resourcePos = true;
-      this.casillas[Math.floor(this.game.altoMundo / 2)][Math.floor((this.game.anchoMundo / 3) * 2)].stats.type = 'superMountain'; //SuperMountain
-      this.casillas[Math.floor(this.game.altoMundo / 2)][Math.floor((this.game.anchoMundo / 3) * 2)].stats.resourcePos = true;
+      for (let i = 0; i < this.scene.altoMundo; i++){
+        for (let j= 0; j < this.scene.anchoMundo; j++){
 
-      for (let j = 3; j < this.game.anchoMundo - 3; j++ ){     //BaseRoja
-        this.casillas[this.game.altoMundo - 1][j].stats.type = 'redBase';
+          if (( i === 0 && ( j > 2 && j < 8 )) || (i === 1 && ( j > 1 && j < 9)) || (i === 2 && (j > 0 && j < 10))  //"escaleras" parte superior
+          || (i >= 3 && i < this.scene.altoMundo - 3) ||                                                                    //Mitad mapa
+          (i === this.scene.altoMundo - 3 && (j > 0 && j < this.scene.anchoMundo - 1)) || (i === this.scene.altoMundo - 2 && ( j > 1 && j < this.scene.anchoMundo - 2)) || ( i === this.scene.altoMundo - 1 && ( j > 2 && j < this.scene.anchoMundo - 3 )))  //"escaleras" parte superior
+          {
+            if (this.casillas[i][j] === undefined) this.casillas[i][j] = new CasillaVacia(scene, i, j);    //crea casilla que existe
+          }
+          else this.casillas[i][j] = new CasillaInexistente(scene, i, j);  //casilla no existente
+        }
       }
 
-      for (let j = 3; j < this.game.anchoMundo - 3; j++ ){     //BaseAzul
-        this.casillas[0][j].stats.type = 'blueBase';
+      let posX = Math.floor(this.scene.altoMundo / 2);
+      let posY = Math.floor(this.scene.anchoMundo / 3);
+      this.casillas[posX][posY] = new CasillaSuperForest(scene, x, y);   //SuperForest
+
+      posY = Math.floor((this.scene.anchoMundo / 3) * 2);
+      this.casillas[posX][posY] = new CasillaSuperMountain(scene, x, y);  //SuperMountain
+
+      for (let j = 3; j < this.scene.anchoMundo - 3; j++ ){     //BaseRoja
+        this.casillas[this.scene.altoMundo - 1][j] = new CasillaRed(scene, this.scene.altoMundo - 1, j);
       }
 
+      for (let j = 3; j < this.scene.anchoMundo - 3; j++ ){     //BaseAzul
+        this.casillas[0][j] = new CasillaBlue(scene, 0, j);
+      }
       //FIN DE INICIALIZACIÓN
 
     }
 
-
-    DecideForests(){
+    DecideForests(){    //cambiar fors por whiles!!!!!!!!!!
       //Mitad superior
 
-      for (let a = 0; a < this.game.numEstructurasRecursos; a++ ){
+      for (let a = 0; a < this.scene.numEstructurasRecursos; a++ ){
 
         let i = Math.floor(Math.random() * 3) + 1;
-        let j = Math.floor(Math.random() * (this.game.anchoMundo - 1));
+        let j = Math.floor(Math.random() * (this.scene.anchoMundo - 1));
 
 
-        if (this.casillas[i][j].stats.type !== 'forest'){ 
-
-          this.casillas[i][j].stats.type = 'forest';
-          this.casillas[i][j].stats.resourcePos = true;
-          console.log(i + ' ' + j + ' ' + this.casillas[i][j].stats.type);
+        if (this.casillas[i][j] === undefined){ 
+          this.casillas[i][j] = new CasillaForest(this.scene, i, j);
         }
         else a--;
       }
 
       //Mitad inferior
-      for (let a = 0; a < this.game.numEstructurasRecursos; a++ ){
+      for (let a = 0; a < this.scene.numEstructurasRecursos; a++ ){
 
-        let i = (this.game.altoMundo - 1) - (Math.floor(Math.random() * 3) + 1);
-        let j = Math.floor(Math.random() * (this.game.anchoMundo - 1));
+        let i = (this.scene.altoMundo - 1) - (Math.floor(Math.random() * 3) + 1);
+        let j = Math.floor(Math.random() * (this.scene.anchoMundo - 1));
 
-        if (this.casillas[i][j].stats.type !== 'forest'){ 
-
-            this.casillas[i][j].stats.type = 'forest';
-            this.casillas[i][j].stats.resourcePos = true;
-            console.log(i + ' ' + j + ' ' + this.casillas[i][j].stats.type);
+        if (this.casillas[i][j] === undefined){ 
+          this.casillas[i][j] = new CasillaForest(this.scene, i, j);
         }
-        else {a--;}
+        else a--;
       }
-
 
     }
 
     DecideMountains(){
 
       //Mitad superior
-      for (let a = 0; a < this.game.numEstructurasRecursos; a++ ){
+      for (let a = 0; a < this.scene.numEstructurasRecursos; a++ ){
 
         let i = Math.floor(Math.random() * 3) + 1;
-        let j = Math.floor(Math.random() * (this.game.anchoMundo - 1));
+        let j = Math.floor(Math.random() * (this.scene.anchoMundo - 1));
 
-        if (this.casillas[i][j].stats.type !== 'forest' && this.casillas[i][j].stats.type !== 'mountain' ){
-
-          this.casillas[i][j].stats.type = 'mountain';
-          this.casillas[i][j].stats.resourcePos = true;
-          console.log(i + ' ' + j + ' ' + this.casillas[i][j].stats.type );
+        if (this.casillas[i][j] === undefined){
+          this.casillas[i][j] = new CasillaMountain(this.scene, i, j);
         }
-        else {
-          a--;
-        }
+        else a--;
       }
 
 
       //Mitad inferior
-      for (let a = 0; a < this.game.numEstructurasRecursos; a++ ){
+      for (let a = 0; a < this.scene.numEstructurasRecursos; a++ ){
 
-        let i = (this.game.altoMundo - 1) - (Math.floor(Math.random() * 3) + 1);
-        let j = Math.floor(Math.random() * (this.game.anchoMundo - 1));
+        let i = (this.scene.altoMundo - 1) - (Math.floor(Math.random() * 3) + 1);
+        let j = Math.floor(Math.random() * (this.scene.anchoMundo - 1));
 
-        if (this.casillas[i][j].stats.type !== 'forest' && this.casillas[i][j].stats.type !== 'mountain' ){
-
-            this.casillas[i][j].stats.type = 'mountain';
-            this.casillas[i][j].stats.resourcePos = true;
-            console.log(i + ' ' + j + ' ' + this.casillas[i][j].stats.type );
+        if (this.casillas[i][j] === undefined){
+          this.casillas[i][j] = new CasillaMountain(this.scene, i, j);
         }
-        else {
-          a--;
-        }
+        else a--;
       }
     }
-
 
     printTablero(){
-      for (let i = 0; i < this.game.altoMundo; i++){
-        for (let j = 0; j < this.game.anchoMundo; j++){
-          //Comprobar que la casilla está dentro del tablero
-          if (this.casillas[i][j].stats.exists){
-            //Dibujar la casilla dependiendo de su tipo
-            let squareSize = this.game.squareSize;
-            let offset = this.game.offset;
-            switch(this.casillas[i][j].stats.type){
+      for (let i = 0; i < this.scene.altoMundo; i++){
+        for (let j = 0; j < this.scene.anchoMundo; j++){
+          //Dibujar la casilla dependiendo de su tipo
+          let squareSize = this.scene.squareSize;
+          let offset = this.scene.offset;
+
+          this.casillas[i][j].print(j*squareSize + offset ,i*squareSize + offset, j*squareSize + offset ,i*squareSize + offset);
+
+            /*switch(this.casillas[i][j].stats.type){
               case 'empty':
-                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casilla');
+                this.casillas[i][j].stats.image = this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casilla');
                   break;
               case 'forest':
-                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaForest');
+                this.casillas[i][j].stats.image = this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaForest');
                   break;
               case 'superForest':
-                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaSuperForest');
+                this.casillas[i][j].stats.image = this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaSuperForest');
                   break;
               case 'mountain':
-                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaMountain');
+                this.casillas[i][j].stats.image = this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaMountain');
                   break;
               case 'superMountain':
-                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaSuperMountain');
+                this.casillas[i][j].stats.image = this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaSuperMountain');
                   break;
               case 'blueBase':
-                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaBlue');
+                this.casillas[i][j].stats.image = this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaBlue');
                   break;
               case 'redBase':
-                this.casillas[i][j].stats.image = this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaRed');
+                this.casillas[i][j].stats.image = this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaRed');
                   break;
-            }
+            }*/
           }
-
         }
+
       }
 
-    }
-
-    printCasilla(i, j){
-      let squareSize = this.game.squareSize;
-      let offset = this.game.offset;
+    /*printCasilla(i, j){
+      let squareSize = this.scene.squareSize;
+      let offset = this.scene.offset;
 
       switch(this.tablero.casillas[i][j].stats.type){
         case 'empty':
-            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casilla');
+            this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casilla');
             break;
         case 'forest':
-            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaForest');
+            this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaForest');
             break;
         case 'superForest':
-            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaSuperForest');
+            this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaSuperForest');
             break;
         case 'mountain':
-            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaMountain');
+            this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaMountain');
             break;
         case 'superMountain':
-            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaSuperMountain');
+            this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaSuperMountain');
             break;
         case 'blueBase':
-            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaBlue');
+            this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaBlue');
             break;
         case 'redBase':
-            this.game.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaRed');
+            this.scene.add.image(j*squareSize + offset ,i*squareSize + offset ,'casillaRed');
             break;
       }
 
-    }
+    }*/
 
-    
+
 }
