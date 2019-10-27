@@ -22,16 +22,15 @@ export default class MenuConstruir extends Phaser.GameObjects.Container{
     }
 
     updateMenu(){
-        let spriteName = this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].sprite;
-        console.log(this.scene.selection.position.x + " " +this.scene.selection.position.y + " " + spriteName);
+        let casilla = this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y];
+        console.log(this.scene.selection.position.x + " " +this.scene.selection.position.y + " " + casilla.sprite);
 
-        if (spriteName === 'casillaForest' || spriteName === 'casillaMountain' 
-            || spriteName === 'casillaSuperForest' || spriteName === 'casillaSuperMountain'){
+        if (casilla.resources){
             
             this.factoryMenuAv();
             this.constructionMenuUnav();
         }
-        else if (spriteName === 'casilla'){
+        else if (casilla.vacia){
             this.factoryMenuUnav();
             this.constructionMenuAv();
         }

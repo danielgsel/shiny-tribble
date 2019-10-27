@@ -86,7 +86,7 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
                 else if (coord.y === -1) this.arrowVisible = this.upLeft;
             }
 
-            this.arrowVisible.visible = true;
+            if (this.arrowVisible !== undefined) this.arrowVisible.visible = true;
         }
     }
 }

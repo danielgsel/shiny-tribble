@@ -40,7 +40,7 @@ export default class Trabajador extends Unidad {
     this.scene.tablero.casillas[x][y].OccupiedBy = this;
     this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
     this.moveUnit(x, y);
-    this.scene.actualizaMenusWorker(this);
+    this.scene.mueveMenusWorker(this);
   }
 
   /*move(x,y){    

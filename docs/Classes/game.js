@@ -52,10 +52,10 @@ export default class Game extends Phaser.Scene {
       this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
 
       this.workers = [];
-      this.workers.push(new Trabajador(this, 5, 1));
-      this.workers.push(new Trabajador(this, 5, 7));
-      this.tablero.casillas[5][7].OccupiedBy = this.workers[1];
-      this.tablero.casillas[5][1].OccupiedBy = this.workers[0];
+      this.workers.push(new Trabajador(this, 5, 0));
+      this.workers.push(new Trabajador(this, 5, 10));
+      this.tablero.casillas[5][0].OccupiedBy = this.workers[1];
+      this.tablero.casillas[5][10].OccupiedBy = this.workers[0];
       
       /*
       this.flecha ={
@@ -114,10 +114,10 @@ export default class Game extends Phaser.Scene {
     this.selection = unit;
 
     //Mueve el icono de seleccion hacia el objetivo y lo hace visible
-    this.actualizaMenusWorker(unit);
+    this.mueveMenusWorker(unit);
   }
 
-  actualizaMenusWorker(unit){
+  mueveMenusWorker(unit){
     this.selectionIcon.x = unit.sprite.x;
     this.selectionIcon.y = unit.sprite.y;
     this.selectionIcon.visible = true;
