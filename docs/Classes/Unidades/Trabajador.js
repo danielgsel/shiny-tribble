@@ -7,8 +7,10 @@ export default class Trabajador extends Unidad {
       
     this.sprite.setInteractive();
     this.sprite.on('pointerdown', () => {
-      this.scene.workerSelected(this);
-      this.selected();
+      if (this.scene.selection !== this){
+        this.scene.workerSelected(this);
+        this.selected();
+      }
     })
 
     this.positionx = positionx;
@@ -35,11 +37,13 @@ export default class Trabajador extends Unidad {
   }
   
   moveWorker(x, y){
+    this.scene.tablero.casillas[x][y].OccupiedBy = this;
+    this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
     this.moveUnit(x, y);
     this.scene.actualizaMenusWorker(this);
   }
 
-  move(x,y){    
+  /*move(x,y){    
     //mover unidad seleccionada
     if(this.scene.tablero.casillas[y][x].stats.exists &&    //Existe la casilla
       Math.abs(x-this.stats.position.positionx) <= 1 && Math.abs(y-this.stats.position.positiony) <= 1 &&   //Esta a una distancia de 1
@@ -64,7 +68,7 @@ export default class Trabajador extends Unidad {
         this.scene.flecha.exists = false;
         this.scene.flecha.image.destroy();
       }
-    }
+    }*/
 
   selected(){
 

@@ -5,6 +5,7 @@ export default class CasillaSuperMountain extends Casilla{
       super(scene, x, y);
   
       this.sprite = 'casillaSuperMountain';
+      this.resources = true
     }
   
     construyeGranMina(){

@@ -5,5 +5,6 @@ export default class CasillaInexistente extends Casilla{
       super(scene, x, y);
   
       this.sprite = 'casillaInexistente';
+      this.inexistente = true;
     }
   }

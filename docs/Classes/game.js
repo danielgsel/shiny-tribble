@@ -77,7 +77,7 @@ export default class Game extends Phaser.Scene {
 
     this.checkMouseInput();
 
-
+    this.updateMenus();
 
     if(this.selection !== undefined) this.selection.onSelected(); //como idea
     //this.processSelection();
@@ -129,6 +129,13 @@ export default class Game extends Phaser.Scene {
     this.menuConstruir.x = unit.sprite.x;
     this.menuConstruir.y = unit.sprite.y;
     this.menuConstruir.visible = true;
+  }
+
+  updateMenus(){
+    if(this.selection !== undefined){
+      this.menuMovimiento.updateMenu();
+      this.menuConstruir.updateMenu();
+    }
   }
 
   checkMouseInput(){

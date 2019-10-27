@@ -5,5 +5,6 @@ export default class CasillaBlue extends Casilla{
       super(scene, x, y);
   
       this.sprite = 'casillaBlue';
+      this.base = true;
     }
   }

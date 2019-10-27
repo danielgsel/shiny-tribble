@@ -13,17 +13,11 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
     super(scene,x,y, 'tablero'); 
 
     //INICIALIZACIÓN DE TABLERO 
-    this.casillas = new Array(this.scene.altoMundo);
+    this.casillas = new Array(this.scene.anchoMundo);
 
     for (let i = 0; i < this.scene.altoMundo; i++){
-      this.casillas[i] = new Array(this.scene.anchoMundo);
+      this.casillas[i] = new Array(this.scene.altoMundo);
     }
-
-    //Decide casillas forest (de un lado)
-    this.DecideForests();
-
-    //Decide casillas mountain (de un lado)
-    this.DecideMountains();
 
     for (let i = 0; i < this.scene.altoMundo; i++){
       for (let j= 0; j < this.scene.anchoMundo; j++){
@@ -32,26 +26,32 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
         || (i >= 3 && i < this.scene.altoMundo - 3) ||                                                                    //Mitad mapa
         (i === this.scene.altoMundo - 3 && (j > 0 && j < this.scene.anchoMundo - 1)) || (i === this.scene.altoMundo - 2 && ( j > 1 && j < this.scene.anchoMundo - 2)) || ( i === this.scene.altoMundo - 1 && ( j > 2 && j < this.scene.anchoMundo - 3 )))  //"escaleras" parte superior
         {
-          if (this.casillas[i][j] === undefined) this.casillas[i][j] = new CasillaVacia(scene, i, j);    //crea casilla que existe
+          if (this.casillas[i][j] === undefined) this.casillas[i][j] = new CasillaVacia(scene, x, y);    //crea casilla que existe
         }
-        else this.casillas[i][j] = undefined;
+        else this.casillas[i][j] = new CasillaInexistente(scene, x, y);
         //else this.casillas[i][j] = new CasillaInexistente(scene, i, j);  //casilla no existente
       }
     }
 
-    let posX = Math.floor(this.scene.altoMundo / 2);
-    let posY = Math.floor(this.scene.anchoMundo / 3);
+    //Decide casillas forest (de un lado)
+    this.DecideForests();
+
+    //Decide casillas mountain (de un lado)
+    this.DecideMountains();
+
+    let posX = Math.floor(this.scene.anchoMundo / 3);
+    let posY = Math.floor(this.scene.altoMundo / 2);
     this.casillas[posX][posY] = new CasillaSuperForest(scene, x, y);   //SuperForest
 
-    posY = Math.floor((this.scene.anchoMundo / 3) * 2);
+    posX = Math.floor((this.scene.altoMundo / 3) * 2);
     this.casillas[posX][posY] = new CasillaSuperMountain(scene, x, y);  //SuperMountain
 
     for (let j = 3; j < this.scene.anchoMundo - 3; j++ ){     //BaseRoja
-      this.casillas[this.scene.altoMundo - 1][j] = new CasillaRed(scene, this.scene.altoMundo - 1, j);
+      this.casillas[j][this.scene.altoMundo - 1] = new CasillaRed(scene, x, y);
     }
 
     for (let j = 3; j < this.scene.anchoMundo - 3; j++ ){     //BaseAzul
-      this.casillas[0][j] = new CasillaBlue(scene, 0, j);
+      this.casillas[j][0] = new CasillaBlue(scene, x, y);
     }
     //FIN DE INICIALIZACIÓN
 
@@ -62,11 +62,11 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
 
     for (let a = 0; a < this.scene.numEstructurasRecursos; a++ ){
 
-      let i = Math.floor(Math.random() * 3) + 1;
-      let j = Math.floor(Math.random() * (this.scene.anchoMundo - 1));
+      let i = Math.floor(Math.random() * (this.scene.anchoMundo - 1));
+      let j = Math.floor(Math.random() * 3) + 1;
 
 
-      if (this.casillas[i][j] === undefined){ 
+      if (this.casillas[i][j].inexistente === false && this.casillas[i][j].vacia){ 
         this.casillas[i][j] = new CasillaForest(this.scene, i, j);
       }
       else a--;
@@ -75,10 +75,10 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
     //Mitad inferior
     for (let a = 0; a < this.scene.numEstructurasRecursos; a++ ){
 
-      let i = (this.scene.altoMundo - 1) - (Math.floor(Math.random() * 3) + 1);
-      let j = Math.floor(Math.random() * (this.scene.anchoMundo - 1));
+      let i = Math.floor(Math.random() * (this.scene.anchoMundo - 1));
+      let j = (this.scene.altoMundo - 1) - (Math.floor(Math.random() * 3) + 1);
 
-      if (this.casillas[i][j] === undefined){ 
+      if (this.casillas[i][j].inexistente === false && this.casillas[i][j].vacia){ 
         this.casillas[i][j] = new CasillaForest(this.scene, i, j);
       }
       else a--;
@@ -91,10 +91,10 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
     //Mitad superior
     for (let a = 0; a < this.scene.numEstructurasRecursos; a++ ){
 
-      let i = Math.floor(Math.random() * 3) + 1;
-      let j = Math.floor(Math.random() * (this.scene.anchoMundo - 1));
+      let i = Math.floor(Math.random() * (this.scene.anchoMundo - 1));
+      let j = Math.floor(Math.random() * 3) + 1;
 
-      if (this.casillas[i][j] === undefined){
+      if (this.casillas[i][j].inexistente === false && this.casillas[i][j].vacia){
         this.casillas[i][j] = new CasillaMountain(this.scene, i, j);
       }
       else a--;
@@ -104,10 +104,10 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
     //Mitad inferior
     for (let a = 0; a < this.scene.numEstructurasRecursos; a++ ){
 
-      let i = (this.scene.altoMundo - 1) - (Math.floor(Math.random() * 3) + 1);
-      let j = Math.floor(Math.random() * (this.scene.anchoMundo - 1));
+      let i = Math.floor(Math.random() * (this.scene.anchoMundo - 1));
+      let j = (this.scene.altoMundo - 1) - (Math.floor(Math.random() * 3) + 1);
 
-      if (this.casillas[i][j] === undefined){
+      if (this.casillas[i][j].inexistente === false && this.casillas[i][j].vacia){
         this.casillas[i][j] = new CasillaMountain(this.scene, i, j);
       }
       else a--;
@@ -121,7 +121,7 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
         let squareSize = this.scene.squareSize;
         let offset = this.scene.offset;
 
-        if (this.casillas[i][j] !== undefined) this.casillas[i][j].print(j*squareSize + offset ,i*squareSize + offset, j*squareSize + offset ,i*squareSize + offset);
+        if (this.casillas[i][j] !== undefined) this.casillas[i][j].print(i * squareSize + offset , j * squareSize + offset);
       }
     }
 

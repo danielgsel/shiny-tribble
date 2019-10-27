@@ -5,6 +5,7 @@ export default class CasillaVacia extends Casilla{
       super(scene, x, y);
   
       this.sprite = 'casilla';
+      this.vacia = true;
     }
   
     construyeCanon(){

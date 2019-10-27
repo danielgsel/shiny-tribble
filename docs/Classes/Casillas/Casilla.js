@@ -5,6 +5,10 @@ export default class Casilla extends Phaser.GameObjects.Sprite {
       
       this.sprite = undefined;
       this.OccupiedBy = undefined;
+      this.inexistente = false;
+      this.vacia = false;
+      this.base = false;
+      this.resources = false;
     }
 
     print(x, y){
