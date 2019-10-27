@@ -1,6 +1,8 @@
 import Tablero from "./Tablero.js";
 import Estructura from "./Estructura.js";
 import Unidad from "./Unidades/Unidad.js";
+import MenuConstruir from "./Menus/menuConstruir.js"
+import MenuMovimiento from "./Menus/menuMovimiento.js"
 import Trabajador from "./Unidades/Trabajador.js";
 
 export default class Game extends Phaser.Scene {
@@ -42,14 +44,18 @@ export default class Game extends Phaser.Scene {
       this.tablero = new Tablero(this, 0, 0);
       this.tablero.printTablero();
 
-      this.selectedUnit = undefined;
+      this.selection = undefined;
       this.selectionIcon = this.add.image(0, 0, 'selectionIcon').setScale(1.3);
       this.selectionIcon.visible = false;
+
+      this.menuConstruir = new MenuConstruir(this, 0, 0); //Menu 1 Trabajador
+      this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
 
       this.workers = [];
       this.workers.push(new Trabajador(this, 5, 1));
       this.workers.push(new Trabajador(this, 5, 7));
-      this.tablero.casillas[5][5].OccupiedBy = this.workers[0];
+      this.tablero.casillas[5][7].OccupiedBy = this.workers[1];
+      this.tablero.casillas[5][1].OccupiedBy = this.workers[0];
       
       /*
       this.flecha ={
@@ -71,7 +77,9 @@ export default class Game extends Phaser.Scene {
 
     this.checkMouseInput();
 
-    if(this.selectedUnit !== undefined) this.selectedUnit.onSelected();
+
+
+    if(this.selection !== undefined) this.selection.onSelected(); //como idea
     //this.processSelection();
 
   }
@@ -101,14 +109,26 @@ export default class Game extends Phaser.Scene {
       this.load.image('arrowdownleft', 'assets/imagenes/arrowdownleft.png');
   }
 
-  unitSelected(unit){
-    if(this.selectedUnit !== undefined) this.selectedUnit.unselected();
-    this.selectedUnit = unit;
+  workerSelected(unit){
+    if(this.selection !== undefined) this.selection.unselected();
+    this.selection = unit;
 
     //Mueve el icono de seleccion hacia el objetivo y lo hace visible
+    this.actualizaMenusWorker(unit);
+  }
+
+  actualizaMenusWorker(unit){
     this.selectionIcon.x = unit.sprite.x;
     this.selectionIcon.y = unit.sprite.y;
     this.selectionIcon.visible = true;
+
+    this.menuMovimiento.x = unit.sprite.x;
+    this.menuMovimiento.y = unit.sprite.y;
+    this.menuMovimiento.visible = true;
+
+    this.menuConstruir.x = unit.sprite.x;
+    this.menuConstruir.y = unit.sprite.y;
+    this.menuConstruir.visible = true;
   }
 
   checkMouseInput(){
@@ -134,22 +154,23 @@ export default class Game extends Phaser.Scene {
     }*/
 
     if (this.mouse.rightButtonDown()){
-      console.log("yay");
-      if(this.selectedUnit !== undefined) this.selectedUnit.unselected();
-      this.selectedUnit = undefined;
+      if(this.selection !== undefined) this.selection.unselected();
+      this.selection = undefined;
       this.selectionIcon.visible = false;
+      this.menuConstruir.visible = false;
+      this.menuMovimiento.visible = false;
     } 
 
   }
 
   processSelection(){
-    if (this.selectedUnit !== undefined ){
-      switch(this.selectedUnit.stats.type){
+    if (this.selection !== undefined ){
+      switch(this.selection.stats.type){
         case 'Trabajador':
-          if (!this.selectedUnit.stats.selected){
-            this.selectedUnit.selected();
+          if (!this.selection.stats.selected){
+            this.selection.selected();
           }
-          else if (this.selectedUnit.stats.moving){
+          else if (this.selection.stats.moving){
             this.printArrow(); 
             this.moveSelected();
           }
@@ -159,13 +180,13 @@ export default class Game extends Phaser.Scene {
   }
 
   moveSelected(){
-    if (this.selectedUnit !== undefined && this.mouse.leftButtonDown() && this.mouseAvaliable){
+    if (this.selection !== undefined && this.mouse.leftButtonDown() && this.mouseAvaliable){
       //mover unidad seleccionada
       let x = Math.floor(this.mouse.worldX/this.squareSize -1);
       let y = Math.floor(this.mouse.worldY/this.squareSize -1);
 
       if (x < this.anchoMundo && x >= 0 && y >= 0 && y < this.altoMundo)
-      this.selectedUnit.move(x,y);
+      this.selection.move(x,y);
       
       this.mouseAvaliable = false;
     }

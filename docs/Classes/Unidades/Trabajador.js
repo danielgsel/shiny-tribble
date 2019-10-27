@@ -7,7 +7,7 @@ export default class Trabajador extends Unidad {
       
     this.sprite.setInteractive();
     this.sprite.on('pointerdown', () => {
-      this.scene.unitSelected(this);
+      this.scene.workerSelected(this);
       this.selected();
     })
 
@@ -34,6 +34,11 @@ export default class Trabajador extends Unidad {
     */
   }
   
+  moveWorker(x, y){
+    this.moveUnit(x, y);
+    this.scene.actualizaMenusWorker(this);
+  }
+
   move(x,y){    
     //mover unidad seleccionada
     if(this.scene.tablero.casillas[y][x].stats.exists &&    //Existe la casilla
