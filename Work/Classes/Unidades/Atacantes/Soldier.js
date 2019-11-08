@@ -74,7 +74,7 @@ export default class Soldier extends Atacante{
             }
         }
             let i = 0;
-            while(i<3 && this.attacking === undefined){
+            while(i<4 && this.attacking === undefined){
                 this.attacking = this.canAttack[i];
                 i++;
             }

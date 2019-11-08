@@ -74,9 +74,9 @@ export default class Game extends Phaser.Scene {
 
       //TEST DE ATACANTES
       this.blueUnits = [];
-      this.blueUnits.push(new Archer(this, 5,5,100, "blueArcher", "left", "blue"));
-      this.tablero.casillas[5][5].OccupiedBy = this.blueUnits[0];
-      this.blueUnits.push(new Soldier(this, 5,8,100, "blueSoldier", "upright", "blue"));
+      this.blueUnits.push(new Archer(this, 3,6,100, "blueArcher", "right", "blue"));
+      this.tablero.casillas[3][6].OccupiedBy = this.blueUnits[0];
+      this.blueUnits.push(new Soldier(this, 5,8,100, "blueSoldier", "downright", "blue"));
       this.tablero.casillas[5][8].OccupiedBy = this.blueUnits[1];
       this.blueUnits.push(new Tank(this, 5,3,100, "blueTank", "upright", "blue"));
       this.tablero.casillas[5][3].OccupiedBy = this.blueUnits[1];
