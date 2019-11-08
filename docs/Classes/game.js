@@ -56,21 +56,6 @@ export default class Game extends Phaser.Scene {
       this.workers.push(new Trabajador(this, 5, 10));
       this.tablero.casillas[5][0].OccupiedBy = this.workers[1];
       this.tablero.casillas[5][10].OccupiedBy = this.workers[0];
-      
-      /*
-      this.flecha ={
-        positionx : undefined,
-        positiony : undefined,
-        exists : false,
-        image: undefined
-      }
-      
-      //-------------------------Trabajadora de prueba ||DEBUG||----
-      this.workers.push(new Trabajador(this, 5, 5));
-      this.tablero.casillas[5][5].stats.unit = this.workers[this.workers.length-1]
-      this.printWorkers();
-      //------------------------------------------------------------
-      */
   }
 
   update(time, delta) {
@@ -80,7 +65,6 @@ export default class Game extends Phaser.Scene {
     this.updateMenus();
 
     if(this.selection !== undefined) this.selection.onSelected(); //como idea
-    //this.processSelection();
 
   }
 
@@ -139,27 +123,6 @@ export default class Game extends Phaser.Scene {
   }
 
   checkMouseInput(){
-
-    /*if(this.mouse.leftButtonDown() && this.mouseAvaliable){
-
-      let x = Math.floor(this.mouse.worldX/this.squareSize - 1);
-      let y = Math.floor(this.mouse.worldY/this.squareSize - 1);
-
-      if (x >= 0 && x < this.anchoMundo && y >= 0 && y < this.altoMundo && this.tablero[x][y] !== undefined){
-
-        if (this.selectedUnit !== undefined) this.selectedUnit.unselected();    //OJO solo los constructores tienen unselect() de momento
-
-        this.selectedUnit = this.tablero.casillas[y][x].OccupiedBy;
-      }
-      this.mouseAvaliable = false;
-    }
-    else if(this.mouse.rightButtonDown()){
-
-      if (this.selectedUnit !== undefined) this.selectedUnit.unselected();  //Mas de lo mismo que arriba
-
-      this.selectedUnit = undefined;
-    }*/
-
     if (this.mouse.rightButtonDown()){
       if(this.selection !== undefined) this.selection.unselected();
       this.selection = undefined;
@@ -168,45 +131,5 @@ export default class Game extends Phaser.Scene {
       this.menuMovimiento.visible = false;
     } 
 
-  }
-
-  processSelection(){
-    if (this.selection !== undefined ){
-      switch(this.selection.stats.type){
-        case 'Trabajador':
-          if (!this.selection.stats.selected){
-            this.selection.selected();
-          }
-          else if (this.selection.stats.moving){
-            this.printArrow(); 
-            this.moveSelected();
-          }
-        break;
-      }
-    }
-  }
-
-  moveSelected(){
-    if (this.selection !== undefined && this.mouse.leftButtonDown() && this.mouseAvaliable){
-      //mover unidad seleccionada
-      let x = Math.floor(this.mouse.worldX/this.squareSize -1);
-      let y = Math.floor(this.mouse.worldY/this.squareSize -1);
-
-      if (x < this.anchoMundo && x >= 0 && y >= 0 && y < this.altoMundo)
-      this.selection.move(x,y);
-      
-      this.mouseAvaliable = false;
-    }
-  }
-
-  // printTablero(){
-  //   this.tablero.printTablero();
-  // }
-
-  //Esto se usa una vez. Solo utilizar en debug. Mala idea.
-  printWorkers(){
-    for (let i = 0; i < this.workers.length; i++){
-      this.workers[i].stats.image = this.add.image(this.workers[i].stats.position.positionx*this.squareSize + this.offset ,this.workers[i].stats.position.positiony*this.squareSize + this.offset ,'worker');
-    }
   }
 }

@@ -32,8 +32,6 @@ export default class Game extends Phaser.Scene {
     this.load.image('redSoldier', 'assets/imagenes/RedSoldier.png');
 
 
-
-
     //Menus
     this.load.image('movingMenu', 'assets/imagenes/MovingMenu.png');
     this.load.image('constructionMenuAv', 'assets/imagenes/MenuConstructionAv.png');
@@ -62,7 +60,9 @@ export default class Game extends Phaser.Scene {
       this.selectionIcon.visible = false;
 
       this.menuConstruir = new MenuConstruir(this, 0, 0); //Menu 1 Trabajador
+      this.menuConstruir.depth = 1;
       this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
+      this.menuMovimiento.depth = 1;
 
       this.workers = [];
       //this.workers.push(new Trabajador(this, 5, 0));
@@ -85,20 +85,6 @@ export default class Game extends Phaser.Scene {
 
       this.KeyN = this.input.keyboard.addKey('N');
       this.turno = false;
-      /*
-      this.flecha ={
-        positionx : undefined,
-        positiony : undefined,
-        exists : false,
-        image: undefined
-      }
-      
-      //-------------------------Trabajadora de prueba ||DEBUG||----
-      this.workers.push(new Trabajador(this, 5, 5));
-      this.tablero.casillas[5][5].stats.unit = this.workers[this.workers.length-1]
-      this.printWorkers();
-      //------------------------------------------------------------
-      */
   }
 
   update(time, delta) {
@@ -118,7 +104,6 @@ export default class Game extends Phaser.Scene {
     if(this.KeyN.isUp){
       this.turno = false;
     }
-    //////////////
 
     if(this.selection !== undefined) this.selection.onSelected(); //como idea
     //this.processSelection();
@@ -180,27 +165,6 @@ export default class Game extends Phaser.Scene {
   }
 
   checkMouseInput(){
-
-    /*if(this.mouse.leftButtonDown() && this.mouseAvaliable){
-
-      let x = Math.floor(this.mouse.worldX/this.squareSize - 1);
-      let y = Math.floor(this.mouse.worldY/this.squareSize - 1);
-
-      if (x >= 0 && x < this.anchoMundo && y >= 0 && y < this.altoMundo && this.tablero[x][y] !== undefined){
-
-        if (this.selectedUnit !== undefined) this.selectedUnit.unselected();    //OJO solo los constructores tienen unselect() de momento
-
-        this.selectedUnit = this.tablero.casillas[y][x].OccupiedBy;
-      }
-      this.mouseAvaliable = false;
-    }
-    else if(this.mouse.rightButtonDown()){
-
-      if (this.selectedUnit !== undefined) this.selectedUnit.unselected();  //Mas de lo mismo que arriba
-
-      this.selectedUnit = undefined;
-    }*/
-
     if (this.mouse.rightButtonDown()){
       if(this.selection !== undefined) this.selection.unselected();
       this.selection = undefined;
@@ -239,10 +203,6 @@ export default class Game extends Phaser.Scene {
       this.mouseAvaliable = false;
     }
   }
-
-  // printTablero(){
-  //   this.tablero.printTablero();
-  // }
 
   //Esto se usa una vez. Solo utilizar en debug. Mala idea.
   printWorkers(){

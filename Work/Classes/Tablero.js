@@ -98,6 +98,8 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
         this.casillas[i][j] = new CasillaMountain(this.scene, i, j);
       }
       else a--;
+
+      
     }
 
 

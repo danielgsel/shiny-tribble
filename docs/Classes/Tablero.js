@@ -57,7 +57,7 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
 
   }
 
-  DecideForests(){    //cambiar fors por whiles!!!!!!!!!!
+  DecideForests(){   
     //Mitad superior
 
     for (let a = 0; a < this.scene.numEstructurasRecursos; a++ ){
