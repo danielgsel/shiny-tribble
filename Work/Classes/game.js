@@ -4,6 +4,9 @@ import Unidad from "./Unidades/Unidad.js";
 import MenuConstruir from "./Menus/menuConstruir.js"
 import MenuMovimiento from "./Menus/menuMovimiento.js"
 import Trabajador from "./Unidades/Trabajador.js";
+import Archer from "./Unidades/Atacantes/Archer.js";
+import Tank from "./Unidades/Atacantes/Tank.js"
+import Soldier from "./Unidades/Atacantes/Soldier.js"
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -22,6 +25,14 @@ export default class Game extends Phaser.Scene {
     //Unidad(es)
     this.load.image('worker',' assets/imagenes/worker.png' );
     this.load.image('workerSelected',' assets/imagenes/workerSelected.png' );
+    this.load.image('blueArcher', 'assets/imagenes/BlueArcher.png');
+    this.load.image('blueTank', 'assets/imagenes/BlueTank.png');
+
+
+    this.load.image('redSoldier', 'assets/imagenes/RedSoldier.png');
+
+
+
 
     //Menus
     this.load.image('movingMenu', 'assets/imagenes/MovingMenu.png');
@@ -29,6 +40,8 @@ export default class Game extends Phaser.Scene {
     this.load.image('constructionMenuUnav', 'assets/imagenes/MenuConstructionUnav.png');
     this.load.image('factoryMenuAv', 'assets/imagenes/FactoryMenuAvailable.png');
     this.load.image('factoryMenuUnav', 'assets/imagenes/FactoryMenuUnavailable.png');
+
+    this.load.image('nextTurn', 'assets/imagenes/NextTurn.png')
     
     //Seleccion
     this.load.image('selectionIcon', 'assets/imagenes/SelectionIcon.png');
@@ -52,11 +65,26 @@ export default class Game extends Phaser.Scene {
       this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
 
       this.workers = [];
-      this.workers.push(new Trabajador(this, 5, 0));
+      //this.workers.push(new Trabajador(this, 5, 0));
       this.workers.push(new Trabajador(this, 5, 10));
-      this.tablero.casillas[5][0].OccupiedBy = this.workers[1];
-      this.tablero.casillas[5][10].OccupiedBy = this.workers[0];
+      //this.tablero.casillas[5][0].OccupiedBy = this.workers[0];
+      this.tablero.casillas[5][10].OccupiedBy = this.workers[1];
       
+
+      //TEST DE ATACANTES
+      this.blueUnits = [];
+      this.blueUnits.push(new Archer(this, 5,5,100, "blueArcher", "left"));
+      this.tablero.casillas[5][5].OccupiedBy = this.blueUnits[0];
+      this.blueUnits.push(new Tank(this, 5,6,100, "blueTank", "right"));
+      this.tablero.casillas[5][5].OccupiedBy = this.blueUnits[1];
+
+      this.blueUnits.push(new Soldier(this, 5,4,100, "redSoldier", "up")); //Tecnicamente es rojo, lo estoy metiendo en unidades azules porque me apetece
+      this.tablero.casillas[5][5].OccupiedBy = this.blueUnits[2];
+
+      
+
+      this.KeyN = this.input.keyboard.addKey('N');
+      this.turno = false;
       /*
       this.flecha ={
         positionx : undefined,
@@ -78,6 +106,19 @@ export default class Game extends Phaser.Scene {
     this.checkMouseInput();
 
     this.updateMenus();
+
+
+
+    //PLAYTEST DE TURNOS 
+    if(this.KeyN.isDown&& !this.turno)  {
+      this.passTurn();
+      this.turno = true
+     
+    }
+    if(this.KeyN.isUp){
+      this.turno = false;
+    }
+    //////////////
 
     if(this.selection !== undefined) this.selection.onSelected(); //como idea
     //this.processSelection();
@@ -208,5 +249,14 @@ export default class Game extends Phaser.Scene {
     for (let i = 0; i < this.workers.length; i++){
       this.workers[i].stats.image = this.add.image(this.workers[i].stats.position.positionx*this.squareSize + this.offset ,this.workers[i].stats.position.positiony*this.squareSize + this.offset ,'worker');
     }
+  }
+
+
+  //Estoy haciendolo con el blueUnits por defecto, habria que recibir quien pasa el turno para mover sus unidades, no las del contrincante
+  passTurn(){
+    for (let i = 0; i < this.blueUnits.length; i++){
+      this.blueUnits[i].moveAuto();
+    }
+    
   }
 }
