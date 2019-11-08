@@ -16,7 +16,6 @@ export default class Trabajador extends Unidad {
     this.positionx = positionx;
     this.positiony = positiony;
     this.moveDone = false;
-    this.spriteSelected = 'workerSelected';   //Provisional
   }
   
   moveWorker(x, y){
