@@ -1,5 +1,5 @@
 import Tablero from "./Tablero.js";
-import Estructura from "./Estructura.js";
+import Estructura from "./Estructuras/Estructura.js";
 import Unidad from "./Unidades/Unidad.js";
 import MenuConstruir from "./Menus/menuConstruir.js"
 import MenuMovimiento from "./Menus/menuMovimiento.js"
