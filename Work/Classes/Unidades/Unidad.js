@@ -16,4 +16,9 @@ export default class Unidad extends Phaser.GameObjects.Sprite {
     this.sprite.y = y * this.scene.squareSize + this.scene.offset;
   }
 
+  receiveDamage(damage){
+    this.hp -= damage;
+    if (this.hp <= 0) console.log("morí wey");
+  }
+
 }
