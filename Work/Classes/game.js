@@ -73,13 +73,15 @@ export default class Game extends Phaser.Scene {
 
       //TEST DE ATACANTES
       this.blueUnits = [];
-      this.blueUnits.push(new Archer(this, 5,5,100, "blueArcher", "left"));
+      this.blueUnits.push(new Archer(this, 5,5,100, "blueArcher", "left", "blue"));
       this.tablero.casillas[5][5].OccupiedBy = this.blueUnits[0];
-      this.blueUnits.push(new Tank(this, 5,6,100, "blueTank", "right"));
-      this.tablero.casillas[5][5].OccupiedBy = this.blueUnits[1];
+      this.blueUnits.push(new Tank(this, 5,6,100, "blueTank", "right", "blue"));
+      this.tablero.casillas[5][6].OccupiedBy = this.blueUnits[1];
 
-      this.blueUnits.push(new Soldier(this, 5,4,100, "redSoldier", "up")); //Tecnicamente es rojo, lo estoy metiendo en unidades azules porque me apetece
-      this.tablero.casillas[5][5].OccupiedBy = this.blueUnits[2];
+
+      this.redUnits = [];
+      this.redUnits.push(new Soldier(this, 2,5,100, "redSoldier", "up", "red"));
+      this.tablero.casillas[2][5].OccupiedBy = this.redUnits[0];
 
       
 
@@ -215,7 +217,7 @@ export default class Game extends Phaser.Scene {
   //Estoy haciendolo con el blueUnits por defecto, habria que recibir quien pasa el turno para mover sus unidades, no las del contrincante
   passTurn(){
     for (let i = 0; i < this.blueUnits.length; i++){
-      this.blueUnits[i].moveAuto();
+      this.blueUnits[i].passTurn();
     }
     
   }
