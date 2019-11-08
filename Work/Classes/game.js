@@ -27,6 +27,7 @@ export default class Game extends Phaser.Scene {
     this.load.image('workerSelected',' assets/imagenes/workerSelected.png' );
     this.load.image('blueArcher', 'assets/imagenes/BlueArcher.png');
     this.load.image('blueTank', 'assets/imagenes/BlueTank.png');
+    this.load.image('blueSoldier', 'assets/imagenes/BlueSoldier.png');
 
 
     this.load.image('redSoldier', 'assets/imagenes/RedSoldier.png');
@@ -75,13 +76,17 @@ export default class Game extends Phaser.Scene {
       this.blueUnits = [];
       this.blueUnits.push(new Archer(this, 5,5,100, "blueArcher", "left", "blue"));
       this.tablero.casillas[5][5].OccupiedBy = this.blueUnits[0];
-      this.blueUnits.push(new Tank(this, 5,6,100, "blueTank", "right", "blue"));
+      this.blueUnits.push(new Soldier(this, 5,6,100, "blueSoldier", "right", "blue"));
       this.tablero.casillas[5][6].OccupiedBy = this.blueUnits[1];
+      this.blueUnits.push(new Tank(this, 2,3,100, "blueTank", "right", "blue"));
+      this.tablero.casillas[2][3].OccupiedBy = this.blueUnits[1];
+
+
 
 
       this.redUnits = [];
-      this.redUnits.push(new Soldier(this, 7,4,100, "redSoldier", "up", "red"));
-      this.tablero.casillas[7][4].OccupiedBy = this.redUnits[0];
+      this.redUnits.push(new Soldier(this, 7,6,100, "redSoldier", "up", "red"));
+      this.tablero.casillas[7][6].OccupiedBy = this.redUnits[0];
 
       
 
