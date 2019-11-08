@@ -12,21 +12,21 @@ export default class Soldier extends Atacante{
         this.facing = facing;
 
         this.canAttack = [];
-        this.attacking;
+        this.attacking = undefined;
  
     }
 
     passTurn(){
-            this.checkAttack();
-            if(this.attacking === undefined){
-                super.moveAuto();
+        this.checkAttack();
+        if(this.attacking === undefined){
+            super.moveAuto();
                 
-            }
-            else{
-                console.log("pium pium a: " +  this.attacking.position.x + this.attacking.position.y);
-            }
-        
         }
+        else{
+            console.log("pium pium a: " +  this.attacking.position.x +  " " + this.attacking.position.y);
+        }
+        
+    }
 
     checkAttack(){ //Ataca en cruz
         

@@ -19,6 +19,29 @@ export default class Soldier extends Unidad{
     // }
 
     moveAuto(range){
+       let facingTo = this.facingTo();
+       let x= facingTo.x;
+       let y = facingTo.y;
+        if(this.casillaValid(x,y)){
+
+            if(this.scene.tablero.casillas[x][y].OccupiedBy === undefined){
+                this.scene.tablero.casillas[x][y].OccupiedBy = this;
+                this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
+                this.moveUnit(x, y);
+            }
+
+            // else if(this.scene.tablero.casillas[x][y].OccupiedBy.owner !== this.owner){
+            //     console.log("Coño un rojo");
+            // }
+        }
+    }
+
+    casillaValid(x, y){
+        return((x < this.scene.anchoMundo && x >= 0) && (y < this.scene.altoMundo && y>= 0) && (!this.scene.tablero.casillas[x][y].inexistente));
+
+    }
+
+    facingTo(){
         let x = this.position.x;
         let y = this.position.y;
 
@@ -53,23 +76,9 @@ export default class Soldier extends Unidad{
                 y++;
                 break;         
             }
-        if(this.casillaValid(x,y)){
 
-            if(this.scene.tablero.casillas[x][y].OccupiedBy === undefined){
-                this.scene.tablero.casillas[x][y].OccupiedBy = this;
-                this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
-                this.moveUnit(x, y);
-            }
-
-            // else if(this.scene.tablero.casillas[x][y].OccupiedBy.owner !== this.owner){
-            //     console.log("Coño un rojo");
-            // }
-        }
-    }
-
-    casillaValid(x, y){
-        return((x < this.scene.anchoMundo && x >= 0) && (y < this.scene.altoMundo && y>= 0) && (!this.scene.tablero.casillas[x][y].inexistente));
-
+        let facingTo = {x: x, y: y}
+        return facingTo;
     }
 
 }
