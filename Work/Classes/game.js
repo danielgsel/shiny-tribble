@@ -80,8 +80,8 @@ export default class Game extends Phaser.Scene {
 
 
       this.redUnits = [];
-      this.redUnits.push(new Soldier(this, 2,5,100, "redSoldier", "up", "red"));
-      this.tablero.casillas[2][5].OccupiedBy = this.redUnits[0];
+      this.redUnits.push(new Soldier(this, 7,4,100, "redSoldier", "up", "red"));
+      this.tablero.casillas[7][4].OccupiedBy = this.redUnits[0];
 
       
 

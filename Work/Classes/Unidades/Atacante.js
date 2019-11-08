@@ -53,7 +53,7 @@ export default class Soldier extends Unidad{
                 y++;
                 break;         
             }
-        if((x < this.scene.anchoMundo && x >= 0) && (y < this.scene.altoMundo && y>= 0) && (!this.scene.tablero.casillas[x][y].inexistente)){
+        if(this.casillaValid(x,y)){
 
             if(this.scene.tablero.casillas[x][y].OccupiedBy === undefined){
                 this.scene.tablero.casillas[x][y].OccupiedBy = this;
@@ -61,10 +61,15 @@ export default class Soldier extends Unidad{
                 this.moveUnit(x, y);
             }
 
-            else if(this.scene.tablero.casillas[x][y].OccupiedBy.owner !== this.owner){
-                console.log("Coño un rojo");
-            }
+            // else if(this.scene.tablero.casillas[x][y].OccupiedBy.owner !== this.owner){
+            //     console.log("Coño un rojo");
+            // }
         }
+    }
+
+    casillaValid(x, y){
+        return((x < this.scene.anchoMundo && x >= 0) && (y < this.scene.altoMundo && y>= 0) && (!this.scene.tablero.casillas[x][y].inexistente));
+
     }
 
 }
