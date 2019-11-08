@@ -1,9 +1,9 @@
 export default class Unidad extends Phaser.GameObjects.Sprite {
-  constructor(scene, positionx, positiony, unitHP, unitSpriteName){
+  constructor(scene, positionx, positiony, unitHP, unitSpriteName, owner){
     super(scene, positionx, positiony, 'unit');
 
     this.hp = unitHP;   //vida  
-    this.owner = undefined;   //Jugador
+    this.owner = owner;   //Jugador
     this.position = {x: positionx, y: positiony};   //posicion
     this.spriteName = unitSpriteName;   //Nombre de su sprite en la escena
     this.sprite = scene.add.image(positionx * scene.squareSize + scene.offset, positiony * scene.squareSize + scene.offset, unitSpriteName);  //Referencia a su imagen en la escena
