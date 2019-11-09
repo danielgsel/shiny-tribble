@@ -13,6 +13,9 @@ export default class Archer extends Atacante{
 
         this.canAttack = [];
         this.attacking = undefined;
+
+
+        this.damage = 15;
     }
 
     passTurn(){
@@ -23,6 +26,8 @@ export default class Archer extends Atacante{
         }
         else{
             console.log("pium pium a: " +  this.attacking.position.x +  " " + this.attacking.position.y);
+
+            this.attacking.receiveDamage(this.damage);
         }
         
     }
@@ -87,7 +92,7 @@ export default class Archer extends Atacante{
             }
         }
 
-        if(super.casillaValid(this.position.x +1,this.position.y)){
+        if(super.casillaValid(this.position.x +2,this.position.y)){
             if(this.scene.tablero.casillas[this.position.x + 2][this.position.y].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x + 2][this.position.y].OccupiedBy.owner !== this.owner) {
                     
@@ -121,9 +126,13 @@ export default class Archer extends Atacante{
 
 
         let i = 0;
-         while(i<8 && this.attacking === undefined){
-                this.attacking = this.canAttack[i];
-                i++;
+        let attackingSomeOne = false;
+        while(i<8 && !attackingSomeOne){
+            this.attacking = this.canAttack[i];
+            if(this.canAttack[i] !== undefined) {
+                attackingSomeOne = true;
             }
+            i++;
+        }
     }
 }

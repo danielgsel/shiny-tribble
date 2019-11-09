@@ -7,7 +7,7 @@ export default class Unidad extends Phaser.GameObjects.Sprite {
     this.position = {x: positionx, y: positiony};   //posicion
     this.spriteName = unitSpriteName;   //Nombre de su sprite en la escena
     this.sprite = scene.add.image(positionx * scene.squareSize + scene.offset, positiony * scene.squareSize + scene.offset, unitSpriteName);  //Referencia a su imagen en la escena
-
+    this.scene = scene;
   }
    
   moveUnit(x, y){   //Mover unidad a unas coordenadas dadas
@@ -18,7 +18,11 @@ export default class Unidad extends Phaser.GameObjects.Sprite {
 
   receiveDamage(damage){
     this.hp -= damage;
-    if (this.hp <= 0) console.log("morí wey");
+    console.log(this.hp)
+    if (this.hp <= 0) {
+      this.sprite.destroy();
+      this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
+    }
   }
 
 }
