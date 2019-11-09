@@ -1,9 +1,9 @@
 import Unidad from "./Unidad.js";
 
 export default class Trabajador extends Unidad {
-  constructor(scene, positionx, positiony, hp) {
+  constructor(scene, positionx, positiony, hp, owner) {
 
-    super(scene, positionx, positiony, hp, 'worker');
+    super(scene, positionx, positiony, hp, 'worker', owner);
       
     this.sprite.setInteractive();
     this.sprite.on('pointerdown', () => {

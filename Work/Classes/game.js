@@ -29,7 +29,8 @@ export default class Game extends Phaser.Scene {
     this.load.image('blueTank', 'assets/imagenes/BlueTank.png');
     this.load.image('blueSoldier', 'assets/imagenes/BlueSoldier.png');
 
-
+    this.load.image('redTank', 'assets/imagenes/RedTank.png');
+    this.load.image('redSoldier', 'assets/imagenes/RedSoldier.png');
     this.load.image('redSoldier', 'assets/imagenes/RedSoldier.png');
 
 
@@ -41,6 +42,11 @@ export default class Game extends Phaser.Scene {
     this.load.image('factoryMenuUnav', 'assets/imagenes/FactoryMenuUnavailable.png');
 
     this.load.image('nextTurn', 'assets/imagenes/NextTurn.png')
+
+    this.load.image('healthBar', 'assets/imagenes/health.png');
+    this.load.image('blueHealthBar', 'assets/imagenes/blueHealth.png');
+
+
     
     //Seleccion
     this.load.image('selectionIcon', 'assets/imagenes/SelectionIcon.png');
@@ -65,33 +71,45 @@ export default class Game extends Phaser.Scene {
       this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
       this.menuMovimiento.depth = 1;
 
+
+      //TEST TRABAJADORES
       this.workers = [];
       //this.workers.push(new Trabajador(this, 5, 0));
-      this.workers.push(new Trabajador(this, 5, 10));
+      this.workers.push(new Trabajador(this, 5, 10, 100, "red"));
       //this.tablero.casillas[5][0].OccupiedBy = this.workers[0];
-      this.tablero.casillas[5][10].OccupiedBy = this.workers[1];
+      this.tablero.casillas[5][10].OccupiedBy = this.workers[0];
       
 
       //TEST DE ATACANTES
+
+      //azules
       this.blueUnits = [];
-      this.blueUnits.push(new Archer(this, 3,6,100, "blueArcher", "right", "blue"));
-      this.tablero.casillas[3][6].OccupiedBy = this.blueUnits[0];
-      this.blueUnits.push(new Soldier(this, 5,8,100, "blueSoldier", "downright", "blue"));
-      this.tablero.casillas[5][8].OccupiedBy = this.blueUnits[1];
-      this.blueUnits.push(new Tank(this, 5,3,100, "blueTank", "upright", "blue"));
-      this.tablero.casillas[5][3].OccupiedBy = this.blueUnits[1];
+      this.blueUnits.push(new Archer(this, 5,8,100, "blueArcher", "left", "blue"));
+      this.tablero.casillas[5][8].OccupiedBy = this.blueUnits[0];
+      this.blueUnits.push(new Soldier(this, 3,6,100, "blueSoldier", "right", "blue"));
+      this.tablero.casillas[3][6].OccupiedBy = this.blueUnits[1];
+      this.blueUnits.push(new Tank(this, 5,3,100, "blueTank", "right", "blue"));
+      this.tablero.casillas[5][3].OccupiedBy = this.blueUnits[2];
 
 
 
-
+      //rojos
       this.redUnits = [];
       this.redUnits.push(new Soldier(this, 7,6,100, "redSoldier", "up", "red"));
       this.tablero.casillas[7][6].OccupiedBy = this.redUnits[0];
+      this.redUnits.push(new Tank(this, 7,9,100, "redTank", "up", "red"));
+      this.tablero.casillas[7][9].OccupiedBy = this.redUnits[1];
+      this.redUnits.push(new Soldier(this, 7,3,100, "redSoldier", "left", "red"));
+      this.tablero.casillas[7][3].OccupiedBy = this.redUnits[2];
 
       
 
-      this.KeyN = this.input.keyboard.addKey('N');
-      this.turno = false;
+      this.KeyB = this.input.keyboard.addKey('B');
+      this.KeyR = this.input.keyboard.addKey('R');
+
+      this.blueTurn = false;
+      this.redTurn = false;
+
   }
 
   update(time, delta) {
@@ -103,13 +121,22 @@ export default class Game extends Phaser.Scene {
 
 
     //PLAYTEST DE TURNOS 
-    if(this.KeyN.isDown&& !this.turno)  {
-      this.passTurn();
-      this.turno = true
+    if(this.KeyR.isDown&& !this.redTurn)  {
+      this.passTurn("red");
+      this.redTurn = true
      
     }
-    if(this.KeyN.isUp){
-      this.turno = false;
+    if(this.KeyB.isDown&& !this.blueTurn)  {
+      this.passTurn("blue");
+      this.blueTurn = true
+     
+    }
+
+    if(this.KeyR.isUp){
+      this.redTurn = false;
+    }
+    if(this.KeyB.isUp){
+      this.blueTurn = false;
     }
 
     if(this.selection !== undefined) this.selection.onSelected(); //como idea
@@ -220,10 +247,17 @@ export default class Game extends Phaser.Scene {
 
 
   //Estoy haciendolo con el blueUnits por defecto, habria que recibir quien pasa el turno para mover sus unidades, no las del contrincante
-  passTurn(){
-    for (let i = 0; i < this.blueUnits.length; i++){
-      this.blueUnits[i].passTurn();
+  passTurn(player){
+    if(player === "blue"){
+      for (let i = 0; i < this.blueUnits.length; i++){
+        this.blueUnits[i].passTurn();
+      }
+  }
+  else if(player === "red"){
+    for (let i = 0; i < this.redUnits.length; i++){
+      this.redUnits[i].passTurn();
     }
+  }
     
   }
 }

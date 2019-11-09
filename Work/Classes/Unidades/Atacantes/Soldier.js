@@ -14,6 +14,7 @@ export default class Soldier extends Atacante{
         this.canAttack = [];
         this.attacking = undefined;
  
+        this.damage = 30;
     }
 
     passTurn(){
@@ -24,8 +25,9 @@ export default class Soldier extends Atacante{
         }
         else{
             console.log("pium pium a: " +  this.attacking.position.x +  " " + this.attacking.position.y);
+
+            this.attacking.receiveDamage(this.damage);
         }
-        
     }
 
     checkAttack(){ //Ataca en cruz
@@ -34,7 +36,7 @@ export default class Soldier extends Atacante{
             if(this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy.owner !== this.owner) {
                     
-                    this.canAttack[0] = this.scene.tablero.casillas[this.position.x -1][y].OccupiedBy;
+                    this.canAttack[0] = this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy;
                 
             }
             else{

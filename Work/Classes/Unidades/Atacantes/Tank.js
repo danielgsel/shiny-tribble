@@ -13,6 +13,7 @@ export default class Tank extends Atacante{
 
         this.attacking = undefined;
  
+        this.damage = 10;
     }
 
     passTurn(){
@@ -23,6 +24,8 @@ export default class Tank extends Atacante{
         }
         else{
             console.log("pium pium a: " +  this.attacking.position.x +  " " + this.attacking.position.y);
+
+            this.attacking.receiveDamage(this.damage);
         }
     }
     checkAttack(){ //Ataqu
