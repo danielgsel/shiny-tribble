@@ -82,6 +82,10 @@ export default class Game extends Phaser.Scene {
 
       //TEST DE UNIDADES
 
+
+      //Esta manera de inicializar cosas es un puto lio, pero es porque es test
+      //Cuando los generemos correctamente en la creacion in - game serán parametros y será automático
+
       //azules
       this.blueUnits = [];
       this.blueUnits.push(new Archer(this, 5,8,100, "blueArcher", "left", "blue"));
@@ -103,7 +107,7 @@ export default class Game extends Phaser.Scene {
       this.tablero.casillas[7][3].OccupiedBy = this.redUnits[2];
 
 
-      this.redUnits.push(new Trabajador(this, 5, 10, 100, "red"));
+      this.redUnits.push(new Trabajador(this, 5, 10, 100, "red")); //Los trabajadores van en el mismo array que los atacantes para facilitar la destruccion
       this.tablero.casillas[5][10].OccupiedBy = this.redUnits[3];
       
 
