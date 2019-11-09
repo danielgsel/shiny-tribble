@@ -8,6 +8,8 @@ import Archer from "./Unidades/Atacantes/Archer.js";
 import Tank from "./Unidades/Atacantes/Tank.js"
 import Soldier from "./Unidades/Atacantes/Soldier.js"
 import Cannon from "./Estructuras/Cannon.js"
+import Tower from "./Estructuras/Torre.js"
+import Mortar from "./Estructuras/Morterto.js"
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -26,6 +28,10 @@ export default class Game extends Phaser.Scene {
     //Estructuras
     this.load.image('redCannon', 'assets/imagenes/redCannon.png');
     this.load.image('blueCannon', 'assets/imagenes/blueCannon.png');
+    this.load.image('blueMortar', 'assets/imagenes/blueMortar.png');
+    this.load.image('redMortar', 'assets/imagenes/redMortar.png');
+    this.load.image('blueTower', 'assets/imagenes/blueTower.png');
+    this.load.image('redTower', 'assets/imagenes/redTower.png');
       
     //Unidad(es)
     this.load.image('worker',' assets/imagenes/worker.png' );
@@ -115,10 +121,11 @@ export default class Game extends Phaser.Scene {
       //TEST DE ESTRUCTURAS
 
       this.blueDefenses = [];
-      this.blueDefenses.push(new Cannon('blue', [5, 3], 5, 5, this));
+      this.blueDefenses.push(new Cannon('blue', [5, 3], 5, 3, this));
+      this.blueDefenses.push(new Tower('blue', [7, 3], 7, 3, this));
 
       this.redDefenses = [];
-      this.redDefenses.push(new Cannon('red', [5, 6], 5, 3, this));
+      this.redDefenses.push(new Cannon('red', [5, 6], 5, 6, this));
 
   }
 
