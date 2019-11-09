@@ -31,7 +31,7 @@ export default class Game extends Phaser.Scene {
 
     this.load.image('redTank', 'assets/imagenes/RedTank.png');
     this.load.image('redSoldier', 'assets/imagenes/RedSoldier.png');
-    this.load.image('redSoldier', 'assets/imagenes/RedSoldier.png');
+    this.load.image('redArcher', 'assets/imagenes/RedArcher.png');
 
 
     //Menus
@@ -72,15 +72,15 @@ export default class Game extends Phaser.Scene {
       this.menuMovimiento.depth = 1;
 
 
-      //TEST TRABAJADORES
-      this.workers = [];
-      //this.workers.push(new Trabajador(this, 5, 0));
-      this.workers.push(new Trabajador(this, 5, 10, 100, "red"));
-      //this.tablero.casillas[5][0].OccupiedBy = this.workers[0];
-      this.tablero.casillas[5][10].OccupiedBy = this.workers[0];
+      // TEST TRABAJADORES
+      // this.workers = [];
+      // this.workers.push(new Trabajador(this, 5, 0));
+      // this.workers.push(new Trabajador(this, 5, 10, 100, "red"));
+      // this.tablero.casillas[5][0].OccupiedBy = this.workers[0];
+      // this.tablero.casillas[5][10].OccupiedBy = this.workers[0];
       
 
-      //TEST DE ATACANTES
+      //TEST DE UNIDADES
 
       //azules
       this.blueUnits = [];
@@ -99,9 +99,12 @@ export default class Game extends Phaser.Scene {
       this.tablero.casillas[7][6].OccupiedBy = this.redUnits[0];
       this.redUnits.push(new Tank(this, 7,9,100, "redTank", "up", "red"));
       this.tablero.casillas[7][9].OccupiedBy = this.redUnits[1];
-      this.redUnits.push(new Soldier(this, 7,3,100, "redSoldier", "left", "red"));
+      this.redUnits.push(new Archer(this, 7,3,100, "redArcher", "left", "red"));
       this.tablero.casillas[7][3].OccupiedBy = this.redUnits[2];
 
+
+      this.redUnits.push(new Trabajador(this, 5, 10, 100, "red"));
+      this.tablero.casillas[5][10].OccupiedBy = this.redUnits[3];
       
 
       this.KeyB = this.input.keyboard.addKey('B');
@@ -260,4 +263,30 @@ export default class Game extends Phaser.Scene {
   }
     
   }
+
+  deleteUnit(owner){
+    if(owner === "red"){
+      let deleted = false;
+      let i = 0;
+      while(i < this.redUnits.length && !deleted){
+        if(this.redUnits[i].deleteMe){
+          this.redUnits.splice(i,1);
+          deleted = true;
+        }
+        i++;
+      }
+    }
+
+    else{
+      let deleted = false;
+      let i = 0;
+      while(i < this.blueUnits.length && !deleted){
+        if(this.blueUnits[i].deleteMe){
+          this.blueUnits.splice(i,1);
+          deleted = true;
+        }
+        i++;
+      }
+  }
+}
 }

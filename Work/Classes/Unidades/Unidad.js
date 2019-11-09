@@ -9,6 +9,9 @@ export default class Unidad extends Phaser.GameObjects.Sprite {
     this.sprite = scene.add.image(positionx * scene.squareSize + scene.offset, positiony * scene.squareSize + scene.offset, unitSpriteName);  //Referencia a su imagen en la escena
     this.scene = scene;
 
+
+    this.deleteMe= false;
+
     if(this.owner === "red"){
       this.healthbar = scene.add.image(positionx * scene.squareSize + scene.offset, positiony * scene.squareSize + scene.offset - 40, "healthBar").setVisible(false);
   
@@ -41,6 +44,10 @@ export default class Unidad extends Phaser.GameObjects.Sprite {
       this.sprite.destroy();
       this.healthbar.destroy(); 
       this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
+
+      this.deleteMe = true;
+      this.scene.deleteUnit(this.owner);
+
     }
   }
 
