@@ -38,4 +38,8 @@ export default class Trabajador extends Unidad {
       console.log("unselected worker " + this.positionx + " " + this.positiony);
     
   }
+
+  passTurn(){
+    
+  }
 }

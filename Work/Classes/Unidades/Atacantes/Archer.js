@@ -38,7 +38,7 @@ export default class Archer extends Atacante{
             if(this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy.owner !== this.owner) {
                     
-                    this.canAttack[0] = this.scene.tablero.casillas[this.position.x -1][y].OccupiedBy;
+                    this.canAttack[0] = this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy;
                 
             }
             else{
