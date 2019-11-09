@@ -7,6 +7,7 @@ import Trabajador from "./Unidades/Trabajador.js";
 import Archer from "./Unidades/Atacantes/Archer.js";
 import Tank from "./Unidades/Atacantes/Tank.js"
 import Soldier from "./Unidades/Atacantes/Soldier.js"
+import Cannon from "./Estructuras/Cannon.js"
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -21,6 +22,10 @@ export default class Game extends Phaser.Scene {
   preload() {  
     //Casillas
     this.loadCasillas();
+
+    //Estructuras
+    this.load.image('redCannon', 'assets/imagenes/redCannon.png');
+    this.load.image('blueCannon', 'assets/imagenes/blueCannon.png');
       
     //Unidad(es)
     this.load.image('worker',' assets/imagenes/worker.png' );
@@ -88,27 +93,17 @@ export default class Game extends Phaser.Scene {
 
       //azules
       this.blueUnits = [];
-      this.blueUnits.push(new Archer(this, 5,8,100, "blueArcher", "left", "blue"));
-      this.tablero.casillas[5][8].OccupiedBy = this.blueUnits[0];
-      this.blueUnits.push(new Soldier(this, 3,6,100, "blueSoldier", "right", "blue"));
-      this.tablero.casillas[3][6].OccupiedBy = this.blueUnits[1];
-      this.blueUnits.push(new Tank(this, 5,3,100, "blueTank", "right", "blue"));
-      this.tablero.casillas[5][3].OccupiedBy = this.blueUnits[2];
-
-
+      this.blueUnits.push(new Tank(this, 4,4,100, "blueTank", "down", "blue"));
+      this.tablero.casillas[4][4].OccupiedBy = this.blueUnits[0];
 
       //rojos
       this.redUnits = [];
-      this.redUnits.push(new Soldier(this, 7,6,100, "redSoldier", "up", "red"));
-      this.tablero.casillas[7][6].OccupiedBy = this.redUnits[0];
-      this.redUnits.push(new Tank(this, 7,9,100, "redTank", "up", "red"));
-      this.tablero.casillas[7][9].OccupiedBy = this.redUnits[1];
-      this.redUnits.push(new Archer(this, 7,3,100, "redArcher", "left", "red"));
-      this.tablero.casillas[7][3].OccupiedBy = this.redUnits[2];
+      this.redUnits.push(new Tank(this, 6,9,100, "redTank", "up", "red"));
+      this.tablero.casillas[6][9].OccupiedBy = this.redUnits[0];
 
 
-      this.redUnits.push(new Trabajador(this, 5, 10, 100, "red")); //Los trabajadores van en el mismo array que los atacantes para facilitar la destruccion
-      this.tablero.casillas[5][10].OccupiedBy = this.redUnits[3];
+      this.redUnits.push(new Trabajador(this, 6, 10, 100, "red")); //Los trabajadores van en el mismo array que los atacantes para facilitar la destruccion
+      this.tablero.casillas[6][10].OccupiedBy = this.redUnits[0];
       
 
       this.KeyB = this.input.keyboard.addKey('B');
@@ -116,6 +111,14 @@ export default class Game extends Phaser.Scene {
 
       this.blueTurn = false;
       this.redTurn = false;
+
+      //TEST DE ESTRUCTURAS
+
+      this.blueDefenses = [];
+      this.blueDefenses.push(new Cannon('blue', [5, 3], 5, 5, this));
+
+      this.redDefenses = [];
+      this.redDefenses.push(new Cannon('red', [5, 6], 5, 3, this));
 
   }
 
@@ -125,9 +128,8 @@ export default class Game extends Phaser.Scene {
 
     this.updateMenus();
 
-
-
     //PLAYTEST DE TURNOS 
+    {
     if(this.KeyR.isDown&& !this.redTurn)  {
       this.passTurn("red");
       this.redTurn = true
@@ -145,10 +147,9 @@ export default class Game extends Phaser.Scene {
     if(this.KeyB.isUp){
       this.blueTurn = false;
     }
+    }
 
     if(this.selection !== undefined) this.selection.onSelected(); //como idea
-    //this.processSelection();
-
   }
 
 
@@ -259,12 +260,20 @@ export default class Game extends Phaser.Scene {
       for (let i = 0; i < this.blueUnits.length; i++){
         this.blueUnits[i].passTurn();
       }
-  }
-  else if(player === "red"){
-    for (let i = 0; i < this.redUnits.length; i++){
-      this.redUnits[i].passTurn();
+
+      for (let i = 0; i < this.blueDefenses.length; i++){
+        this.blueDefenses[i].passTurn();
+      }
     }
-  }
+    else if(player === "red"){
+      for (let i = 0; i < this.redUnits.length; i++){
+        this.redUnits[i].passTurn();
+      }
+
+      for (let i = 0; i < this.redDefenses.length; i++){
+        this.redDefenses[i].passTurn();
+      }
+    }
     
   }
 

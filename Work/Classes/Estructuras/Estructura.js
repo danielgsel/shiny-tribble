@@ -1,12 +1,11 @@
 export default class Estructura extends Phaser.GameObjects.Sprite {
-    constructor( x, y, scene) {
+    constructor( spriteName, hp, owner, tabPos, x, y, scene) {
       super(scene, x, y, 'estructura');
 
-      this.stats = {
-        position: { x: tabPos[0], y: tabPos[1]},
-        owner: owner,
-        hp: hp
-      }
+      this.position = { x: tabPos[0], y: tabPos[1]};
+      this.owner = owner;
+      this.hp = hp;
+      this.sprite = scene.add.image(tabPos[0] * scene.squareSize + scene.offset, tabPos[1] * scene.squareSize + scene.offset, spriteName);
 
     }
 }
