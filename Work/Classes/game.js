@@ -101,6 +101,9 @@ export default class Game extends Phaser.Scene {
       this.blueUnits = [];
       this.blueUnits.push(new Tank(this, 4,4,100, "blueTank", "down", "blue"));
       this.tablero.casillas[4][4].OccupiedBy = this.blueUnits[0];
+      this.blueUnits.push(new Archer(this, 7,9,100, "blueArcher", "right", "blue"));
+      this.tablero.casillas[4][4].OccupiedBy = this.blueUnits[1];
+
 
       //rojos
       this.redUnits = [];
@@ -109,7 +112,7 @@ export default class Game extends Phaser.Scene {
 
 
       this.redUnits.push(new Trabajador(this, 6, 10, 100, "red")); //Los trabajadores van en el mismo array que los atacantes para facilitar la destruccion
-      this.tablero.casillas[6][10].OccupiedBy = this.redUnits[0];
+      this.tablero.casillas[6][10].OccupiedBy = this.redUnits[1];
       
 
       this.KeyB = this.input.keyboard.addKey('B');
