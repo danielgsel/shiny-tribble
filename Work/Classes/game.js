@@ -102,7 +102,7 @@ export default class Game extends Phaser.Scene {
       this.blueUnits.push(new Tank(this, 4,4,100, "blueTank", "down", "blue"));
       this.tablero.casillas[4][4].OccupiedBy = this.blueUnits[0];
       this.blueUnits.push(new Archer(this, 7,9,100, "blueArcher", "right", "blue"));
-      this.tablero.casillas[4][4].OccupiedBy = this.blueUnits[1];
+      this.tablero.casillas[7][9].OccupiedBy = this.blueUnits[1];
 
 
       //rojos
