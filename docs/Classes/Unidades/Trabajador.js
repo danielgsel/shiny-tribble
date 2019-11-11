@@ -1,9 +1,9 @@
 import Unidad from "./Unidad.js";
 
 export default class Trabajador extends Unidad {
-  constructor(scene, positionx, positiony, hp) {
+  constructor(scene, positionx, positiony, hp, owner) {
 
-    super(scene, positionx, positiony, hp, 'worker');
+    super(scene, positionx, positiony, hp, 'worker', owner);
       
     this.sprite.setInteractive();
     this.sprite.on('pointerdown', () => {
@@ -16,7 +16,6 @@ export default class Trabajador extends Unidad {
     this.positionx = positionx;
     this.positiony = positiony;
     this.moveDone = false;
-    this.spriteSelected = 'workerSelected';   //Provisional
   }
   
   moveWorker(x, y){
@@ -28,6 +27,7 @@ export default class Trabajador extends Unidad {
 
   selected(){
     console.log("selected worker " + this.positionx + " " + this.positiony);
+    
   }
 
   onSelected(){
@@ -35,6 +35,11 @@ export default class Trabajador extends Unidad {
   }
 
   unselected(){
-    console.log("unselected worker " + this.positionx + " " + this.positiony);
+      console.log("unselected worker " + this.positionx + " " + this.positiony);
+    
+  }
+
+  passTurn(){
+    
   }
 }
