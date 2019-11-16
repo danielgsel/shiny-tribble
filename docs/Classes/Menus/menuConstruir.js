@@ -23,7 +23,7 @@ export default class MenuConstruir extends Phaser.GameObjects.Container{
 
     updateMenu(){
         let casilla = this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y];
-        console.log(this.scene.selection.position.x + " " +this.scene.selection.position.y + " " + casilla.sprite);
+        //console.log(this.scene.selection.position.x + " " +this.scene.selection.position.y + " " + casilla.sprite);
 
         if (casilla.resources){
             

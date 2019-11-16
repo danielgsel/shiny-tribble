@@ -4,7 +4,8 @@ export default class Casilla extends Phaser.GameObjects.Sprite {
       super(scene, x, y ,'casilla');
       
       this.sprite = undefined;
-      this.OccupiedBy = undefined;
+      this.OccupiedBy = undefined;  //Unidades
+      this.estructurePlaced = undefined;  //Estructuras
       this.inexistente = false;
       this.vacia = false;
       this.base = false;

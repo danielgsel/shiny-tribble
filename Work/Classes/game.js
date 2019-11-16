@@ -36,10 +36,15 @@ export default class Game extends Phaser.Scene {
     //Unidad(es)
     this.load.image('worker',' assets/imagenes/worker.png' );
     this.load.image('workerSelected',' assets/imagenes/workerSelected.png' );
+
+
+    //Azules
     this.load.image('blueArcher', 'assets/imagenes/BlueArcher.png');
     this.load.image('blueTank', 'assets/imagenes/BlueTank.png');
     this.load.image('blueSoldier', 'assets/imagenes/BlueSoldier.png');
 
+
+    //Rojos
     this.load.image('redTank', 'assets/imagenes/RedTank.png');
     this.load.image('redSoldier', 'assets/imagenes/RedSoldier.png');
     this.load.image('redArcher', 'assets/imagenes/RedArcher.png');
@@ -103,6 +108,9 @@ export default class Game extends Phaser.Scene {
       this.blueUnits = [];
       this.blueUnits.push(new Tank(this, 4,4,100, "blueTank", "down", "blue"));
       this.tablero.casillas[4][4].OccupiedBy = this.blueUnits[0];
+      this.blueUnits.push(new Archer(this, 7,9,100, "blueArcher", "right", "blue"));
+      this.tablero.casillas[7][9].OccupiedBy = this.blueUnits[1];
+
 
       //rojos
       this.redUnits = [];
@@ -112,10 +120,6 @@ export default class Game extends Phaser.Scene {
 
       this.redUnits.push(new Trabajador(this, 6, 10, 50, "red")); //Los trabajadores van en el mismo array que los atacantes para facilitar la destruccion
       this.tablero.casillas[6][10].OccupiedBy = this.redUnits[0];
-
-      this.redUnits.push(new Trabajador(this, 5, 10, 50, "red"));
-      this.tablero.casillas[5][10].OccupiedBy = this.redUnits[0];
-      
 
       this.KeyB = this.input.keyboard.addKey('B');
       this.KeyR = this.input.keyboard.addKey('R');

@@ -57,7 +57,7 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
 
   }
 
-  DecideForests(){   
+  DecideForests(){    //cambiar fors por whiles!!!!!!!!!!
     //Mitad superior
 
     for (let a = 0; a < this.scene.numEstructurasRecursos; a++ ){
@@ -98,6 +98,8 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
         this.casillas[i][j] = new CasillaMountain(this.scene, i, j);
       }
       else a--;
+
+      
     }
 
 

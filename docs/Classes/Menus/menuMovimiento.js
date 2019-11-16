@@ -66,24 +66,24 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
             this.scene.tablero.casillas[x][y] !== undefined && this.scene.tablero.casillas[x][y].OccupiedBy === undefined){
             if (this.arrowVisible !== undefined) this.arrowVisible.visible = false;
             
-            let dir = {
+            let coord = {
                 x : x - this.scene.selection.position.x,
                 y : y - this.scene.selection.position.y
             }
 
-            if (dir.x === 0){
-                if (dir.y === 1) this.arrowVisible = this.down;
-                else if (dir.y === -1) this.arrowVisible = this.up;
+            if (coord.x === 0){
+                if (coord.y === 1) this.arrowVisible = this.down;
+                else if (coord.y === -1) this.arrowVisible = this.up;
             } 
-            else if(dir.x === 1){
-                if(dir.y === 1) this.arrowVisible = this.downRight;
-                else if (dir.y === 0) this.arrowVisible = this.right;
-                else if (dir.y === -1) this.arrowVisible = this.upRight;
+            else if(coord.x === 1){
+                if(coord.y === 1) this.arrowVisible = this.downRight;
+                else if (coord.y === 0) this.arrowVisible = this.right;
+                else if (coord.y === -1) this.arrowVisible = this.upRight;
             }
-            else if(dir.x === -1){
-                if(dir.y === 1) this.arrowVisible = this.downLeft;
-                else if (dir.y === 0) this.arrowVisible = this.left;
-                else if (dir.y === -1) this.arrowVisible = this.upLeft;
+            else if(coord.x === -1){
+                if(coord.y === 1) this.arrowVisible = this.downLeft;
+                else if (coord.y === 0) this.arrowVisible = this.left;
+                else if (coord.y === -1) this.arrowVisible = this.upLeft;
             }
 
             if (this.arrowVisible !== undefined) this.arrowVisible.visible = true;
