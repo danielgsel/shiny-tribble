@@ -57,7 +57,9 @@ export default class Game extends Phaser.Scene {
     this.load.image('healthBar', 'assets/imagenes/health.png');
     this.load.image('blueHealthBar', 'assets/imagenes/blueHealth.png');
 
-
+    this.load.image('cannonMenu', 'assets/imagenes/cannonMenu.png');
+    this.load.image('towerMenu', 'assets/imagenes/towerMenu.png');
+    this.load.image('mortarMenu', 'assets/imagenes/mortarMenu.png');
     
     //Seleccion
     this.load.image('selectionIcon', 'assets/imagenes/SelectionIcon.png');
@@ -108,8 +110,11 @@ export default class Game extends Phaser.Scene {
       this.tablero.casillas[6][9].OccupiedBy = this.redUnits[0];
 
 
-      this.redUnits.push(new Trabajador(this, 6, 10, 100, "red")); //Los trabajadores van en el mismo array que los atacantes para facilitar la destruccion
+      this.redUnits.push(new Trabajador(this, 6, 10, 50, "red")); //Los trabajadores van en el mismo array que los atacantes para facilitar la destruccion
       this.tablero.casillas[6][10].OccupiedBy = this.redUnits[0];
+
+      this.redUnits.push(new Trabajador(this, 5, 10, 50, "red"));
+      this.tablero.casillas[5][10].OccupiedBy = this.redUnits[0];
       
 
       this.KeyB = this.input.keyboard.addKey('B');
@@ -121,11 +126,8 @@ export default class Game extends Phaser.Scene {
       //TEST DE ESTRUCTURAS
 
       this.blueDefenses = [];
-      this.blueDefenses.push(new Cannon('blue', [5, 3], 5, 3, this));
-      this.blueDefenses.push(new Tower('blue', [7, 3], 7, 3, this));
 
       this.redDefenses = [];
-      this.redDefenses.push(new Cannon('red', [5, 6], 5, 6, this));
 
   }
 
@@ -204,12 +206,13 @@ export default class Game extends Phaser.Scene {
     this.menuConstruir.x = unit.sprite.x;
     this.menuConstruir.y = unit.sprite.y;
     this.menuConstruir.visible = true;
+
+    this.menuConstruir.updateMenu();
   }
 
   updateMenus(){
     if(this.selection !== undefined){
       this.menuMovimiento.updateMenu();
-      this.menuConstruir.updateMenu();
     }
   }
 
@@ -222,22 +225,6 @@ export default class Game extends Phaser.Scene {
       this.menuMovimiento.visible = false;
     } 
 
-  }
-
-  processSelection(){
-    if (this.selection !== undefined ){
-      switch(this.selection.stats.type){
-        case 'Trabajador':
-          if (!this.selection.stats.selected){
-            this.selection.selected();
-          }
-          else if (this.selection.stats.moving){
-            this.printArrow(); 
-            this.moveSelected();
-          }
-        break;
-      }
-    }
   }
 
   moveSelected(){
@@ -296,7 +283,6 @@ export default class Game extends Phaser.Scene {
         i++;
       }
     }
-
     else{
       let deleted = false;
       let i = 0;
@@ -309,4 +295,32 @@ export default class Game extends Phaser.Scene {
       }
   }
 }
+
+buildStructure(i){
+  switch(i){
+    case 0:   //Cannon
+      this.redDefenses.push(new Cannon(this.selection.owner, [this.selection.position.x, this.selection.position.y], 0, 0, this));
+      this.tablero.casillas[this.selection.position.x][this.selection.position.y].estructurePlaced = this.blueDefenses[this.blueDefenses.length - 1];
+      this.selection.destroyMe();
+      break;
+    case 1:   //Tower
+      this.redDefenses.push(new Tower(this.selection.owner, [this.selection.position.x, this.selection.position.y], 0, 0, this));
+      this.tablero.casillas[this.selection.position.x][this.selection.position.y].estructurePlaced = this.blueDefenses[this.blueDefenses.length - 1];
+      this.selection.destroyMe();
+      break;
+    case 2:   //Mortar
+      this.redDefenses.push(new Mortar(this.selection.owner, [this.selection.position.x, this.selection.position.y], 0, 0, this));
+      this.tablero.casillas[this.selection.position.x][this.selection.position.y].estructurePlaced = this.blueDefenses[this.blueDefenses.length - 1];
+      this.selection.destroyMe();
+      break;
+    case 3:   //Recursos
+      
+      break;
+  }
+
+  this.selectionIcon.visible = false;
+  this.menuConstruir.visible = false;
+  this.menuMovimiento.visible = false;
+}
+
 }
