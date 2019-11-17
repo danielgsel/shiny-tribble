@@ -306,17 +306,17 @@ buildStructure(i){
   switch(i){
     case 0:   //Cannon
       this.redDefenses.push(new Cannon(this.selection.owner, [this.selection.position.x, this.selection.position.y], 0, 0, this));
-      this.tablero.casillas[this.selection.position.x][this.selection.position.y].estructurePlaced = this.blueDefenses[this.blueDefenses.length - 1];
+      this.tablero.casillas[this.selection.position.x][this.selection.position.y].estructurePlaced = this.redDefenses[this.redDefenses.length - 1];
       this.selection.destroyMe();
       break;
     case 1:   //Tower
       this.redDefenses.push(new Tower(this.selection.owner, [this.selection.position.x, this.selection.position.y], 0, 0, this));
-      this.tablero.casillas[this.selection.position.x][this.selection.position.y].estructurePlaced = this.blueDefenses[this.blueDefenses.length - 1];
+      this.tablero.casillas[this.selection.position.x][this.selection.position.y].estructurePlaced = this.redDefenses[this.redDefenses.length - 1];
       this.selection.destroyMe();
       break;
     case 2:   //Mortar
       this.redDefenses.push(new Mortar(this.selection.owner, [this.selection.position.x, this.selection.position.y], 0, 0, this));
-      this.tablero.casillas[this.selection.position.x][this.selection.position.y].estructurePlaced = this.blueDefenses[this.blueDefenses.length - 1];
+      this.tablero.casillas[this.selection.position.x][this.selection.position.y].estructurePlaced = this.redDefenses[this.redDefenses.length - 1];
       this.selection.destroyMe();
       break;
     case 3:   //Recursos
