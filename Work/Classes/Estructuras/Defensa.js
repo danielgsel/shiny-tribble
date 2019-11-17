@@ -31,7 +31,7 @@ export default class Defensa extends Estructura{
             }
         }
 
-        console.log('encontrados ' + enemiesFound.length + ' enemigos');
+        //console.log('encontrados ' + enemiesFound.length + ' enemigos');
 
         if (enemiesFound.length > 0){
             let weakestAttacker = enemiesFound[0];

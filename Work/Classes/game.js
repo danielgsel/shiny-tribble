@@ -120,6 +120,8 @@ export default class Game extends Phaser.Scene {
 
       this.redUnits.push(new Trabajador(this, 6, 10, 50, "red")); //Los trabajadores van en el mismo array que los atacantes para facilitar la destruccion
       this.tablero.casillas[6][10].OccupiedBy = this.redUnits[0];
+      this.redUnits.push(new Trabajador(this, 5, 10, 50, "red")); 
+      this.tablero.casillas[5][10].OccupiedBy = this.redUnits[1];
 
       this.KeyB = this.input.keyboard.addKey('B');
       this.KeyR = this.input.keyboard.addKey('R');

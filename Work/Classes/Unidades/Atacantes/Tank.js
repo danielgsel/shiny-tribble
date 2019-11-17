@@ -19,7 +19,7 @@ export default class Tank extends Atacante{
     passTurn(){
         this.checkAttack();
         if(this.attacking === undefined){
-            super.moveAuto();
+            this.moveAuto();       //super???
                 
         }
         else{

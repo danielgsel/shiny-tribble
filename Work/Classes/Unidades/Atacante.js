@@ -2,7 +2,7 @@ import Unidad from "./Unidad.js";
 
 
 
-export default class Soldier extends Unidad{
+export default class Atacante extends Unidad{
     constructor(scene, positionx, positiony, unitHP, unitSpriteName, facing, owner){
 
         super(scene,positionx,positiony,unitHP,unitSpriteName, owner);
