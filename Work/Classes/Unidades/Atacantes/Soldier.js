@@ -20,7 +20,7 @@ export default class Soldier extends Atacante{
     passTurn(){
         this.checkAttack();
         if(this.attacking === undefined){
-            super.moveAuto();
+            this.moveAuto();
                 
         }
         else{
@@ -32,7 +32,7 @@ export default class Soldier extends Atacante{
 
     checkAttack(){ //Ataca en cruz
         
-        if(super.casillaValid(this.position.x -1,this.position.y)){
+        if(this.casillaValid(this.position.x -1,this.position.y)){
             if(this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy.owner !== this.owner) {
                     
@@ -44,7 +44,7 @@ export default class Soldier extends Atacante{
             }
         }
 
-        if(super.casillaValid(this.position.x +1,this.position.y)){
+        if(this.casillaValid(this.position.x +1,this.position.y)){
             if(this.scene.tablero.casillas[this.position.x + 1][this.position.y].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x + 1][this.position.y].OccupiedBy.owner !== this.owner) {
                     

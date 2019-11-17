@@ -19,7 +19,7 @@ export default class Tank extends Atacante{
     passTurn(){
         this.checkAttack();
         if(this.attacking === undefined){
-            this.moveAuto();       //super???
+            this.moveAuto();     
                 
         }
         else{
@@ -29,8 +29,8 @@ export default class Tank extends Atacante{
         }
     }
     checkAttack(){ //Ataqu
-        let facingTo = super.facingTo();
-        if(super.casillaValid(facingTo.x,facingTo.y)){
+        let facingTo = this.facingTo();
+        if(this.casillaValid(facingTo.x,facingTo.y)){
             if(this.scene.tablero.casillas[facingTo.x][facingTo.y].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[facingTo.x][facingTo.y].OccupiedBy.owner !== this.owner) {
                     

@@ -34,7 +34,7 @@ export default class Archer extends Atacante{
 
     checkAttack(){ //Ataca en cruz
         
-        if(super.casillaValid(this.position.x -1,this.position.y)){
+        if(this.casillaValid(this.position.x -1,this.position.y)){
             if(this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy.owner !== this.owner) {
                     
@@ -46,7 +46,7 @@ export default class Archer extends Atacante{
             }
         }
 
-        if(super.casillaValid(this.position.x +1,this.position.y)){
+        if(this.casillaValid(this.position.x +1,this.position.y)){
             if(this.scene.tablero.casillas[this.position.x + 1][this.position.y].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x + 1][this.position.y].OccupiedBy.owner !== this.owner) {
                     
@@ -57,7 +57,7 @@ export default class Archer extends Atacante{
             }
         }
 
-        if(super.casillaValid(this.position.x,this.position.y-1)){
+        if(this.casillaValid(this.position.x,this.position.y-1)){
             if(this.scene.tablero.casillas[this.position.x][this.position.y - 1].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x][this.position.y - 1].OccupiedBy.owner !== this.owner) {
                     
@@ -67,7 +67,7 @@ export default class Archer extends Atacante{
                 this.canAttack[2] = undefined;
                 }
         }
-        if(super.casillaValid(this.position.x ,this.position.y+1)){
+        if(this.casillaValid(this.position.x ,this.position.y+1)){
             if(this.scene.tablero.casillas[this.position.x][this.position.y + 1].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x][this.position.y + 1].OccupiedBy.owner !== this.owner) {
                     
@@ -80,7 +80,7 @@ export default class Archer extends Atacante{
 
         //// Ahora la distancia 2
 
-        if(super.casillaValid(this.position.x -2,this.position.y)){
+        if(this.casillaValid(this.position.x -2,this.position.y)){
             if(this.scene.tablero.casillas[this.position.x -2][this.position.y].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x -2][this.position.y].OccupiedBy.owner !== this.owner) {
                     
@@ -92,7 +92,7 @@ export default class Archer extends Atacante{
             }
         }
 
-        if(super.casillaValid(this.position.x +2,this.position.y)){
+        if(this.casillaValid(this.position.x +2,this.position.y)){
             if(this.scene.tablero.casillas[this.position.x + 2][this.position.y].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x + 2][this.position.y].OccupiedBy.owner !== this.owner) {
                     
@@ -103,7 +103,7 @@ export default class Archer extends Atacante{
             }
         }
 
-        if(super.casillaValid(this.position.x,this.position.y-2)){
+        if(this.casillaValid(this.position.x,this.position.y-2)){
             if(this.scene.tablero.casillas[this.position.x][this.position.y - 2].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x][this.position.y - 2].OccupiedBy.owner !== this.owner) {
                     
@@ -113,7 +113,7 @@ export default class Archer extends Atacante{
                     this.canAttack[6] = undefined;
                 }
         }
-        if(super.casillaValid(this.position.x ,this.position.y+2)){
+        if(this.casillaValid(this.position.x ,this.position.y+2)){
             if(this.scene.tablero.casillas[this.position.x][this.position.y + 2].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x][this.position.y + 2].OccupiedBy.owner !== this.owner) {
                     
