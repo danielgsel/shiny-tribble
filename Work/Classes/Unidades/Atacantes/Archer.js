@@ -38,11 +38,11 @@ export default class Archer extends Atacante{
             if(this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy.owner !== this.owner) {
                     
-                    this.canAttack[0] = this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy;
+                this.canAttack[0] = this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy;
                 
             }
             else{
-                    this.canAttack[0] = undefined;
+                this.canAttack[0] = undefined;
             }
         }
 
@@ -50,7 +50,7 @@ export default class Archer extends Atacante{
             if(this.scene.tablero.casillas[this.position.x + 1][this.position.y].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x + 1][this.position.y].OccupiedBy.owner !== this.owner) {
                     
-                    this.canAttack[1] = this.scene.tablero.casillas[this.position.x + 1][this.position.y].OccupiedBy;
+                this.canAttack[1] = this.scene.tablero.casillas[this.position.x + 1][this.position.y].OccupiedBy;
                 }
             else{
                 this.canAttack[1] = undefined;
@@ -61,20 +61,20 @@ export default class Archer extends Atacante{
             if(this.scene.tablero.casillas[this.position.x][this.position.y - 1].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x][this.position.y - 1].OccupiedBy.owner !== this.owner) {
                     
-                    this.canAttack[2] = this.scene.tablero.casillas[this.position.x][this.position.y - 1].OccupiedBy;
+                this.canAttack[2] = this.scene.tablero.casillas[this.position.x][this.position.y - 1].OccupiedBy;
                 }
             else{
-                    this.canAttack[2] = undefined;
+                this.canAttack[2] = undefined;
                 }
         }
         if(super.casillaValid(this.position.x ,this.position.y+1)){
             if(this.scene.tablero.casillas[this.position.x][this.position.y + 1].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x][this.position.y + 1].OccupiedBy.owner !== this.owner) {
                     
-                    this.canAttack[3] = this.scene.tablero.casillas[this.position.x][this.position.y + 1].OccupiedBy;
+                this.canAttack[3] = this.scene.tablero.casillas[this.position.x][this.position.y + 1].OccupiedBy;
                 }
                 else{
-                    this.canAttack[3] = undefined;
+                this.canAttack[3] = undefined;
             }
         }
 

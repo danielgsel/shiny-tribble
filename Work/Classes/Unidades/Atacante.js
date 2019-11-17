@@ -31,7 +31,7 @@ export default class Atacante extends Unidad{
             }
 
             // else if(this.scene.tablero.casillas[x][y].OccupiedBy.owner !== this.owner){
-            //     console.log("Coño un rojo");
+            //     console.log(" un rojo");
             // }
         }
     }
