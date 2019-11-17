@@ -327,6 +327,8 @@ buildStructure(i){
   this.selectionIcon.visible = false;
   this.menuConstruir.visible = false;
   this.menuMovimiento.visible = false;
+
+  this.selection = undefined;
 }
 
 }

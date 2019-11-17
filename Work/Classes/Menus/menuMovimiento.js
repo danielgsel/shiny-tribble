@@ -60,11 +60,10 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
     updateMenu(){
         let x = Math.floor(this.scene.mouse.worldX/this.scene.squareSize - 1);
         let y = Math.floor(this.scene.mouse.worldY/this.scene.squareSize - 1);
-        let casillaDest = this.scene.tablero.casillas[x][y];
 
         if (x >= 0 && x < this.scene.anchoMundo && y >= 0 && y < this.scene.altoMundo && 
             Math.abs(this.scene.selection.position.x - x) <= 1 && Math.abs(this.scene.selection.position.y - y) <= 1 &&
-            casillaDest !== undefined && casillaDest.OccupiedBy === undefined && casillaDest.estructurePlaced === undefined){
+            this.scene.tablero.casillas[x][y] !== undefined && this.scene.tablero.casillas[x][y].OccupiedBy === undefined && this.scene.tablero.casillas[x][y].estructurePlaced === undefined){
             if (this.arrowVisible !== undefined) this.arrowVisible.visible = false;
             
             let coord = {
