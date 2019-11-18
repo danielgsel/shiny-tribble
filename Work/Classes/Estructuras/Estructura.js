@@ -14,6 +14,8 @@ export default class Estructura extends Phaser.GameObjects.Sprite {
       else {
         this.healthbar = scene.add.image(tabPos[0] * scene.squareSize + scene.offset, tabPos[1] * scene.squareSize + scene.offset - 40, "blueHealthBar").setVisible(false);
       }
+
+      this.destroyMe = false;
     }
 
     receiveDamage(damage){
@@ -26,14 +28,14 @@ export default class Estructura extends Phaser.GameObjects.Sprite {
       this.healthbar.setVisible(true);
       this.healthbar.scaleX = this.hp/100;
 
-      if (this.hp <= 0) {   //Por alguna razon no puedo llamar a destroyMe desde aqui ¿?
+      if (this.hp <= 0) {
         this.sprite.destroy();
         this.healthbar.destroy(); 
-        this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
+        this.scene.tablero.casillas[this.position.x][this.position.y].estructurePlaced = undefined;
         this.scene.selection = undefined;
 
-        this.deleteMe = true;
-        this.scene.deleteUnit(this.owner);
+        this.destroyMe = true;
+        this.scene.deleteStructure(this.owner);
       }
     }
 }

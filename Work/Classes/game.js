@@ -302,6 +302,33 @@ export default class Game extends Phaser.Scene {
   }
 }
 
+deleteStructure(owner){
+  if(owner === "red"){
+    let deleted = false;
+    let i = 0;
+      while(i < this.redDefenses.length && !deleted){
+        if(this.redDefenses[i].destroyMe){
+          this.redDefenses.splice(i,1);
+          deleted = true;
+        }
+        i++;
+      }
+  }
+  else{
+    let deleted = false;
+    let i = 0;
+      while(i < this.blueDefenses.length && !deleted){
+        if(this.blueDefenses[i].destroyMe){
+          this.blueDefenses.splice(i,1);
+          deleted = true;
+        }
+        i++;
+      }
+  }
+
+  console.log(this.redDefenses);
+}
+
 buildStructure(i){
   switch(i){
     case 0:   //Cannon
