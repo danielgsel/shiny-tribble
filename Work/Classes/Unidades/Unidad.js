@@ -12,7 +12,7 @@ export default class Unidad extends Phaser.GameObjects.Sprite {
 
     this.deleteMe= false;
 
-    if(this.owner === "red"){
+    if(this.owner.color === "red"){
       this.healthbar = scene.add.image(positionx * scene.squareSize + scene.offset, positiony * scene.squareSize + scene.offset - 40, "healthBar").setVisible(false);
   
     }

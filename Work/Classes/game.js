@@ -10,6 +10,7 @@ import Soldier from "./Unidades/Atacantes/Soldier.js"
 import Cannon from "./Estructuras/Cannon.js"
 import Tower from "./Estructuras/Torre.js"
 import Mortar from "./Estructuras/Morterto.js"
+import Player from "./Player.js"
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -105,23 +106,40 @@ export default class Game extends Phaser.Scene {
       //Cuando los generemos correctamente en la creacion in - game serán parametros y será automático
 
       //azules
-      this.blueUnits = [];
-      this.blueUnits.push(new Tank(this, 4,4,100, "blueTank", "down", "blue"));
-      this.tablero.casillas[4][4].OccupiedBy = this.blueUnits[0];
-      this.blueUnits.push(new Archer(this, 7,9,100, "blueArcher", "right", "blue"));
-      this.tablero.casillas[7][9].OccupiedBy = this.blueUnits[1];
+      this.bluePlayer = new Player(this, 'blue');
+
+
+      this.bluePlayer.newUnit(4,4,100, 'tank', 'down');
+      this.bluePlayer.newUnit(2,7,100, 'worker', 'up');
+
+      //this.blueUnits = [];
+
+      this.redPlayer = new Player(this, 'red');
+
+      this.redPlayer.newUnit(2,3,100, 'archer', 'down');
+      this.redPlayer.newUnit(7,6,100, 'soldier', 'up');
+
+      //this.blueUnits.push(new Tank(this, 4,4,100, "blueTank", "down", "blue"));
+
+      // this.bluePlayer.Units.push(new Tank(this, 4,4,100, "blueTank", "down", "blue"));
+
+      // this.tablero.casillas[4][4].OccupiedBy = this.bluePlayer.Units[0];
+
+      // this.bluePlayer.Units.push(new Archer(this, 7,9,100, "blueArcher", "right", "blue"));
+
+      // this.tablero.casillas[7][9].OccupiedBy = this.bluePlayer.Units[1];
 
 
       //rojos
-      this.redUnits = [];
-      this.redUnits.push(new Tank(this, 6,9,100, "redTank", "up", "red"));
-      this.tablero.casillas[6][9].OccupiedBy = this.redUnits[0];
+      //this.redUnits = [];
+      // this.redUnits.push(new Tank(this, 6,9,100, "redTank", "up", "red"));
+      // this.tablero.casillas[6][9].OccupiedBy = this.redUnits[0];
 
 
-      this.redUnits.push(new Trabajador(this, 6, 10, 50, "red")); //Los trabajadores van en el mismo array que los atacantes para facilitar la destruccion
-      this.tablero.casillas[6][10].OccupiedBy = this.redUnits[0];
-      this.redUnits.push(new Trabajador(this, 5, 10, 50, "red")); 
-      this.tablero.casillas[5][10].OccupiedBy = this.redUnits[1];
+      // this.redUnits.push(new Trabajador(this, 6, 10, 50, "red")); //Los trabajadores van en el mismo array que los atacantes para facilitar la destruccion
+      // this.tablero.casillas[6][10].OccupiedBy = this.redUnits[0];
+      // this.redUnits.push(new Trabajador(this, 5, 10, 50, "red")); 
+      // this.tablero.casillas[5][10].OccupiedBy = this.redUnits[1];
 
       this.KeyB = this.input.keyboard.addKey('B');
       this.KeyR = this.input.keyboard.addKey('R');
@@ -131,9 +149,9 @@ export default class Game extends Phaser.Scene {
 
       //TEST DE ESTRUCTURAS
 
-      this.blueDefenses = [];
+     // this.blueDefenses = [];
 
-      this.redDefenses = [];
+     // this.redDefenses = [];
 
   }
 
@@ -146,12 +164,12 @@ export default class Game extends Phaser.Scene {
     //PLAYTEST DE TURNOS 
     {
     if(this.KeyR.isDown&& !this.redTurn)  {
-      this.passTurn("red");
+      this.passTurn(this.redPlayer);
       this.redTurn = true
      
     }
     if(this.KeyB.isDown&& !this.blueTurn)  {
-      this.passTurn("blue");
+      this.passTurn(this.bluePlayer);
       this.blueTurn = true
      
     }
@@ -254,53 +272,30 @@ export default class Game extends Phaser.Scene {
   }
 
 
-  //Estoy haciendolo con el blueUnits por defecto, habria que recibir quien pasa el turno para mover sus unidades, no las del contrincante
   passTurn(player){
-    if(player === "blue"){
-      for (let i = 0; i < this.blueUnits.length; i++){
-        this.blueUnits[i].passTurn();
+    for (let i = 0; i < player.Units.length; i++){
+        player.Units[i].passTurn();
       }
 
-      for (let i = 0; i < this.blueDefenses.length; i++){
-        this.blueDefenses[i].passTurn();
-      }
-    }
-    else if(player === "red"){
-      for (let i = 0; i < this.redUnits.length; i++){
-        this.redUnits[i].passTurn();
-      }
-
-      for (let i = 0; i < this.redDefenses.length; i++){
-        this.redDefenses[i].passTurn();
-      }
-    }
-    
+    for (let i = 0; i < player.Units.length; i++){
+      player.Units[i].passTurn();
+      }    
   }
 
   deleteUnit(owner){
-    if(owner === "red"){
-      let deleted = false;
-      let i = 0;
-      while(i < this.redUnits.length && !deleted){
-        if(this.redUnits[i].deleteMe){
-          this.redUnits.splice(i,1);
+    let deleted = false;
+    let i = 0;
+    while(i < owner.Units.length && !deleted){
+        if(owner.Units[i].deleteMe){
+          owner.Units.splice(i,1);
           deleted = true;
         }
         i++;
-      }
     }
-    else{
-      let deleted = false;
-      let i = 0;
-      while(i < this.blueUnits.length && !deleted){
-        if(this.blueUnits[i].deleteMe){
-          this.blueUnits.splice(i,1);
-          deleted = true;
-        }
-        i++;
-      }
-  }
 }
+    
+  
+
 
 deleteStructure(owner){
   if(owner === "red"){
