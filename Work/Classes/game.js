@@ -35,7 +35,8 @@ export default class Game extends Phaser.Scene {
     this.load.image('redTower', 'assets/imagenes/redTower.png');
       
     //Unidad(es)
-    this.load.image('worker',' assets/imagenes/worker.png' );
+    this.load.image('redWorker',' assets/imagenes/worker.png' );
+    this.load.image('blueWorker',' assets/imagenes/BlueWorker.png' );
     this.load.image('workerSelected',' assets/imagenes/workerSelected.png' );
 
 
@@ -66,6 +67,10 @@ export default class Game extends Phaser.Scene {
     this.load.image('cannonMenu', 'assets/imagenes/cannonMenu.png');
     this.load.image('towerMenu', 'assets/imagenes/towerMenu.png');
     this.load.image('mortarMenu', 'assets/imagenes/mortarMenu.png');
+
+    this.load.image('blueTurn', 'assets/imagenes/blueTurn.png');
+    this.load.image('redTurn', 'assets/imagenes/redTurn.png');
+
     
     //Seleccion
     this.load.image('selectionIcon', 'assets/imagenes/SelectionIcon.png');
@@ -89,6 +94,11 @@ export default class Game extends Phaser.Scene {
       this.menuConstruir.depth = 1;
       this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
       this.menuMovimiento.depth = 1;
+
+
+      this.blueTurnImage = this.add.image(300, 100, 'blueTurn').setScale(0.6);
+      this.redTurnImage = this.add.image(300, 100, 'redTurn').setScale(0.6);
+      this.blueTurnImage.visible = false;
 
 
       // TEST TRABAJADORES
@@ -116,7 +126,7 @@ export default class Game extends Phaser.Scene {
 
       this.redPlayer = new Player(this, 'red');
 
-      this.redPlayer.newUnit(2,3,100, 'archer', 'down');
+      this.redPlayer.newUnit(2,3,100, 'archer', 'right');
       this.redPlayer.newUnit(7,6,100, 'soldier', 'up');
 
       //this.blueUnits.push(new Tank(this, 4,4,100, "blueTank", "down", "blue"));
@@ -144,9 +154,10 @@ export default class Game extends Phaser.Scene {
       this.KeyB = this.input.keyboard.addKey('B');
       this.KeyR = this.input.keyboard.addKey('R');
 
-      this.blueTurn = false;
-      this.redTurn = true;
+      this.KeyN = this.input.keyboard.addKey('N');
 
+      this.blueTurn = false;
+      this.canPassTurn = true;
       //TEST DE ESTRUCTURAS
 
      // this.blueDefenses = [];
@@ -177,11 +188,41 @@ export default class Game extends Phaser.Scene {
 
     }
 
-    if(this.KeyR.isUp){
+
+    if(this.KeyN.isDown && this.pasable){
+      if(this.blueTurn){
+        this.passTurn(this.redPlayer);
+        this.blueTurn = false;
+        this.redTurn = false;
+        this.redTurnImage.visible = true;
+        this.blueTurnImage.visible = false;
+
+        for(let i = 0; i < this.bluePlayer.Units.length; i++){
+          this.bluePlayer.Units[i].timesMoved = 0;
+        }
+
+      }
+      else if(!this.blueTurn){
+        this.passTurn(this.bluePlayer);
+        this.redTurn = true;
+        this.blueTurn = true;
+        this.redTurnImage.visible = false;
+        this.blueTurnImage.visible = true;
+
+        for(let i = 0; i < this.redPlayer.Units.length; i++){
+          this.redPlayer.Units[i].timesMoved = 0;
+        }
+
+      }
+      this.pasable = false;
     }
-    if(this.KeyB.isUp){
+
+    
+    if(this.KeyN.isUp){
+      this.pasable = true;
     }
-    }
+    
+}
 
     if(this.selection !== undefined) this.selection.onSelected(); //como idea
   }
@@ -278,18 +319,16 @@ export default class Game extends Phaser.Scene {
         player.Units[i].passTurn();
       }
 
-    for (let i = 0; i < player.Units.length; i++){
-      player.Units[i].passTurn();
-      }    
+    
   }
 
   deleteUnit(owner){
-    let deleted = false;
+   // let deleted = false;
     let i = 0;
-    while(i < owner.Units.length && !deleted){
+    while(i < owner.Units.length){
         if(owner.Units[i].deleteMe){
           owner.Units.splice(i,1);
-          deleted = true;
+          //deleted = true;
         }
         i++;
     }
@@ -299,12 +338,12 @@ export default class Game extends Phaser.Scene {
 
 
   deleteStructure(owner){
-    let deleted = false;
+    //let deleted = false;
       let i = 0;
-      while(i < owner.Structures.length && !deleted){
+      while(i < owner.Structures.length){
           if(owner.Structures[i].deleteMe){
             owner.Structures.splice(i,1);
-            deleted = true;
+            //deleted = true;
           }
           i++;
       }

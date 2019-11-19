@@ -18,7 +18,7 @@ export default class Atacante extends Unidad{
     //     this.moveAuto();
     // }
 
-    moveAuto(range){
+    moveAuto(){
        let facingTo = this.facingTo();
        let x= facingTo.x;
        let y = facingTo.y;
