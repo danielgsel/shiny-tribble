@@ -53,4 +53,33 @@ export default class Player{
         
     }
 
+    newStructure(i){
+        switch(i){
+          case 0:   //Cannon
+            this.Structures.push(new Cannon(this, [this.scene.selection.position.x, this.scene.selection.position.y], 0, 0, this.scene));
+            this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
+            this.scene.selection.destroyMe();
+            break;
+          case 1:   //Tower
+          this.Structures.push(new Tower(this, [this.scene.selection.position.x, this.scene.selection.position.y], 0, 0, this.scene));
+          this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
+          this.scene.selection.destroyMe();
+            break;
+          case 2:   //Mortar
+          this.Structures.push(new Mortar(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene));
+          this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
+          this.scene.selection.destroyMe();
+            break;
+          case 3:   //Recursos
+            
+            break;
+        }
+      
+        this.scene.selectionIcon.visible = false;
+        this.scene.menuConstruir.visible = false;
+        this.scene.menuMovimiento.visible = false;
+      
+        this.scene.selection = undefined;
+      }
+
 }

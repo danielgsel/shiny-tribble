@@ -7,7 +7,7 @@ export default class Estructura extends Phaser.GameObjects.Sprite {
       this.hp = hp;
       this.sprite = scene.add.image(tabPos[0] * scene.squareSize + scene.offset, tabPos[1] * scene.squareSize + scene.offset, spriteName);
 
-      if(this.owner === "red"){
+      if(this.owner.color === "red"){
         this.healthbar = scene.add.image(tabPos[0] * scene.squareSize + scene.offset, tabPos[1] * scene.squareSize + scene.offset - 40, "healthBar").setVisible(false);
     
       }

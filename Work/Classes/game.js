@@ -298,60 +298,22 @@ export default class Game extends Phaser.Scene {
   
 
 
-deleteStructure(owner){
-  if(owner === "red"){
+  deleteStructure(owner){
     let deleted = false;
-    let i = 0;
-      while(i < this.redDefenses.length && !deleted){
-        if(this.redDefenses[i].destroyMe){
-          this.redDefenses.splice(i,1);
-          deleted = true;
-        }
-        i++;
+      let i = 0;
+      while(i < owner.Structures.length && !deleted){
+          if(owner.Structures[i].deleteMe){
+            owner.Structures.splice(i,1);
+            deleted = true;
+          }
+          i++;
       }
-  }
-  else{
-    let deleted = false;
-    let i = 0;
-      while(i < this.blueDefenses.length && !deleted){
-        if(this.blueDefenses[i].destroyMe){
-          this.blueDefenses.splice(i,1);
-          deleted = true;
-        }
-        i++;
-      }
+    }
+
+  buildStructure(i){
+    this.selection.owner.newStructure(i);
   }
 
-  console.log(this.redDefenses);
-}
 
-buildStructure(i){
-  switch(i){
-    case 0:   //Cannon
-      this.redDefenses.push(new Cannon(this.selection.owner, [this.selection.position.x, this.selection.position.y], 0, 0, this));
-      this.tablero.casillas[this.selection.position.x][this.selection.position.y].estructurePlaced = this.redDefenses[this.redDefenses.length - 1];
-      this.selection.destroyMe();
-      break;
-    case 1:   //Tower
-      this.redDefenses.push(new Tower(this.selection.owner, [this.selection.position.x, this.selection.position.y], 0, 0, this));
-      this.tablero.casillas[this.selection.position.x][this.selection.position.y].estructurePlaced = this.redDefenses[this.redDefenses.length - 1];
-      this.selection.destroyMe();
-      break;
-    case 2:   //Mortar
-      this.redDefenses.push(new Mortar(this.selection.owner, [this.selection.position.x, this.selection.position.y], 0, 0, this));
-      this.tablero.casillas[this.selection.position.x][this.selection.position.y].estructurePlaced = this.redDefenses[this.redDefenses.length - 1];
-      this.selection.destroyMe();
-      break;
-    case 3:   //Recursos
-      
-      break;
-  }
-
-  this.selectionIcon.visible = false;
-  this.menuConstruir.visible = false;
-  this.menuMovimiento.visible = false;
-
-  this.selection = undefined;
-}
 
 }
