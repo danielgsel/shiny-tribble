@@ -145,7 +145,7 @@ export default class Game extends Phaser.Scene {
       this.KeyR = this.input.keyboard.addKey('R');
 
       this.blueTurn = false;
-      this.redTurn = false;
+      this.redTurn = true;
 
       //TEST DE ESTRUCTURAS
 
@@ -163,22 +163,23 @@ export default class Game extends Phaser.Scene {
 
     //PLAYTEST DE TURNOS 
     {
-    if(this.KeyR.isDown&& !this.redTurn)  {
+    if(this.KeyR.isDown&& !this.redTurn && this.blueTurn)  {
       this.passTurn(this.redPlayer);
       this.redTurn = true
+      this.blueTurn = false;
+      
      
     }
-    if(this.KeyB.isDown&& !this.blueTurn)  {
+    if(this.KeyB.isDown&& !this.blueTurn&& this.redTurn)  {
       this.passTurn(this.bluePlayer);
       this.blueTurn = true
-     
+      this.redTurn = false;
+
     }
 
     if(this.KeyR.isUp){
-      this.redTurn = false;
     }
     if(this.KeyB.isUp){
-      this.blueTurn = false;
     }
     }
 
