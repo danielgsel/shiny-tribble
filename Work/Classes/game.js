@@ -116,11 +116,11 @@ export default class Game extends Phaser.Scene {
 
       //TEST DE UNIDADES
 
-      this.bluePlayer.newUnit(4,4,100, 'tank', 'down');
+      this.bluePlayer.newUnit(4,4,100, 'tank', 'upright');
       this.bluePlayer.newUnit(2,7,100, 'worker', 'up');
 
-      this.redPlayer.newUnit(2,3,100, 'archer', 'right');
-      this.redPlayer.newUnit(7,6,100, 'soldier', 'up');
+      this.redPlayer.newUnit(2,3,100, 'archer', 'downright');
+      this.redPlayer.newUnit(7,6,100, 'soldier', 'upleft');
 
       ///////////////////////////////////
 

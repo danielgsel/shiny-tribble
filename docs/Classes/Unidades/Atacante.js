@@ -2,7 +2,7 @@ import Unidad from "./Unidad.js";
 
 
 
-export default class Soldier extends Unidad{
+export default class Atacante extends Unidad{
     constructor(scene, positionx, positiony, unitHP, unitSpriteName, facing, owner){
 
         super(scene,positionx,positiony,unitHP,unitSpriteName, owner);
@@ -18,7 +18,7 @@ export default class Soldier extends Unidad{
     //     this.moveAuto();
     // }
 
-    moveAuto(range){
+    moveAuto(){
        let facingTo = this.facingTo();
        let x= facingTo.x;
        let y = facingTo.y;
@@ -31,7 +31,7 @@ export default class Soldier extends Unidad{
             }
 
             // else if(this.scene.tablero.casillas[x][y].OccupiedBy.owner !== this.owner){
-            //     console.log("Coño un rojo");
+            //     console.log(" un rojo");
             // }
         }
     }

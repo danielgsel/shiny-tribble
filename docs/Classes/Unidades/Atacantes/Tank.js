@@ -19,7 +19,7 @@ export default class Tank extends Atacante{
     passTurn(){
         this.checkAttack();
         if(this.attacking === undefined){
-            super.moveAuto();
+            this.moveAuto();     
                 
         }
         else{
@@ -29,16 +29,18 @@ export default class Tank extends Atacante{
         }
     }
     checkAttack(){ //Ataqu
-        let facingTo = super.facingTo();
-        if(super.casillaValid(facingTo.x,facingTo.y)){
-            if(this.scene.tablero.casillas[facingTo.x][facingTo.y].OccupiedBy !== undefined
-                && this.scene.tablero.casillas[facingTo.x][facingTo.y].OccupiedBy.owner !== this.owner) {
-                    
-                    this.attacking = this.scene.tablero.casillas[facingTo.x][facingTo.y].OccupiedBy;
-                
+        let facingTo = this.facingTo();
+        let dest = this.scene.tablero.casillas[facingTo.x][facingTo.y];
+        if(this.casillaValid(facingTo.x,facingTo.y)){
+            console.log(dest.estructurePlaced !== undefined);
+            if(dest.OccupiedBy !== undefined && dest.OccupiedBy.owner !== this.owner) {
+                this.attacking = this.scene.tablero.casillas[facingTo.x][facingTo.y].OccupiedBy;
+            }
+            else if (dest.estructurePlaced !== undefined && dest.estructurePlaced.owner !== this.owner){
+                this.attacking = dest.estructurePlaced;
             }
             else{
-                    this.attacking = undefined;
+                this.attacking = undefined;
             }
         }
     }

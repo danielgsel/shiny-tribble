@@ -12,7 +12,7 @@ export default class Unidad extends Phaser.GameObjects.Sprite {
 
     this.deleteMe= false;
 
-    if(this.owner === "red"){
+    if(this.owner.color === "red"){
       this.healthbar = scene.add.image(positionx * scene.squareSize + scene.offset, positiony * scene.squareSize + scene.offset - 40, "healthBar").setVisible(false);
   
     }
@@ -30,7 +30,16 @@ export default class Unidad extends Phaser.GameObjects.Sprite {
     this.healthbar.y = this.position.y * this.scene.squareSize + this.scene.offset - 40;
   }
 
-  receiveDamage(damage){
+  destroyMe(){    //Para los workers
+    this.sprite.destroy();
+    this.healthbar.destroy(); 
+    this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
+
+    this.deleteMe = true;
+    this.scene.deleteUnit(this.owner);
+  }
+
+  receiveDamage(damage){  
     this.hp -= damage;
     console.log(this.hp)
     this.healthbar.x = this.position.x * this.scene.squareSize + this.scene.offset;
@@ -40,14 +49,14 @@ export default class Unidad extends Phaser.GameObjects.Sprite {
     this.healthbar.setVisible(true);
     this.healthbar.scaleX = this.hp/100;
 
-    if (this.hp <= 0) {
+    if (this.hp <= 0) {   //Por alguna razon no puedo llamar a destroyMe desde aqui ¿?
       this.sprite.destroy();
       this.healthbar.destroy(); 
       this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
+      this.scene.selection = undefined;
 
       this.deleteMe = true;
       this.scene.deleteUnit(this.owner);
-
     }
   }
 

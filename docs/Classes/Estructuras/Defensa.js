@@ -20,8 +20,8 @@ export default class Defensa extends Estructura{
     checkUnits(){   //Comprueba si hay alguna tropa a rango y asigna la mas debil a unitAttached
         let enemiesFound = new Array(0);
 
-        for (let x = -1; x <= this.range; x++){
-            for (let y = -1; y <= this.range; y++){
+        for (let x = -this.range; x <= this.range; x++){
+            for (let y = -this.range; y <= this.range; y++){
                 let pos = {x : this.position.x + x, y : this.position.y + y};
 
                 if (pos.x >= 0 && pos.x < this.scene.anchoMundo && pos.y >= 0 && pos.y < this.scene.altoMundo &&
@@ -31,7 +31,7 @@ export default class Defensa extends Estructura{
             }
         }
 
-        console.log('encontrados ' + enemiesFound.length + ' enemigos');
+        //console.log('encontrados ' + enemiesFound.length + ' enemigos');
 
         if (enemiesFound.length > 0){
             let weakestAttacker = enemiesFound[0];

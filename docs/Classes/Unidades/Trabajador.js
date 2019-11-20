@@ -3,13 +3,27 @@ import Unidad from "./Unidad.js";
 export default class Trabajador extends Unidad {
   constructor(scene, positionx, positiony, hp, owner) {
 
-    super(scene, positionx, positiony, hp, 'worker', owner);
-      
+    if (owner.color === "red"){
+      super(scene, positionx, positiony, hp, 'worker', owner);
+    }
+    else{
+      super(scene, positionx, positiony, hp, 'blueWorker', owner);
+    }
+    
+    this.timesMoved = 0;
+
     this.sprite.setInteractive();
     this.sprite.on('pointerdown', () => {
       if (this.scene.selection !== this){
-        this.scene.workerSelected(this);
-        this.selected();
+        if(this.owner.color == "red" && !this.scene.blueTurn && this.timesMoved === 0){
+          this.scene.workerSelected(this);
+          this.selected();
+        }
+        else if(this.owner.color == "blue" && this.scene.blueTurn && this.timesMoved === 0){
+          this.scene.workerSelected(this);
+          this.selected();
+        }
+        
       }
     })
 
@@ -23,6 +37,9 @@ export default class Trabajador extends Unidad {
     this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
     this.moveUnit(x, y);
     this.scene.mueveMenusWorker(this);
+
+    this.timesMoved++;
+    this.scene.unselect();
   }
 
   selected(){

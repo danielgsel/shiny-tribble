@@ -10,6 +10,7 @@ import Soldier from "./Unidades/Atacantes/Soldier.js"
 import Cannon from "./Estructuras/Cannon.js"
 import Tower from "./Estructuras/Torre.js"
 import Mortar from "./Estructuras/Morterto.js"
+import Player from "./Player.js"
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -25,6 +26,8 @@ export default class Game extends Phaser.Scene {
     //Casillas
     this.loadCasillas();
 
+    this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+
     //Estructuras
     this.load.image('redCannon', 'assets/imagenes/redCannon.png');
     this.load.image('blueCannon', 'assets/imagenes/blueCannon.png');
@@ -34,7 +37,8 @@ export default class Game extends Phaser.Scene {
     this.load.image('redTower', 'assets/imagenes/redTower.png');
       
     //Unidad(es)
-    this.load.image('worker',' assets/imagenes/worker.png' );
+    this.load.image('redWorker',' assets/imagenes/worker.png' );
+    this.load.image('blueWorker',' assets/imagenes/BlueWorker.png' );
     this.load.image('workerSelected',' assets/imagenes/workerSelected.png' );
 
 
@@ -62,13 +66,23 @@ export default class Game extends Phaser.Scene {
     this.load.image('healthBar', 'assets/imagenes/health.png');
     this.load.image('blueHealthBar', 'assets/imagenes/blueHealth.png');
 
+    this.load.image('cannonMenu', 'assets/imagenes/cannonMenu.png');
+    this.load.image('towerMenu', 'assets/imagenes/towerMenu.png');
+    this.load.image('mortarMenu', 'assets/imagenes/mortarMenu.png');
 
-    
+    this.load.image('blueTurn', 'assets/imagenes/blueTurn.png');
+    this.load.image('redTurn', 'assets/imagenes/redTurn.png');
+
+    this.load.image('woodIcon', 'assets/imagenes/WoodIcon.png');
+    this.load.image('steelIcon', 'assets/imagenes/steelIcon.png');
+
     //Seleccion
     this.load.image('selectionIcon', 'assets/imagenes/SelectionIcon.png');
   }
 
   create() {
+
+    
 
       this.input.mouse.disableContextMenu();
       this.mouse = this.input.activePointer;
@@ -88,52 +102,33 @@ export default class Game extends Phaser.Scene {
       this.menuMovimiento.depth = 1;
 
 
-      // TEST TRABAJADORES
-      // this.workers = [];
-      // this.workers.push(new Trabajador(this, 5, 0));
-      // this.workers.push(new Trabajador(this, 5, 10, 100, "red"));
-      // this.tablero.casillas[5][0].OccupiedBy = this.workers[0];
-      // this.tablero.casillas[5][10].OccupiedBy = this.workers[0];
-      
+      this.blueTurnImage = this.add.image(300, 100, 'blueTurn').setScale(0.6);
+      this.redTurnImage = this.add.image(300, 100, 'redTurn').setScale(0.6);
+      this.blueTurnImage.visible = false;
+
+      this.bluePlayer = new Player(this, 'blue');
+      this.redPlayer = new Player(this, 'red');
+
+      this.redPlayer.Perturn.wood = 3;
+      this.bluePlayer.Perturn.steel = 2;
+      //this.redPlayer.loadResourcesMenus();
+     
 
       //TEST DE UNIDADES
 
+      this.bluePlayer.newUnit(4,4,100, 'tank', 'down');
+      this.bluePlayer.newUnit(2,7,100, 'worker', 'up');
 
-      //Esta manera de inicializar cosas es un puto lio, pero es porque es test
-      //Cuando los generemos correctamente en la creacion in - game serán parametros y será automático
+      this.redPlayer.newUnit(2,3,100, 'archer', 'right');
+      this.redPlayer.newUnit(7,6,100, 'soldier', 'up');
 
-      //azules
-      this.blueUnits = [];
-      this.blueUnits.push(new Tank(this, 4,4,100, "blueTank", "down", "blue"));
-      this.tablero.casillas[4][4].OccupiedBy = this.blueUnits[0];
-      this.blueUnits.push(new Archer(this, 7,9,100, "blueArcher", "right", "blue"));
-      this.tablero.casillas[7][9].OccupiedBy = this.blueUnits[1];
+      ///////////////////////////////////
 
 
-      //rojos
-      this.redUnits = [];
-      this.redUnits.push(new Tank(this, 6,9,100, "redTank", "up", "red"));
-      this.tablero.casillas[6][9].OccupiedBy = this.redUnits[0];
-
-
-      this.redUnits.push(new Trabajador(this, 6, 10, 100, "red")); //Los trabajadores van en el mismo array que los atacantes para facilitar la destruccion
-      this.tablero.casillas[6][10].OccupiedBy = this.redUnits[1];
-      
-
-      this.KeyB = this.input.keyboard.addKey('B');
-      this.KeyR = this.input.keyboard.addKey('R');
+      this.KeyN = this.input.keyboard.addKey('N');
 
       this.blueTurn = false;
-      this.redTurn = false;
-
-      //TEST DE ESTRUCTURAS
-
-      this.blueDefenses = [];
-      this.blueDefenses.push(new Cannon('blue', [5, 3], 5, 3, this));
-      this.blueDefenses.push(new Tower('blue', [7, 3], 7, 3, this));
-
-      this.redDefenses = [];
-      this.redDefenses.push(new Cannon('red', [5, 6], 5, 6, this));
+      this.canPassTurn = true;
 
   }
 
@@ -144,28 +139,46 @@ export default class Game extends Phaser.Scene {
     this.updateMenus();
 
     //PLAYTEST DE TURNOS 
-    {
-    if(this.KeyR.isDown&& !this.redTurn)  {
-      this.passTurn("red");
-      this.redTurn = true
-     
-    }
-    if(this.KeyB.isDown&& !this.blueTurn)  {
-      this.passTurn("blue");
-      this.blueTurn = true
-     
-    }
 
-    if(this.KeyR.isUp){
-      this.redTurn = false;
-    }
-    if(this.KeyB.isUp){
-      this.blueTurn = false;
-    }
-    }
+    if(this.KeyN.isDown && this.pasable){
+      if(this.blueTurn){
+        this.passTurn(this.redPlayer);
+        this.blueTurn = false;
+        this.redTurn = false;
+        this.redTurnImage.visible = true;
+        this.blueTurnImage.visible = false;
+        this.unselect();
+
+        for(let i = 0; i < this.bluePlayer.Units.length; i++){
+          this.bluePlayer.Units[i].timesMoved = 0;
+        }
+
+      }
+      else if(!this.blueTurn){
+        this.passTurn(this.bluePlayer);
+        this.redTurn = true;
+        this.blueTurn = true;
+        this.redTurnImage.visible = false;
+        this.blueTurnImage.visible = true;
+        this.unselect();
+
+        for(let i = 0; i < this.redPlayer.Units.length; i++){
+          this.redPlayer.Units[i].timesMoved = 0;
+        }
+
+      }
+      this.pasable = false;
+  }
+
+    
+  if(this.KeyN.isUp){
+    this.pasable = true;
+  }
+    
+
 
     if(this.selection !== undefined) this.selection.onSelected(); //como idea
-  }
+}
 
 
 //--------------------------METODOS------------------------------------------
@@ -212,40 +225,28 @@ export default class Game extends Phaser.Scene {
     this.menuConstruir.x = unit.sprite.x;
     this.menuConstruir.y = unit.sprite.y;
     this.menuConstruir.visible = true;
+
+    this.menuConstruir.updateMenu();
   }
 
   updateMenus(){
     if(this.selection !== undefined){
       this.menuMovimiento.updateMenu();
-      this.menuConstruir.updateMenu();
     }
   }
 
   checkMouseInput(){
     if (this.mouse.rightButtonDown()){
       if(this.selection !== undefined) this.selection.unselected();
-      this.selection = undefined;
-      this.selectionIcon.visible = false;
-      this.menuConstruir.visible = false;
-      this.menuMovimiento.visible = false;
+      this.unselect();
     } 
-
   }
 
-  processSelection(){
-    if (this.selection !== undefined ){
-      switch(this.selection.stats.type){
-        case 'Trabajador':
-          if (!this.selection.stats.selected){
-            this.selection.selected();
-          }
-          else if (this.selection.stats.moving){
-            this.printArrow(); 
-            this.moveSelected();
-          }
-        break;
-      }
-    }
+  unselect(){
+    this.selection = undefined;
+    this.selectionIcon.visible = false;
+    this.menuConstruir.visible = false;
+    this.menuMovimiento.visible = false;
   }
 
   moveSelected(){
@@ -269,52 +270,54 @@ export default class Game extends Phaser.Scene {
   }
 
 
-  //Estoy haciendolo con el blueUnits por defecto, habria que recibir quien pasa el turno para mover sus unidades, no las del contrincante
   passTurn(player){
-    if(player === "blue"){
-      for (let i = 0; i < this.blueUnits.length; i++){
-        this.blueUnits[i].passTurn();
+    for (let i = 0; i < player.Units.length; i++){
+        player.Units[i].passTurn();
       }
 
-      for (let i = 0; i < this.blueDefenses.length; i++){
-        this.blueDefenses[i].passTurn();
-      }
-    }
-    else if(player === "red"){
-      for (let i = 0; i < this.redUnits.length; i++){
-        this.redUnits[i].passTurn();
-      }
-
-      for (let i = 0; i < this.redDefenses.length; i++){
-        this.redDefenses[i].passTurn();
-      }
-    }
+    player.passTurn();
+    // if(player.color=== "red"){
+    //   //this.redPlayer.deleteMenus();
+    //   this.redPlayer.updateResourcesMenus();
+    // }
+    // else{
+    //   //this.bluePlayer.deleteMenus();
+    //   this.bluePlayer.updateResourcesMenus();
+    // }
     
   }
 
   deleteUnit(owner){
-    if(owner === "red"){
-      let deleted = false;
-      let i = 0;
-      while(i < this.redUnits.length && !deleted){
-        if(this.redUnits[i].deleteMe){
-          this.redUnits.splice(i,1);
-          deleted = true;
+   // let deleted = false;
+    let i = 0;
+    while(i < owner.Units.length){
+        if(owner.Units[i].deleteMe){
+          owner.Units.splice(i,1);
+          //deleted = true;
         }
         i++;
+    }
+}
+    
+  
+
+
+  deleteStructure(owner){
+    //let deleted = false;
+      let i = 0;
+      while(i < owner.Structures.length){
+          if(owner.Structures[i].deleteMe){
+            owner.Structures.splice(i,1);
+            //deleted = true;
+          }
+          i++;
       }
     }
 
-    else{
-      let deleted = false;
-      let i = 0;
-      while(i < this.blueUnits.length && !deleted){
-        if(this.blueUnits[i].deleteMe){
-          this.blueUnits.splice(i,1);
-          deleted = true;
-        }
-        i++;
-      }
+  buildStructure(i){
+    this.selection.owner.newStructure(i);
   }
-}
+
+
+
 }
