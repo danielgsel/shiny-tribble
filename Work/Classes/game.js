@@ -26,6 +26,8 @@ export default class Game extends Phaser.Scene {
     //Casillas
     this.loadCasillas();
 
+    this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+
     //Estructuras
     this.load.image('redCannon', 'assets/imagenes/redCannon.png');
     this.load.image('blueCannon', 'assets/imagenes/blueCannon.png');
@@ -71,12 +73,16 @@ export default class Game extends Phaser.Scene {
     this.load.image('blueTurn', 'assets/imagenes/blueTurn.png');
     this.load.image('redTurn', 'assets/imagenes/redTurn.png');
 
-    
+    this.load.image('woodIcon', 'assets/imagenes/WoodIcon.png');
+    this.load.image('steelIcon', 'assets/imagenes/steelIcon.png');
+
     //Seleccion
     this.load.image('selectionIcon', 'assets/imagenes/SelectionIcon.png');
   }
 
   create() {
+
+    
 
       this.input.mouse.disableContextMenu();
       this.mouse = this.input.activePointer;
@@ -100,69 +106,29 @@ export default class Game extends Phaser.Scene {
       this.redTurnImage = this.add.image(300, 100, 'redTurn').setScale(0.6);
       this.blueTurnImage.visible = false;
 
+      this.bluePlayer = new Player(this, 'blue');
+      this.redPlayer = new Player(this, 'red');
 
-      // TEST TRABAJADORES
-      // this.workers = [];
-      // this.workers.push(new Trabajador(this, 5, 0));
-      // this.workers.push(new Trabajador(this, 5, 10, 100, "red"));
-      // this.tablero.casillas[5][0].OccupiedBy = this.workers[0];
-      // this.tablero.casillas[5][10].OccupiedBy = this.workers[0];
-      
+      this.redPlayer.Perturn.wood = 3;
+      this.bluePlayer.Perturn.steel = 2;
+      //this.redPlayer.loadResourcesMenus();
+     
 
       //TEST DE UNIDADES
-
-
-      //Esta manera de inicializar cosas es un puto lio, pero es porque es test
-      //Cuando los generemos correctamente en la creacion in - game serán parametros y será automático
-
-      //azules
-      this.bluePlayer = new Player(this, 'blue');
-
 
       this.bluePlayer.newUnit(4,4,100, 'tank', 'down');
       this.bluePlayer.newUnit(2,7,100, 'worker', 'up');
 
-      //this.blueUnits = [];
-
-      this.redPlayer = new Player(this, 'red');
-
       this.redPlayer.newUnit(2,3,100, 'archer', 'right');
       this.redPlayer.newUnit(7,6,100, 'soldier', 'up');
 
-      //this.blueUnits.push(new Tank(this, 4,4,100, "blueTank", "down", "blue"));
+      ///////////////////////////////////
 
-      // this.bluePlayer.Units.push(new Tank(this, 4,4,100, "blueTank", "down", "blue"));
-
-      // this.tablero.casillas[4][4].OccupiedBy = this.bluePlayer.Units[0];
-
-      // this.bluePlayer.Units.push(new Archer(this, 7,9,100, "blueArcher", "right", "blue"));
-
-      // this.tablero.casillas[7][9].OccupiedBy = this.bluePlayer.Units[1];
-
-
-      //rojos
-      //this.redUnits = [];
-      // this.redUnits.push(new Tank(this, 6,9,100, "redTank", "up", "red"));
-      // this.tablero.casillas[6][9].OccupiedBy = this.redUnits[0];
-
-
-      // this.redUnits.push(new Trabajador(this, 6, 10, 50, "red")); //Los trabajadores van en el mismo array que los atacantes para facilitar la destruccion
-      // this.tablero.casillas[6][10].OccupiedBy = this.redUnits[0];
-      // this.redUnits.push(new Trabajador(this, 5, 10, 50, "red")); 
-      // this.tablero.casillas[5][10].OccupiedBy = this.redUnits[1];
-
-      this.KeyB = this.input.keyboard.addKey('B');
-      this.KeyR = this.input.keyboard.addKey('R');
 
       this.KeyN = this.input.keyboard.addKey('N');
 
       this.blueTurn = false;
       this.canPassTurn = true;
-      //TEST DE ESTRUCTURAS
-
-     // this.blueDefenses = [];
-
-     // this.redDefenses = [];
 
   }
 
@@ -173,21 +139,6 @@ export default class Game extends Phaser.Scene {
     this.updateMenus();
 
     //PLAYTEST DE TURNOS 
-    {
-    if(this.KeyR.isDown&& !this.redTurn && this.blueTurn)  {
-      this.passTurn(this.redPlayer);
-      this.redTurn = true
-      this.blueTurn = false;
-      
-     
-    }
-    if(this.KeyB.isDown&& !this.blueTurn&& this.redTurn)  {
-      this.passTurn(this.bluePlayer);
-      this.blueTurn = true
-      this.redTurn = false;
-
-    }
-
 
     if(this.KeyN.isDown && this.pasable){
       if(this.blueTurn){
@@ -196,6 +147,7 @@ export default class Game extends Phaser.Scene {
         this.redTurn = false;
         this.redTurnImage.visible = true;
         this.blueTurnImage.visible = false;
+        this.unselect();
 
         for(let i = 0; i < this.bluePlayer.Units.length; i++){
           this.bluePlayer.Units[i].timesMoved = 0;
@@ -208,6 +160,7 @@ export default class Game extends Phaser.Scene {
         this.blueTurn = true;
         this.redTurnImage.visible = false;
         this.blueTurnImage.visible = true;
+        this.unselect();
 
         for(let i = 0; i < this.redPlayer.Units.length; i++){
           this.redPlayer.Units[i].timesMoved = 0;
@@ -215,17 +168,17 @@ export default class Game extends Phaser.Scene {
 
       }
       this.pasable = false;
-    }
+  }
 
     
-    if(this.KeyN.isUp){
-      this.pasable = true;
-    }
+  if(this.KeyN.isUp){
+    this.pasable = true;
+  }
     
-}
+
 
     if(this.selection !== undefined) this.selection.onSelected(); //como idea
-  }
+}
 
 
 //--------------------------METODOS------------------------------------------
@@ -285,12 +238,15 @@ export default class Game extends Phaser.Scene {
   checkMouseInput(){
     if (this.mouse.rightButtonDown()){
       if(this.selection !== undefined) this.selection.unselected();
-      this.selection = undefined;
-      this.selectionIcon.visible = false;
-      this.menuConstruir.visible = false;
-      this.menuMovimiento.visible = false;
+      this.unselect();
     } 
+  }
 
+  unselect(){
+    this.selection = undefined;
+    this.selectionIcon.visible = false;
+    this.menuConstruir.visible = false;
+    this.menuMovimiento.visible = false;
   }
 
   moveSelected(){
@@ -319,6 +275,15 @@ export default class Game extends Phaser.Scene {
         player.Units[i].passTurn();
       }
 
+    player.passTurn();
+    // if(player.color=== "red"){
+    //   //this.redPlayer.deleteMenus();
+    //   this.redPlayer.updateResourcesMenus();
+    // }
+    // else{
+    //   //this.bluePlayer.deleteMenus();
+    //   this.bluePlayer.updateResourcesMenus();
+    // }
     
   }
 

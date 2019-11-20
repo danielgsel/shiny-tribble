@@ -39,10 +39,7 @@ export default class Trabajador extends Unidad {
     this.scene.mueveMenusWorker(this);
 
     this.timesMoved++;
-    this.scene.selection = undefined;
-    this.scene.selectionIcon.visible = false;
-    this.scene.menuConstruir.visible = false;
-    this.scene.menuMovimiento.visible = false;
+    this.scene.unselect();
   }
 
   selected(){

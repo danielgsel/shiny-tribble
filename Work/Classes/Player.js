@@ -15,6 +15,16 @@ export default class Player{
             wood : 0,
             steel : 0
         }
+        this.Perturn = {
+            wood : 0,
+            steel : 0
+        }
+        this.woodIcon;
+          this.woodNumberMenu;
+
+          this.steelIcon;
+          this.steelNumberMenu ;
+
         
         this.color = color;
         if(color === "blue"){
@@ -29,6 +39,14 @@ export default class Player{
             this.SpriteSoldier = "redSoldier";
             this.SpriteTank = "redTank"; 
         }
+
+        if (color === "blue"){
+            this.h = 1250;
+        }
+        else{
+            this.h = 50;
+        }
+        this.loadResourcesMenus();
     }
 
     newUnit(x,y,hp,unitType,direction){
@@ -81,5 +99,33 @@ export default class Player{
       
         this.scene.selection = undefined;
       }
+
+      loadResourcesMenus(){
+          this.woodIcon = this.scene.add.image(950,this.h, 'woodIcon').setScale(0.2);
+          this.woodNumberMenu = this.scene.add.text(1020, this.h -50,  this.Resources.wood , { fontFamily: 'Finger Paint', fontSize: 90, color: '#F08080' });
+
+          this.steelIcon = this.scene.add.image(1150,this.h+5, 'steelIcon').setScale(0.12);
+          this.steelNumberMenu = this.scene.add.text(1200, this.h - 50,  this.Resources.steel , { fontFamily: 'Finger Paint', fontSize: 90, color: '#F08080' });
+
+      }
+
+      updateResourcesMenus(){
+          this.woodNumberMenu.destroy();
+          this.woodNumberMenu =this.scene.add.text(1020, this.h - 50,  this.Resources.wood , { fontFamily: 'Finger Paint', fontSize: 90, color: '#F08080' });
+
+          this.steelNumberMenu.destroy();
+          this.steelNumberMenu = this.scene.add.text(1200, this.h - 50,  this.Resources.steel , { fontFamily: 'Finger Paint', fontSize: 90, color: '#F08080' });
+
+      }
+
+      passTurn(){
+          this.Resources.wood = this.Resources.wood + this.Perturn.wood;
+          this.Resources.steel = this.Resources.steel + this.Perturn.steel;
+
+          this.updateResourcesMenus();
+      }
+
+ 
+
 
 }
