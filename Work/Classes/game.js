@@ -76,6 +76,10 @@ export default class Game extends Phaser.Scene {
     this.load.image('woodIcon', 'assets/imagenes/WoodIcon.png');
     this.load.image('steelIcon', 'assets/imagenes/steelIcon.png');
 
+
+    this.load.image('canMove', 'assets/imagenes/canMoveIndicator.png');
+
+
     //Seleccion
     this.load.image('selectionIcon', 'assets/imagenes/SelectionIcon.png');
   }

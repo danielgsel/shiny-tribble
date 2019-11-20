@@ -26,6 +26,9 @@ export default class Trabajador extends Unidad {
         
       }
     })
+  this.moveIndicator;
+  //this.printIndicator();
+    
 
     this.positionx = positionx;
     this.positiony = positiony;
@@ -37,9 +40,11 @@ export default class Trabajador extends Unidad {
     this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
     this.moveUnit(x, y);
     this.scene.mueveMenusWorker(this);
-
+    this.destroyIndicator();
     this.timesMoved++;
     this.scene.unselect();
+    this.positionx = x;
+    this.positiony = y;
   }
 
   selected(){
@@ -51,12 +56,39 @@ export default class Trabajador extends Unidad {
 
   }
 
+  printIndicator(){
+    this.moveIndicator = this.scene.add.image(this.positionx * this.scene.squareSize + this.scene.offset + 30,
+      this.positiony * this.scene.squareSize + this.scene.offset + -40, 'canMove');
+  }
+
+  destroyIndicator(){
+    try{
+    this.moveIndicator.destroy();
+    }
+    catch{
+      
+    }
+  }
+
   unselected(){
       console.log("unselected worker " + this.positionx + " " + this.positiony);
     
   }
 
   passTurn(){
-    
+    if (this.owner.color === "red" && this.scene.blueTurn){
+      this.printIndicator();
+    }
+    if (this.owner.color === "blue" && !this.scene.blueTurn){
+      this.printIndicator();
+    }
+
+    if(this.owner.color === "blue" && this.scene.blueTurn){
+      this.destroyIndicator();
+    }
+
+    if(this.owner.color === "red" && !this.scene.blueTurn){
+      this.destroyIndicator();
+    }
   }
 }

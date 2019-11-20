@@ -21,9 +21,11 @@ export default class Player{
         }
         this.woodIcon;
           this.woodNumberMenu;
+          this.perTurnWoodMenu;
 
           this.steelIcon;
           this.steelNumberMenu ;
+          this.perTurnSteelMenu;
 
         
         this.color = color;
@@ -89,7 +91,15 @@ export default class Player{
           this.scene.selection.destroyMe();
             break;
           case 3:   //Recursos
-            
+            let castype = this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].type;
+            if(castype === "wood") {
+                this.Perturn.wood += 3;
+            }
+            else{
+                this.Perturn.steel += 3;
+            }
+            this.scene.selection.destroyMe();
+            this.updateResourcesMenus();
             break;
         }
       
@@ -103,18 +113,25 @@ export default class Player{
       loadResourcesMenus(){
           this.woodIcon = this.scene.add.image(950,this.h, 'woodIcon').setScale(0.2);
           this.woodNumberMenu = this.scene.add.text(1020, this.h -50,  this.Resources.wood , { fontFamily: 'Finger Paint', fontSize: 90, color: '#F08080' });
+          this.perTurnWoodMenu = this.scene.add.text(1050, this.h + 20, "+ " + this.Perturn.wood , { fontFamily: 'Finger Paint', fontSize: 40, color: '#F08080' });
 
           this.steelIcon = this.scene.add.image(1150,this.h+5, 'steelIcon').setScale(0.12);
           this.steelNumberMenu = this.scene.add.text(1200, this.h - 50,  this.Resources.steel , { fontFamily: 'Finger Paint', fontSize: 90, color: '#F08080' });
+          this.perTurnSteelMenu = this.scene.add.text(1230, this.h + 20, "+ " +this.Perturn.steel , { fontFamily: 'Finger Paint', fontSize: 40, color: '#F08080' });
 
       }
 
       updateResourcesMenus(){
-          this.woodNumberMenu.destroy();
-          this.woodNumberMenu =this.scene.add.text(1020, this.h - 50,  this.Resources.wood , { fontFamily: 'Finger Paint', fontSize: 90, color: '#F08080' });
+        this.woodNumberMenu.destroy();
+        this.woodNumberMenu =this.scene.add.text(1020, this.h - 50,  this.Resources.wood , { fontFamily: 'Finger Paint', fontSize: 90, color: '#F08080' });
+        this.perTurnWoodMenu.destroy();
+        this.perTurnWoodMenu = this.scene.add.text(1050, this.h + 20, "+ " + this.Perturn.wood , { fontFamily: 'Finger Paint', fontSize: 40, color: '#F08080' });
 
-          this.steelNumberMenu.destroy();
-          this.steelNumberMenu = this.scene.add.text(1200, this.h - 50,  this.Resources.steel , { fontFamily: 'Finger Paint', fontSize: 90, color: '#F08080' });
+
+        this.steelNumberMenu.destroy();
+        this.steelNumberMenu = this.scene.add.text(1200, this.h - 50,  this.Resources.steel , { fontFamily: 'Finger Paint', fontSize: 90, color: '#F08080' });
+        this.perTurnSteelMenu.destroy();
+        this.perTurnSteelMenu = this.scene.add.text(1230, this.h + 20, "+ " +this.Perturn.steel , { fontFamily: 'Finger Paint', fontSize: 40, color: '#F08080' });
 
       }
 
