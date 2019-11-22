@@ -34,20 +34,17 @@ export default class Player{
             this.SpriteWorker = "blueWorker";
             this.SpriteSoldier = "blueSoldier";
             this.SpriteTank = "blueTank";
+            this.h = 50;
         }
         else{
             this.SpriteArcher = "redArcher";
             this.SpriteWorker = "redWorker";
             this.SpriteSoldier = "redSoldier";
             this.SpriteTank = "redTank"; 
-        }
-
-        if (color === "blue"){
             this.h = 1250;
         }
-        else{
-            this.h = 50;
-        }
+
+        
         this.loadResourcesMenus();
 
     }
@@ -69,24 +66,30 @@ export default class Player{
     }
 
     newWorker(){
-        let x, y;
-        let canPlace = false;
-        if(this.color === "red"){
-            y = 10;
-        }
-        else{
-            y = 0;
-        }
-        for(let i = 3; (i < 8) && !canPlace; i++){
-            if(this.scene.tablero.casillas[i][y].OccupiedBy === undefined){ 
-                x = i;
-                canPlace = true;
+        if(this.Resources.wood >= 2 && this.Resources.steel >= 2){
+                
+            let x, y;
+            let canPlace = false;
+            if(this.color === "red"){
+                y = 10;
             }
+            else{
+                y = 0;
+            }
+            for(let i = 3; (i < 8) && !canPlace; i++){
+                if(this.scene.tablero.casillas[i][y].OccupiedBy === undefined){ 
+                    x = i;
+                    canPlace = true;
+                }
+            }
+            if(canPlace){
+                this.Units.push(new Trabajador(this.scene, x,y, this));
+                this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
+                this.Resources.wood = this.Resources.wood - 2;
+                this.Resources.steel = this.Resources.steel - 2;
+                this.updateResourcesMenus();
+            }    
         }
-        if(canPlace){
-            this.Units.push(new Trabajador(this.scene, x,y, this));
-            this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
-        }    
     }
     
     newStructure(i){
@@ -109,11 +112,20 @@ export default class Player{
           case 3:   //Recursos
             let castype = this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].type;
             if(castype === "wood") {
-                this.Perturn.wood += 3;
+                this.Perturn.wood += 2;
             }
             else{
-                this.Perturn.steel += 3;
+                this.Perturn.steel += 2;
             }
+
+
+
+
+
+                /////// FALTAN SUPER MINA Y  SUPER BOSQUE
+
+
+
             this.scene.selection.destroyMe();
             this.updateResourcesMenus();
             break;    

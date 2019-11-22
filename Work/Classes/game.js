@@ -118,6 +118,8 @@ export default class Game extends Phaser.Scene {
       this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
       this.menuMovimiento.depth = 1;
 
+     
+
       this.newWorkers = new MenuNewWorker(this);
 
       this.blueTurnImage = this.add.image(300, 100, 'blueTurn').setScale(0.6);
@@ -147,6 +149,24 @@ export default class Game extends Phaser.Scene {
       this.KeyN = this.input.keyboard.addKey('N');
 
       this.blueTurn = false;
+
+      this.redPlayer.Resources.wood = 2;
+      this.redPlayer.Resources.steel = 2;
+      this.redPlayer.Perturn.wood = 1;
+      this.redPlayer.Perturn.steel = 1;
+
+      this.redPlayer.updateResourcesMenus();
+
+      this.bluePlayer.Resources.wood = 2;
+      this.bluePlayer.Resources.steel = 2;
+
+      this.bluePlayer.Perturn.wood = 1;
+      this.bluePlayer.Perturn.steel = 1;
+
+      this.bluePlayer.updateResourcesMenus();
+
+
+
       this.canPassTurn = true;
 
   }
