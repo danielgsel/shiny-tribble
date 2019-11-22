@@ -11,6 +11,8 @@ import Cannon from "./Estructuras/Cannon.js"
 import Tower from "./Estructuras/Torre.js"
 import Mortar from "./Estructuras/Morterto.js"
 import Player from "./Player.js"
+import MeenuPasarTurno from "./Menus/menuPasarTurno.js"
+import MenuPasarTurno from "./Menus/menuPasarTurno.js";
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -73,6 +75,11 @@ export default class Game extends Phaser.Scene {
     this.load.image('blueTurn', 'assets/imagenes/blueTurn.png');
     this.load.image('redTurn', 'assets/imagenes/redTurn.png');
 
+    this.load.image('nextTurnBlue', 'assets/imagenes/nextTurn.png');
+    this.load.image('nextTurnRed', 'assets/imagenes/nextTurn.png');
+
+
+
     this.load.image('woodIcon', 'assets/imagenes/WoodIcon.png');
     this.load.image('steelIcon', 'assets/imagenes/steelIcon.png');
 
@@ -105,18 +112,19 @@ export default class Game extends Phaser.Scene {
       this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
       this.menuMovimiento.depth = 1;
 
-
+      
       this.blueTurnImage = this.add.image(300, 100, 'blueTurn').setScale(0.6);
       this.redTurnImage = this.add.image(300, 100, 'redTurn').setScale(0.6);
       this.blueTurnImage.visible = false;
 
+      this.nextTurnButton = new MenuPasarTurno(this, 50,620)
+
+      
       this.bluePlayer = new Player(this, 'blue');
       this.redPlayer = new Player(this, 'red');
-
-      this.redPlayer.Perturn.wood = 3;
-      this.bluePlayer.Perturn.steel = 2;
-      //this.redPlayer.loadResourcesMenus();
      
+     
+   
 
       //TEST DE UNIDADES
 
@@ -273,32 +281,45 @@ export default class Game extends Phaser.Scene {
   }
 
 
-  passTurn(player){
-    if(player.color === "red"){
-      for (let i = 0; i < player.Units.length; i++){
-          player.Units[i].passTurn();
-          //this.bluePlayer.Units[i].manageIndicator();
+  passTurn(){
+
+    let player;
+    if(this.pasable){
+      if(this.blueTurn){
+        this.blueTurn = false;
+        this.redTurn = false;
+        this.redTurnImage.visible = true;
+        this.blueTurnImage.visible = false;
+        this.unselect();
+        player = this.bluePlayer;
+        for(let i = 0; i < this.bluePlayer.Units.length; i++){
+          this.bluePlayer.Units[i].timesMoved = 0;
+        }
+
       }
-    }
-    else{
-      for (let i = 0; i < player.Units.length; i++){
-        player.Units[i].passTurn();
-        //this.redPlayer.Units[i].manageIndicator();
-    }
-    }
+      else if(!this.blueTurn){
+        this.redTurn = true;
+        this.blueTurn = true;
+        this.redTurnImage.visible = false;
+        this.blueTurnImage.visible = true;
+        this.unselect();
+        player = this.redPlayer;
+        for(let i = 0; i < this.redPlayer.Units.length; i++){
+          this.redPlayer.Units[i].timesMoved = 0;
+        }
+      }
+      this.pasable = false;
 
-    player.passTurn();
-    // if(player.color=== "red"){
-    //   //this.redPlayer.deleteMenus();
-    //   this.redPlayer.updateResourcesMenus();
-    // }
-    // else{
-    //   //this.bluePlayer.deleteMenus();
-    //   this.bluePlayer.updateResourcesMenus();
-    // }
+
+      //Pasar Unidades
     
-  }
-
+      for (let i = 0; i < player.Units.length; i++){
+            player.Units[i].passTurn();
+           
+      }
+      player.passTurn(); 
+    }
+}
   deleteUnit(owner){
    // let deleted = false;
     let i = 0;
