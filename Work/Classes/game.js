@@ -64,6 +64,9 @@ export default class Game extends Phaser.Scene {
     this.load.image('factoryMenuUnav', 'assets/imagenes/FactoryMenuUnavailable.png');
     this.load.image('HQMenuAv', 'assets/imagenes/menuHQAv.png');
     this.load.image('HQMenuUnav', 'assets/imagenes/menuHQUnav.png');
+    this.load.image('bowMenu', 'assets/imagenes/bowMenu.png');
+    this.load.image('knightMenu', 'assets/imagenes/knightMenu.png');
+    this.load.image('soldierMenu', 'assets/imagenes/soldierMenu.png');
 
     this.load.image('nextTurn', 'assets/imagenes/NextTurn.png')
 
