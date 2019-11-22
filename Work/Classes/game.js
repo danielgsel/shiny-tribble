@@ -241,7 +241,6 @@ export default class Game extends Phaser.Scene {
 
   checkMouseInput(){
     if (this.mouse.rightButtonDown()){
-      if(this.selection !== undefined) this.selection.unselected();
       this.unselect();
     } 
   }
@@ -275,9 +274,18 @@ export default class Game extends Phaser.Scene {
 
 
   passTurn(player){
-    for (let i = 0; i < player.Units.length; i++){
-        player.Units[i].passTurn();
+    if(player.color === "red"){
+      for (let i = 0; i < player.Units.length; i++){
+          player.Units[i].passTurn();
+          this.bluePlayer.Units[i].manageIndicator();
       }
+    }
+    else{
+      for (let i = 0; i < player.Units.length; i++){
+        player.Units[i].passTurn();
+        this.redPlayer.Units[i].manageIndicator();
+    }
+    }
 
     player.passTurn();
     // if(player.color=== "red"){

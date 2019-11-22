@@ -102,6 +102,8 @@ export default class Atacante extends Unidad{
         return facingTo;
     }
 
+    manageIndicator(){}
+
     
 
 }

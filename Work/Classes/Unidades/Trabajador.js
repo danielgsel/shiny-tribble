@@ -24,8 +24,9 @@ export default class Trabajador extends Unidad {
         
       }
     })
-  this.moveIndicator;
-  //this.printIndicator();
+    this.moveIndicator;
+    this.indicatorCreated = false;
+    //this.printIndicator();
     
 
     this.positionx = positionx;
@@ -38,22 +39,27 @@ export default class Trabajador extends Unidad {
     this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
     this.moveUnit(x, y);
     this.scene.mueveMenusWorker(this);
+    this.positionx = x;
+    this.positiony = y;
+    this.movetheIndicator();
     this.hideIndicator();
     this.timesMoved++;
     this.scene.unselect();
-    this.positionx = x;
-    this.positiony = y;
+   
+    
   }
 
   printIndicator(){
     this.moveIndicator = this.scene.add.image(this.positionx * this.scene.squareSize + this.scene.offset + 30,
       this.positiony * this.scene.squareSize + this.scene.offset + -40, 'canMove');
+      this.indicatorCreated = true;
   }
 
-  moveIndicator(){
+  movetheIndicator(){
     this.moveIndicator.x = this.positionx * this.scene.squareSize + this.scene.offset + 30;
     this.moveIndicator.y = this.positiony * this.scene.squareSize + this.scene.offset + -40;
   }
+
   showIndicator(){
     this.moveIndicator.visible = true;
   }
@@ -63,19 +69,39 @@ export default class Trabajador extends Unidad {
   }
 
   passTurn(){
-    if (this.owner.color === "red" && this.scene.blueTurn){
-      this.showIndicator();
-    }
-    if (this.owner.color === "blue" && !this.scene.blueTurn){
-      this.showIndicator();
-    }
-
-    if(this.owner.color === "blue" && this.scene.blueTurn){
-      this.hideIndicator();
-    }
-
-    if(this.owner.color === "red" && !this.scene.blueTurn){
-      this.hideIndicator();
-    }
+    this.manageIndicator();
   }
+  
+  manageIndicator(){
+    if (this.owner.color === "red")
+    {
+      if(this.scene.blueTurn){
+          if(!this.indicatorCreated)this.printIndicator();
+          this.showIndicator();
+          console.log("Rojo muestra indicador");
+      }
+      else{
+        if(this.indicatorCreated)this.hideIndicator();
+          console.log("Rojo oculta indicador");
+
+      }
+    }
+    else{
+      console.log("Turno azul" + this.scene.blueTurn);
+      if(this.scene.blueTurn){
+        if(this.indicatorCreated)this.hideIndicator();
+          console.log("Azul oculta indicador");
+
+      }
+      else{
+          if(!this.indicatorCreated)this.printIndicator();
+          this.showIndicator();
+          console.log("Azul muestra indicador");
+
+      }
+
+    }
+
+  }
+  
 }
