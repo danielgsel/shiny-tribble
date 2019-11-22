@@ -181,7 +181,7 @@ export default class Game extends Phaser.Scene {
     
 
 
-    if(this.selection !== undefined) this.selection.onSelected(); //como idea
+    //if(this.selection !== undefined) this.selection.onSelected(); //como idea
 }
 
 

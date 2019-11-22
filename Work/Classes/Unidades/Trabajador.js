@@ -17,11 +17,9 @@ export default class Trabajador extends Unidad {
       if (this.scene.selection !== this){
         if(this.owner.color == "red" && !this.scene.blueTurn && this.timesMoved === 0){
           this.scene.workerSelected(this);
-          this.selected();
         }
         else if(this.owner.color == "blue" && this.scene.blueTurn && this.timesMoved === 0){
           this.scene.workerSelected(this);
-          this.selected();
         }
         
       }
@@ -40,20 +38,11 @@ export default class Trabajador extends Unidad {
     this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
     this.moveUnit(x, y);
     this.scene.mueveMenusWorker(this);
-    this.destroyIndicator();
+    this.hideIndicator();
     this.timesMoved++;
     this.scene.unselect();
     this.positionx = x;
     this.positiony = y;
-  }
-
-  selected(){
-    console.log("selected worker " + this.positionx + " " + this.positiony);
-    
-  }
-
-  onSelected(){
-
   }
 
   printIndicator(){
@@ -61,34 +50,32 @@ export default class Trabajador extends Unidad {
       this.positiony * this.scene.squareSize + this.scene.offset + -40, 'canMove');
   }
 
-  destroyIndicator(){
-    try{
-    this.moveIndicator.destroy();
-    }
-    catch{
-      
-    }
+  moveIndicator(){
+    this.moveIndicator.x = this.positionx * this.scene.squareSize + this.scene.offset + 30;
+    this.moveIndicator.y = this.positiony * this.scene.squareSize + this.scene.offset + -40;
+  }
+  showIndicator(){
+    this.moveIndicator.visible = true;
   }
 
-  unselected(){
-      console.log("unselected worker " + this.positionx + " " + this.positiony);
-    
+  hideIndicator(){
+    this.moveIndicator.visible = false;
   }
 
   passTurn(){
     if (this.owner.color === "red" && this.scene.blueTurn){
-      this.printIndicator();
+      this.showIndicator();
     }
     if (this.owner.color === "blue" && !this.scene.blueTurn){
-      this.printIndicator();
+      this.showIndicator();
     }
 
     if(this.owner.color === "blue" && this.scene.blueTurn){
-      this.destroyIndicator();
+      this.hideIndicator();
     }
 
     if(this.owner.color === "red" && !this.scene.blueTurn){
-      this.destroyIndicator();
+      this.hideIndicator();
     }
   }
 }
