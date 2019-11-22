@@ -4,7 +4,7 @@ export default class Trabajador extends Unidad {
   constructor(scene, positionx, positiony, owner) {
 
     if (owner.color === "red"){
-      super(scene, positionx, positiony, 40, 'worker', owner);
+      super(scene, positionx, positiony, 40, 'redWorker', owner);
     }
     else{
       super(scene, positionx, positiony, 40, 'blueWorker', owner);

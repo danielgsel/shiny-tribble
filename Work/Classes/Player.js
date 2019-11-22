@@ -49,14 +49,11 @@ export default class Player{
             this.h = 50;
         }
         this.loadResourcesMenus();
+
     }
 
     newUnit(x,y,unitType,direction){
-        if(unitType === 'worker'){
-            this.Units.push(new Trabajador(this.scene, x,y, this));
-            this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
-        }
-        else if (unitType === 'archer'){
+        if (unitType === 'archer'){
             this.Units.push(new Archer(this.scene, x,y, this.SpriteArcher, direction, this));
             this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
         }
@@ -71,6 +68,27 @@ export default class Player{
         
     }
 
+    newWorker(){
+        let x, y;
+        let canPlace = false;
+        if(this.color === "red"){
+            y = 10;
+        }
+        else{
+            y = 0;
+        }
+        for(let i = 3; (i < 8) && !canPlace; i++){
+            if(this.scene.tablero.casillas[i][y].OccupiedBy === undefined){ 
+                x = i;
+                canPlace = true;
+            }
+        }
+        if(canPlace){
+            this.Units.push(new Trabajador(this.scene, x,y, this));
+            this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
+        }    
+    }
+    
     newStructure(i){
         switch(i){
           case 0:   //Cannon

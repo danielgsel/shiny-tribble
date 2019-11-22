@@ -13,6 +13,7 @@ import Mortar from "./Estructuras/Morterto.js"
 import Player from "./Player.js"
 import MeenuPasarTurno from "./Menus/menuPasarTurno.js"
 import MenuPasarTurno from "./Menus/menuPasarTurno.js";
+import MenuNewWorker from "./Menus/menuNewWorker.js";
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -117,7 +118,8 @@ export default class Game extends Phaser.Scene {
       this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
       this.menuMovimiento.depth = 1;
 
-      
+      this.newWorkers = new MenuNewWorker(this);
+
       this.blueTurnImage = this.add.image(300, 100, 'blueTurn').setScale(0.6);
       this.redTurnImage = this.add.image(300, 100, 'redTurn').setScale(0.6);
       this.blueTurnImage.visible = false;
