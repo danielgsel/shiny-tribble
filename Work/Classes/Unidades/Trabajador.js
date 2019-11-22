@@ -41,8 +41,8 @@ export default class Trabajador extends Unidad {
     this.scene.mueveMenusWorker(this);
     this.positionx = x;
     this.positiony = y;
-    this.movetheIndicator();
-    this.hideIndicator();
+    //this.movetheIndicator();
+    //this.hideIndicator();
     this.timesMoved++;
     this.scene.unselect();
    
@@ -69,39 +69,34 @@ export default class Trabajador extends Unidad {
   }
 
   passTurn(){
-    this.manageIndicator();
+    //this.manageIndicator();
   }
   
-  manageIndicator(){
-    if (this.owner.color === "red")
-    {
-      if(this.scene.blueTurn){
-          if(!this.indicatorCreated)this.printIndicator();
-          this.showIndicator();
-          console.log("Rojo muestra indicador");
-      }
-      else{
-        if(this.indicatorCreated)this.hideIndicator();
-          console.log("Rojo oculta indicador");
+  // manageIndicator(){
+  //   if (this.owner.color === "red")
+  //   {
+  //     if(this.scene.blueTurn){
+  //         if(!this.indicatorCreated)this.printIndicator();
+  //         this.showIndicator();
+  //     }
+  //     else{
+  //       if(this.indicatorCreated)this.hideIndicator();
 
-      }
-    }
-    else{
-      console.log("Turno azul" + this.scene.blueTurn);
-      if(this.scene.blueTurn){
-        if(this.indicatorCreated)this.hideIndicator();
-          console.log("Azul oculta indicador");
+  //     }
+  //   }
+  //   else{
+  //     if(this.scene.blueTurn){
+  //       if(this.indicatorCreated)this.hideIndicator();
 
-      }
-      else{
-          if(!this.indicatorCreated)this.printIndicator();
-          this.showIndicator();
-          console.log("Azul muestra indicador");
+  //     }
+  //     else{
+  //         if(!this.indicatorCreated)this.printIndicator();
+  //         this.showIndicator();
 
-      }
+  //     }
 
-    }
+  //   }
 
-  }
+  // }
   
 }

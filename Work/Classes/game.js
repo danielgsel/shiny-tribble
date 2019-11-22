@@ -277,13 +277,13 @@ export default class Game extends Phaser.Scene {
     if(player.color === "red"){
       for (let i = 0; i < player.Units.length; i++){
           player.Units[i].passTurn();
-          this.bluePlayer.Units[i].manageIndicator();
+          //this.bluePlayer.Units[i].manageIndicator();
       }
     }
     else{
       for (let i = 0; i < player.Units.length; i++){
         player.Units[i].passTurn();
-        this.redPlayer.Units[i].manageIndicator();
+        //this.redPlayer.Units[i].manageIndicator();
     }
     }
 
