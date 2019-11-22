@@ -1,13 +1,13 @@
 import Unidad from "./Unidad.js";
 
 export default class Trabajador extends Unidad {
-  constructor(scene, positionx, positiony, hp, owner) {
+  constructor(scene, positionx, positiony, owner) {
 
     if (owner.color === "red"){
-      super(scene, positionx, positiony, hp, 'worker', owner);
+      super(scene, positionx, positiony, 40, 'worker', owner);
     }
     else{
-      super(scene, positionx, positiony, hp, 'blueWorker', owner);
+      super(scene, positionx, positiony, 40, 'blueWorker', owner);
     }
     
     this.timesMoved = 0;

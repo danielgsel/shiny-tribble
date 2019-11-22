@@ -20,12 +20,12 @@ export default class Player{
             steel : 0
         }
         this.woodIcon;
-          this.woodNumberMenu;
-          this.perTurnWoodMenu;
+        this.woodNumberMenu;
+        this.perTurnWoodMenu;
 
-          this.steelIcon;
-          this.steelNumberMenu ;
-          this.perTurnSteelMenu;
+        this.steelIcon;
+        this.steelNumberMenu ;
+        this.perTurnSteelMenu;
 
         
         this.color = color;
@@ -51,25 +51,23 @@ export default class Player{
         this.loadResourcesMenus();
     }
 
-    newUnit(x,y,hp,unitType,direction){
+    newUnit(x,y,unitType,direction){
         if(unitType === 'worker'){
-            this.Units.push(new Trabajador(this.scene, x,y,hp, this));
+            this.Units.push(new Trabajador(this.scene, x,y, this));
             this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
         }
         else if (unitType === 'archer'){
-            this.Units.push(new Archer(this.scene, x,y,hp, this.SpriteArcher, direction, this));
+            this.Units.push(new Archer(this.scene, x,y, this.SpriteArcher, direction, this));
             this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
         }
         else if (unitType === 'soldier'){
-            this.Units.push(new Soldier(this.scene, x,y,hp, this.SpriteSoldier, direction, this));
+            this.Units.push(new Soldier(this.scene, x,y, this.SpriteSoldier, direction, this));
             this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
         }
         else if (unitType === 'tank'){
-            this.Units.push(new Tank(this.scene, x,y,hp, this.SpriteTank, direction, this));
+            this.Units.push(new Tank(this.scene, x,y, this.SpriteTank, direction, this));
             this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
         }
-
-
         
     }
 
@@ -100,6 +98,9 @@ export default class Player{
             }
             this.scene.selection.destroyMe();
             this.updateResourcesMenus();
+            break;    
+          case 4:
+            //Cuartel
             break;
         }
       
