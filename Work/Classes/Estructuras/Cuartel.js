@@ -12,7 +12,8 @@ export default class Cuartel extends Estructura{
         this.sprite.on('pointerdown', () => {if (scene.mouse.leftButtonDown()) scene.HQselected(this)})
     }
 
-    spawnUnit(pos, unitName){
-        
+    spawnUnit(pos, dir, unitType){
+        this.owner.newUnit(pos[0], pos[1], unitType, dir);
+        console.log("Spawning unit at " + pos[0] + " " + pos[1] + " direction " + dir);
     }
 }
