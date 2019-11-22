@@ -153,32 +153,7 @@ export default class Game extends Phaser.Scene {
     //PLAYTEST DE TURNOS 
 
     if(this.KeyN.isDown && this.pasable){
-      if(this.blueTurn){
-        this.passTurn(this.redPlayer);
-        this.blueTurn = false;
-        this.redTurn = false;
-        this.redTurnImage.visible = true;
-        this.blueTurnImage.visible = false;
-        this.unselect();
-
-        for(let i = 0; i < this.bluePlayer.Units.length; i++){
-          this.bluePlayer.Units[i].timesMoved = 0;
-        }
-
-      }
-      else if(!this.blueTurn){
-        this.passTurn(this.bluePlayer);
-        this.redTurn = true;
-        this.blueTurn = true;
-        this.redTurnImage.visible = false;
-        this.blueTurnImage.visible = true;
-        this.unselect();
-
-        for(let i = 0; i < this.redPlayer.Units.length; i++){
-          this.redPlayer.Units[i].timesMoved = 0;
-        }
-
-      }
+      this.passTurn();
       this.pasable = false;
   }
 
