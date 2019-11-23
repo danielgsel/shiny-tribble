@@ -5,6 +5,7 @@ import Soldier from "./Unidades/Atacantes/Soldier.js"
 import Cannon from "./Estructuras/Cannon.js"
 import Tower from "./Estructuras/Torre.js"
 import Mortar from "./Estructuras/Morterto.js"
+import Cuartel from "./Estructuras/Cuartel.js"
 
 export default class Player{
     constructor(game, color){
@@ -130,7 +131,10 @@ export default class Player{
             this.updateResourcesMenus();
             break;    
           case 4:
-            //Cuartel
+            //Cuarteles
+            this.Structures.push(new Cuartel(this, [this.scene.selection.position.x, this.scene.selection.position.y], 0, 0, this.scene));
+            this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
+            this.scene.selection.destroyMe();
             break;
         }
       

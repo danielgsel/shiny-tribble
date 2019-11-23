@@ -98,9 +98,6 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-
-    
-
       this.input.mouse.disableContextMenu();
       this.mouse = this.input.activePointer;
       this.mouseAvaliable = true;
@@ -118,7 +115,7 @@ export default class Game extends Phaser.Scene {
       this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
       this.menuMovimiento.depth = 1;
 
-     
+      this.menuHQ = undefined;     
 
       this.newWorkers = new MenuNewWorker(this);
 
@@ -227,6 +224,15 @@ export default class Game extends Phaser.Scene {
     this.mueveMenusWorker(unit);
   }
 
+  HQSelected(HQmenu){
+    if (this.menuHQ === undefined) this.menuHQ = HQmenu;
+    else this.menuHQ.unselected();
+  }
+
+  HQUnselected(){
+    this.menuHQ = undefined;
+  }
+
   mueveMenusWorker(unit){
     this.selectionIcon.x = unit.sprite.x;
     this.selectionIcon.y = unit.sprite.y;
@@ -247,6 +253,9 @@ export default class Game extends Phaser.Scene {
     if(this.selection !== undefined){
       this.menuMovimiento.updateMenu();
     }
+    if (this.menuHQ !== undefined){
+      this.menuHQ.updateMenu();
+    }
   }
 
   checkMouseInput(){
@@ -260,6 +269,8 @@ export default class Game extends Phaser.Scene {
     this.selectionIcon.visible = false;
     this.menuConstruir.visible = false;
     this.menuMovimiento.visible = false;
+
+    //añadir para menu cuarteles
   }
 
   moveSelected(){

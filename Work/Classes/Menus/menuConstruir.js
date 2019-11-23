@@ -1,21 +1,28 @@
 export default class MenuConstruir extends Phaser.GameObjects.Container{
     constructor(scene, x, y){
         super(scene, x, y);
-        this.radioMenu = 40;
+        this.radioMenu = 60;
 
-        this.constructionMenu = scene.add.image(this.radioMenu, 0, 'constructionMenuAv').setScale(0.75).setInteractive();
+        this.constructionMenu = scene.add.image(this.radioMenu, this.radioMenu / 2, 'constructionMenuAv').setScale(0.75).setInteractive();
         this.add(this.constructionMenu);
 
-        this.factoryMenu = scene.add.image(-this.radioMenu, 0, 'factoryMenuAv').setScale(0.75).setInteractive();
+        this.factoryMenu = scene.add.image(-this.radioMenu, this.radioMenu / 2, 'factoryMenuAv').setScale(0.75).setInteractive();
         this.add(this.factoryMenu);
 
-        this.constructionMenuX = scene.add.image(this.radioMenu, 0, 'constructionMenuUnav').setScale(0.75).setInteractive();
+        this.constructionMenuX = scene.add.image(this.radioMenu, this.radioMenu / 2, 'constructionMenuUnav').setScale(0.75).setInteractive();
         this.constructionMenuX.visible = false;
         this.add(this.constructionMenuX);
 
-        this.factoryMenuX = scene.add.image(-this.radioMenu, 0, 'factoryMenuUnav').setScale(0.75).setInteractive();
+        this.factoryMenuX = scene.add.image(-this.radioMenu, this.radioMenu / 2, 'factoryMenuUnav').setScale(0.75).setInteractive();
         this.factoryMenuX.visible = false;
         this.add(this.factoryMenuX);
+
+        this.HQmenu = scene.add.image(0, -this.radioMenu / 2, 'HQMenuAv').setScale(0.75).setInteractive();
+        this.add(this.HQmenu);
+
+        this.HQmenuX = scene.add.image(0, -this.radioMenu / 2, 'HQMenuUnav').setScale(0.75).setInteractive();
+        this.HQmenuX.visible = false;
+        this.add(this.HQmenuX);
 
         this.buildCannon = scene.add.image(this.radioMenu, this.radioMenu, 'cannonMenu').setScale(0.75).setInteractive();
         this.buildCannon.visible = false;
@@ -41,6 +48,8 @@ export default class MenuConstruir extends Phaser.GameObjects.Container{
             this.buildCannon.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.buildStructure(0);});
             this.buildTower.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.buildStructure(1);});
             this.buildMortar.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.buildStructure(2);});
+            this.HQmenu.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.buildStructure(4);});
+            this.HQmenuX.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) console.log("No puedes construir un cuartel aqui");});
         }
     }
 
@@ -51,12 +60,15 @@ export default class MenuConstruir extends Phaser.GameObjects.Container{
         if (casilla.resources){
             this.factoryMenuAv();
             this.constructionMenuUnav();
+            this.HQMenuUnav();
         }
         else if (casilla.vacia){
             this.factoryMenuUnav();
             this.constructionMenuAv();
+            this.HQMenuAv();
         }
         else {
+            this.HQMenuUnav();
             this.factoryMenuUnav();
             this.constructionMenuUnav();
         }
@@ -84,6 +96,18 @@ export default class MenuConstruir extends Phaser.GameObjects.Container{
         this.desactivateDefensesMenu();
         this.constructionMenu.visible = false;
         this.constructionMenuX.visible = true;
+    }
+
+    HQMenuAv(){
+        this.desactivateDefensesMenu();
+        this.HQmenu.visible = true;
+        this.HQmenuX.visible = false;
+    }
+
+    HQMenuUnav(){
+        this.desactivateDefensesMenu();
+        this.HQmenu.visible = false;
+        this.HQmenuX.visible = true;
     }
 
     defensesMenuSelected(){

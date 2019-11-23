@@ -1,15 +1,19 @@
 import Estructura from "./Estructura.js";
+import MenuCuartel from "../Menus/menuCuartel.js"
 
 export default class Cuartel extends Estructura{
     constructor(owner, tabPos, x, y, scene){
-        if (owner.color === 'red') this.spriteName = 'redHQ';
-        else this.spriteName = 'blueHQ';
-        this.hp = 50;
+        let sName;
+        if (owner.color === 'red') sName = 'redHQ';
+        else sName = 'blueHQ';
         
-        super(this.spriteName, this.hp, owner, tabPos, x, y, scene);
+        super(sName, 50, owner, tabPos, x, y, scene);
+
+        this.MenuCuartel = new MenuCuartel(this, this.scene, tabPos[0] * scene.squareSize + scene.offset, tabPos[1] * scene.squareSize + scene.offset);
+        this.MenuCuartel.visible = false;
 
         this.sprite.setInteractive();
-        this.sprite.on('pointerdown', () => {if (scene.mouse.leftButtonDown()) scene.HQselected(this)})
+        this.sprite.on('pointerdown', () => {if (scene.mouse.leftButtonDown()) scene.HQSelected(this.MenuCuartel); this.MenuCuartel.selected();});
     }
 
     spawnUnit(pos, dir, unitType){
