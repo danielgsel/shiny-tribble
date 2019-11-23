@@ -1,3 +1,5 @@
+import MenuTropaCuartel from "./menuTropaCuartel.js";
+
 export default class MenuCuartel extends Phaser.GameObjects.Container{
     constructor(HQ, scene, x, y){
         super(scene, x, y);
@@ -6,6 +8,11 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
         this.settingDirection = false;
         this.unitToSpawn = undefined;
         this.HQ = HQ;
+        this.menuDirecciones = new MenuTropaCuartel(scene, x, y, this);
+
+        this.unitName = undefined;
+        this.pos = undefined;
+        this.direction = undefined;
 
         this.soldierMenu = scene.add.image(this.radioMenu, this.radioMenu, 'soldierMenu').setScale(0.75).setInteractive();
         this.add(this.soldierMenu);
@@ -19,9 +26,9 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
         this.visible = false;
         scene.add.existing(this);
 
-        this.soldierMenu.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) this.settingUnit(); this.soldierSelected();});
-        this.knightMenu.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) this.settingUnit(); this.knightSelected();});
-        this.bowMenu.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) this.settingUnit(); this.bowSelected();});
+        this.soldierMenu.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) this.setPosUnit(); this.soldierSelected();});
+        this.knightMenu.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) this.setPosUnit(); this.tankSelected();});
+        this.bowMenu.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) this.setPosUnit(); this.archerSelected();});
     }
 
     selected(){
@@ -42,7 +49,7 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
         this.visible = false;
     }
 
-    settingUnit(){
+    setPosUnit(){
         this.settingUnit = true
         
         this.soldierMenu.visible = false;
@@ -51,6 +58,7 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
     }
 
     selectDirection(){
+        this.settingUnit = false;
         this.settingDirection = true;
     }
 
@@ -61,39 +69,66 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
         else{
             this.unitToSpawn = this.scene.add.image(0, 0, 'redSoldier').setInteractive();
         }
-        this.unitToSpawn.on('pointerDown', () => {if (this.scene.mouse.leftButtonDown()) this.selectDirection();})
+        this.unitName = 'soldier';
     }
 
-    knightSelected(){
+    tankSelected(){
         if (this.HQ.owner.color === 'blue'){
             this.unitToSpawn = this.scene.add.image(0, 0, 'blueTank').setInteractive();
         }
         else{
             this.unitToSpawn = this.scene.add.image(0, 0, 'redTank').setInteractive();
         }
-        this.unitToSpawn.on('pointerDown', () => {if (this.scene.mouse.leftButtonDown()) this.settingDirection();})
+        this.unitName = 'tank';
     }
 
-    bowSelected(){
+    archerSelected(){
         if (this.HQ.owner.color === 'blue'){
             this.unitToSpawn = this.scene.add.image(0, 0,'blueArcher').setInteractive();
         }
         else{
             this.unitToSpawn = this.scene.add.image(0, 0, 'redArcher').setInteractive();
         }
-        this.unitToSpawn.on('pointerDown', () => {if (this.scene.mouse.leftButtonDown()) this.settingDirection();})
+        this.unitName = 'archer';
     }
 
     updateMenu(){
         if (this.settingUnit){
-            updateSettingMenu();
+            this.updateSettingMenu();
         }
         else if (this.settingDirection){
-
+            this.menuDirecciones.updateMenu();
         }
     }
 
     updateSettingMenu(){
-        //Mover imagen de acuerdo al raton
+        let x = Math.floor(this.scene.mouse.worldX/this.scene.squareSize - 1);
+        let y = Math.floor(this.scene.mouse.worldY/this.scene.squareSize - 1);
+
+        if (x >= 0 && x < this.scene.anchoMundo && y >= 0 && y < this.scene.altoMundo && 
+            Math.abs(this.HQ.position.x - x) <= 1 && Math.abs(this.HQ.position.y - y) <= 1 &&
+            !this.scene.tablero.casillas[x][y].inexistente && this.scene.tablero.casillas[x][y].OccupiedBy === undefined && this.scene.tablero.casillas[x][y].estructurePlaced === undefined){
+            
+            let coord = {
+                x : x - this.HQ.position.x,
+                y : y - this.HQ.position.y
+            }
+
+            this.unitToSpawn.x = (this.HQ.position.x + coord.x) * this.scene.squareSize + this.scene.offset;
+            this.unitToSpawn.y = (this.HQ.position.y + coord.y) * this.scene.squareSize + this.scene.offset;
+
+            if (this.scene.mouse.leftButtonDown()){
+                this.pos = [x, y];
+                this.selectDirection();
+                this.menuDirecciones.x = this.unitToSpawn.x;
+                this.menuDirecciones.y = this.unitToSpawn.y;
+                this.menuDirecciones.visible = true;
+            }
+        }
+    }
+
+    setDirection(dir){
+        this.direction = dir;
+        this.HQ.spawnUnit(this.pos, this.dir, this.unitName);
     }
 }
