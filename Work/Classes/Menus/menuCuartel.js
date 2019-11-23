@@ -44,8 +44,6 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
     }
 
     unselected(){
-        this.scene.HQUnselected();
-
         this.visible = false;
     }
 
@@ -130,5 +128,8 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
     setDirection(dir){
         this.direction = dir;
         this.HQ.spawnUnit(this.pos, this.direction, this.unitName);
+        this.unitToSpawn.visible = false;
+        this.menuDirecciones.visible = false;
+        this.unselected();
     }
 }

@@ -226,7 +226,10 @@ export default class Game extends Phaser.Scene {
 
   HQSelected(HQmenu){
     if (this.menuHQ === undefined) this.menuHQ = HQmenu;
-    else this.menuHQ.unselected();
+    else {
+      this.menuHQ.unselected();
+      this.menuHQ = HQmenu;
+    }
   }
 
   HQUnselected(){
