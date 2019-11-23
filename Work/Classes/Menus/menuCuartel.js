@@ -129,6 +129,6 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
 
     setDirection(dir){
         this.direction = dir;
-        this.HQ.spawnUnit(this.pos, this.dir, this.unitName);
+        this.HQ.spawnUnit(this.pos, this.direction, this.unitName);
     }
 }
