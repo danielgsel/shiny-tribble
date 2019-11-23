@@ -273,7 +273,10 @@ export default class Game extends Phaser.Scene {
     this.menuConstruir.visible = false;
     this.menuMovimiento.visible = false;
 
-    //añadir para menu cuarteles
+    if(this.menuHQ !== undefined) {
+      this.menuHQ.unselected();
+      this.menuHQ = undefined;
+    }
   }
 
   moveSelected(){

@@ -44,6 +44,8 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
     }
 
     unselected(){
+        if (this.unitToSpawn !== undefined) this.unitToSpawn.visible = false;
+        if(this.menuDirecciones.visible) this.menuDirecciones.visible = false;
         this.visible = false;
     }
 
