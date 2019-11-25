@@ -1,7 +1,8 @@
 export default class MenuMovimiento extends Phaser.GameObjects.Container{
-    constructor(scene, x, y){
+    constructor(scene, x, y, HQmenu){
         super(scene,x,y);
 
+        this.HQmenu = HQmenu;
         this.distance = scene.squareSize;
 
         //Se crean los sprites
@@ -30,14 +31,14 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
 
         //se asignan las funciones a sus flechas
         {
-        this.up.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.selection.moveWorker(scene.selection.position.x, scene.selection.position.y - 1);});
-        this.down.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.selection.moveWorker(scene.selection.position.x, scene.selection.position.y + 1)});
-        this.left.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.selection.moveWorker(scene.selection.position.x - 1, scene.selection.position.y)});
-        this.right.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.selection.moveWorker(scene.selection.position.x + 1, scene.selection.position.y)});
-        this.upRight.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.selection.moveWorker(scene.selection.position.x + 1, scene.selection.position.y - 1)});
-        this.upLeft.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.selection.moveWorker(scene.selection.position.x - 1, scene.selection.position.y - 1)});
-        this.downRight.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.selection.moveWorker(scene.selection.position.x + 1, scene.selection.position.y + 1)});
-        this.downLeft.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.selection.moveWorker(scene.selection.position.x - 1, scene.selection.position.y + 1)});
+        this.up.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) HQmenu.setDirection("up")});
+        this.down.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) HQmenu.setDirection("down")});
+        this.left.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) HQmenu.setDirection("left")});
+        this.right.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) HQmenu.setDirection("right")});
+        this.upRight.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) HQmenu.setDirection("upright")});
+        this.upLeft.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) HQmenu.setDirection("upleft")});
+        this.downRight.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) HQmenu.setDirection("downright")});
+        this.downLeft.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) HQmenu.setDirection("downleft")});
         }
 
         //Se añaden al container
@@ -61,14 +62,16 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
         let x = Math.floor(this.scene.mouse.worldX/this.scene.squareSize - 1);
         let y = Math.floor(this.scene.mouse.worldY/this.scene.squareSize - 1);
 
-        if (this.valid(x,y)){
+        if (x >= 0 && x < this.scene.anchoMundo && y >= 0 && y < this.scene.altoMundo && 
+            Math.abs(this.HQmenu.pos[0] - x) <= 1 && Math.abs(this.HQmenu.pos[1] - y) <= 1 &&
+            !this.scene.tablero.casillas[x][y].inexistente && this.scene.tablero.casillas[x][y].OccupiedBy === undefined && this.scene.tablero.casillas[x][y].estructurePlaced === undefined){
             if (this.arrowVisible !== undefined) this.arrowVisible.visible = false;
             
             let coord = {
-                x : x - this.scene.selection.position.x,
-                y : y - this.scene.selection.position.y
+                x : x - this.HQmenu.pos[0],
+                y : y - this.HQmenu.pos[1]
             }
-
+            
             if (coord.x === 0){
                 if (coord.y === 1) this.arrowVisible = this.down;
                 else if (coord.y === -1) this.arrowVisible = this.up;
@@ -86,11 +89,5 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
 
             if (this.arrowVisible !== undefined) this.arrowVisible.visible = true;
         }
-    }
-
-    valid(x,y){
-        return(x >= 0 && x < this.scene.anchoMundo && y >= 0 && y < this.scene.altoMundo && 
-            Math.abs(this.scene.selection.position.x - x) <= 1 && Math.abs(this.scene.selection.position.y - y) <= 1 &&
-            !this.scene.tablero.casillas[x][y].inexistente && this.scene.tablero.casillas[x][y].OccupiedBy === undefined && this.scene.tablero.casillas[x][y].estructurePlaced === undefined)
     }
 }

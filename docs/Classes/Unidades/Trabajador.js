@@ -1,13 +1,13 @@
 import Unidad from "./Unidad.js";
 
 export default class Trabajador extends Unidad {
-  constructor(scene, positionx, positiony, hp, owner) {
+  constructor(scene, positionx, positiony, owner) {
 
     if (owner.color === "red"){
-      super(scene, positionx, positiony, hp, 'worker', owner);
+      super(scene, positionx, positiony, 40, 'redWorker', owner);
     }
     else{
-      super(scene, positionx, positiony, hp, 'blueWorker', owner);
+      super(scene, positionx, positiony, 40, 'blueWorker', owner);
     }
     
     this.timesMoved = 0;
@@ -17,15 +17,17 @@ export default class Trabajador extends Unidad {
       if (this.scene.selection !== this){
         if(this.owner.color == "red" && !this.scene.blueTurn && this.timesMoved === 0){
           this.scene.workerSelected(this);
-          this.selected();
         }
         else if(this.owner.color == "blue" && this.scene.blueTurn && this.timesMoved === 0){
           this.scene.workerSelected(this);
-          this.selected();
         }
         
       }
     })
+    this.moveIndicator;
+    this.indicatorCreated = false;
+    //this.printIndicator();
+    
 
     this.positionx = positionx;
     this.positiony = positiony;
@@ -37,26 +39,64 @@ export default class Trabajador extends Unidad {
     this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
     this.moveUnit(x, y);
     this.scene.mueveMenusWorker(this);
-
+    this.positionx = x;
+    this.positiony = y;
+    //this.movetheIndicator();
+    //this.hideIndicator();
     this.timesMoved++;
     this.scene.unselect();
-  }
-
-  selected(){
-    console.log("selected worker " + this.positionx + " " + this.positiony);
+   
     
   }
 
-  onSelected(){
-
+  printIndicator(){
+    this.moveIndicator = this.scene.add.image(this.positionx * this.scene.squareSize + this.scene.offset + 30,
+      this.positiony * this.scene.squareSize + this.scene.offset + -40, 'canMove');
+      this.indicatorCreated = true;
   }
 
-  unselected(){
-      console.log("unselected worker " + this.positionx + " " + this.positiony);
-    
+  movetheIndicator(){
+    this.moveIndicator.x = this.positionx * this.scene.squareSize + this.scene.offset + 30;
+    this.moveIndicator.y = this.positiony * this.scene.squareSize + this.scene.offset + -40;
+  }
+
+  showIndicator(){
+    this.moveIndicator.visible = true;
+  }
+
+  hideIndicator(){
+    this.moveIndicator.visible = false;
   }
 
   passTurn(){
-    
+    //this.manageIndicator();
   }
+  
+  // manageIndicator(){
+  //   if (this.owner.color === "red")
+  //   {
+  //     if(this.scene.blueTurn){
+  //         if(!this.indicatorCreated)this.printIndicator();
+  //         this.showIndicator();
+  //     }
+  //     else{
+  //       if(this.indicatorCreated)this.hideIndicator();
+
+  //     }
+  //   }
+  //   else{
+  //     if(this.scene.blueTurn){
+  //       if(this.indicatorCreated)this.hideIndicator();
+
+  //     }
+  //     else{
+  //         if(!this.indicatorCreated)this.printIndicator();
+  //         this.showIndicator();
+
+  //     }
+
+  //   }
+
+  // }
+  
 }

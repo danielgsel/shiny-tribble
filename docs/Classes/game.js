@@ -11,6 +11,9 @@ import Cannon from "./Estructuras/Cannon.js"
 import Tower from "./Estructuras/Torre.js"
 import Mortar from "./Estructuras/Morterto.js"
 import Player from "./Player.js"
+import MeenuPasarTurno from "./Menus/menuPasarTurno.js"
+import MenuPasarTurno from "./Menus/menuPasarTurno.js";
+import MenuNewWorker from "./Menus/menuNewWorker.js";
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -35,6 +38,10 @@ export default class Game extends Phaser.Scene {
     this.load.image('redMortar', 'assets/imagenes/redMortar.png');
     this.load.image('blueTower', 'assets/imagenes/blueTower.png');
     this.load.image('redTower', 'assets/imagenes/redTower.png');
+
+    this.load.image('redHQ', 'assets/imagenes/redHQ.png');
+    this.load.image('blueHQ', 'assets/imagenes/blueHQ.png');
+
       
     //Unidad(es)
     this.load.image('redWorker',' assets/imagenes/worker.png' );
@@ -60,6 +67,11 @@ export default class Game extends Phaser.Scene {
     this.load.image('constructionMenuUnav', 'assets/imagenes/MenuConstructionUnav.png');
     this.load.image('factoryMenuAv', 'assets/imagenes/FactoryMenuAvailable.png');
     this.load.image('factoryMenuUnav', 'assets/imagenes/FactoryMenuUnavailable.png');
+    this.load.image('HQMenuAv', 'assets/imagenes/menuHQAv.png');
+    this.load.image('HQMenuUnav', 'assets/imagenes/menuHQUnav.png');
+    this.load.image('bowMenu', 'assets/imagenes/bowMenu.png');
+    this.load.image('knightMenu', 'assets/imagenes/knightMenu.png');
+    this.load.image('soldierMenu', 'assets/imagenes/soldierMenu.png');
 
     this.load.image('nextTurn', 'assets/imagenes/NextTurn.png')
 
@@ -73,17 +85,23 @@ export default class Game extends Phaser.Scene {
     this.load.image('blueTurn', 'assets/imagenes/blueTurn.png');
     this.load.image('redTurn', 'assets/imagenes/redTurn.png');
 
+    this.load.image('nextTurnBlue', 'assets/imagenes/nextTurn.png');
+    this.load.image('nextTurnRed', 'assets/imagenes/nextTurn.png');
+
+
+
     this.load.image('woodIcon', 'assets/imagenes/WoodIcon.png');
     this.load.image('steelIcon', 'assets/imagenes/steelIcon.png');
+
+
+    this.load.image('canMove', 'assets/imagenes/canMoveIndicator.png');
+
 
     //Seleccion
     this.load.image('selectionIcon', 'assets/imagenes/SelectionIcon.png');
   }
 
   create() {
-
-    
-
       this.input.mouse.disableContextMenu();
       this.mouse = this.input.activePointer;
       this.mouseAvaliable = true;
@@ -101,26 +119,30 @@ export default class Game extends Phaser.Scene {
       this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
       this.menuMovimiento.depth = 1;
 
+      this.menuHQ = undefined;     
+
+      this.newWorkers = new MenuNewWorker(this);
 
       this.blueTurnImage = this.add.image(300, 100, 'blueTurn').setScale(0.6);
       this.redTurnImage = this.add.image(300, 100, 'redTurn').setScale(0.6);
       this.blueTurnImage.visible = false;
 
+      this.nextTurnButton = new MenuPasarTurno(this, 50,620)
+
+      
       this.bluePlayer = new Player(this, 'blue');
       this.redPlayer = new Player(this, 'red');
-
-      this.redPlayer.Perturn.wood = 3;
-      this.bluePlayer.Perturn.steel = 2;
-      //this.redPlayer.loadResourcesMenus();
      
+     
+   
 
       //TEST DE UNIDADES
 
-      this.bluePlayer.newUnit(4,4,100, 'tank', 'down');
-      this.bluePlayer.newUnit(2,7,100, 'worker', 'up');
+      this.bluePlayer.newUnit(4,4, 'tank', 'upright');
+      this.bluePlayer.newUnit(2,7, 'worker', 'up');
 
-      this.redPlayer.newUnit(2,3,100, 'archer', 'right');
-      this.redPlayer.newUnit(7,6,100, 'soldier', 'up');
+      this.redPlayer.newUnit(2,3, 'archer', 'downright');
+      this.redPlayer.newUnit(7,6, 'soldier', 'upleft');
 
       ///////////////////////////////////
 
@@ -128,6 +150,24 @@ export default class Game extends Phaser.Scene {
       this.KeyN = this.input.keyboard.addKey('N');
 
       this.blueTurn = false;
+
+      this.redPlayer.Resources.wood = 2;
+      this.redPlayer.Resources.steel = 2;
+      this.redPlayer.Perturn.wood = 1;
+      this.redPlayer.Perturn.steel = 1;
+
+      this.redPlayer.updateResourcesMenus();
+
+      this.bluePlayer.Resources.wood = 2;
+      this.bluePlayer.Resources.steel = 2;
+
+      this.bluePlayer.Perturn.wood = 1;
+      this.bluePlayer.Perturn.steel = 1;
+
+      this.bluePlayer.updateResourcesMenus();
+
+
+
       this.canPassTurn = true;
 
   }
@@ -141,32 +181,7 @@ export default class Game extends Phaser.Scene {
     //PLAYTEST DE TURNOS 
 
     if(this.KeyN.isDown && this.pasable){
-      if(this.blueTurn){
-        this.passTurn(this.redPlayer);
-        this.blueTurn = false;
-        this.redTurn = false;
-        this.redTurnImage.visible = true;
-        this.blueTurnImage.visible = false;
-        this.unselect();
-
-        for(let i = 0; i < this.bluePlayer.Units.length; i++){
-          this.bluePlayer.Units[i].timesMoved = 0;
-        }
-
-      }
-      else if(!this.blueTurn){
-        this.passTurn(this.bluePlayer);
-        this.redTurn = true;
-        this.blueTurn = true;
-        this.redTurnImage.visible = false;
-        this.blueTurnImage.visible = true;
-        this.unselect();
-
-        for(let i = 0; i < this.redPlayer.Units.length; i++){
-          this.redPlayer.Units[i].timesMoved = 0;
-        }
-
-      }
+      this.passTurn();
       this.pasable = false;
   }
 
@@ -177,7 +192,7 @@ export default class Game extends Phaser.Scene {
     
 
 
-    if(this.selection !== undefined) this.selection.onSelected(); //como idea
+    //if(this.selection !== undefined) this.selection.onSelected(); //como idea
 }
 
 
@@ -211,33 +226,49 @@ export default class Game extends Phaser.Scene {
 
     //Mueve el icono de seleccion hacia el objetivo y lo hace visible
     this.mueveMenusWorker(unit);
+    this.menuMovimiento.updateMenu();
+  }
+
+  HQSelected(HQmenu){
+    if (this.menuHQ === undefined) this.menuHQ = HQmenu;
+    else {
+      this.menuHQ.unselected();
+      this.menuHQ = HQmenu;
+    }
+  }
+
+  HQUnselected(){
+    this.menuHQ = undefined;
   }
 
   mueveMenusWorker(unit){
     this.selectionIcon.x = unit.sprite.x;
     this.selectionIcon.y = unit.sprite.y;
-    this.selectionIcon.visible = true;
-
+    
     this.menuMovimiento.x = unit.sprite.x;
     this.menuMovimiento.y = unit.sprite.y;
-    this.menuMovimiento.visible = true;
-
+    
     this.menuConstruir.x = unit.sprite.x;
     this.menuConstruir.y = unit.sprite.y;
-    this.menuConstruir.visible = true;
-
+    
     this.menuConstruir.updateMenu();
+
+    this.selectionIcon.visible = true;
+    this.menuMovimiento.visible = true;
+    this.menuConstruir.visible = true;
   }
 
   updateMenus(){
     if(this.selection !== undefined){
       this.menuMovimiento.updateMenu();
     }
+    if (this.menuHQ !== undefined){
+      this.menuHQ.updateMenu();
+    }
   }
 
   checkMouseInput(){
     if (this.mouse.rightButtonDown()){
-      if(this.selection !== undefined) this.selection.unselected();
       this.unselect();
     } 
   }
@@ -247,6 +278,13 @@ export default class Game extends Phaser.Scene {
     this.selectionIcon.visible = false;
     this.menuConstruir.visible = false;
     this.menuMovimiento.visible = false;
+    if (this.menuMovimiento.arrowVisible !== undefined)this.menuMovimiento.arrowVisible.visible = false;
+    this.menuMovimiento.arrowVisible = undefined;
+
+    if(this.menuHQ !== undefined) {
+      this.menuHQ.unselected();
+      this.menuHQ = undefined;
+    }
   }
 
   moveSelected(){
@@ -270,23 +308,45 @@ export default class Game extends Phaser.Scene {
   }
 
 
-  passTurn(player){
-    for (let i = 0; i < player.Units.length; i++){
-        player.Units[i].passTurn();
+  passTurn(){
+
+    let player;
+    if(this.pasable){
+      if(this.blueTurn){
+        this.blueTurn = false;
+        this.redTurn = false;
+        this.redTurnImage.visible = true;
+        this.blueTurnImage.visible = false;
+        this.unselect();
+        player = this.bluePlayer;
+        for(let i = 0; i < this.bluePlayer.Units.length; i++){
+          this.bluePlayer.Units[i].timesMoved = 0;
+        }
+
       }
+      else if(!this.blueTurn){
+        this.redTurn = true;
+        this.blueTurn = true;
+        this.redTurnImage.visible = false;
+        this.blueTurnImage.visible = true;
+        this.unselect();
+        player = this.redPlayer;
+        for(let i = 0; i < this.redPlayer.Units.length; i++){
+          this.redPlayer.Units[i].timesMoved = 0;
+        }
+      }
+      this.pasable = false;
 
-    player.passTurn();
-    // if(player.color=== "red"){
-    //   //this.redPlayer.deleteMenus();
-    //   this.redPlayer.updateResourcesMenus();
-    // }
-    // else{
-    //   //this.bluePlayer.deleteMenus();
-    //   this.bluePlayer.updateResourcesMenus();
-    // }
+
+      //Pasar Unidades
     
-  }
-
+      for (let i = 0; i < player.Units.length; i++){
+            player.Units[i].passTurn();
+           
+      }
+      player.passTurn(); 
+    }
+}
   deleteUnit(owner){
    // let deleted = false;
     let i = 0;

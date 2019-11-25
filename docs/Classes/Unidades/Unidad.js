@@ -34,7 +34,7 @@ export default class Unidad extends Phaser.GameObjects.Sprite {
     this.sprite.destroy();
     this.healthbar.destroy(); 
     this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
-
+    //if(this.moveIndicator!= undefined) this.moveIndicator.destroy();
     this.deleteMe = true;
     this.scene.deleteUnit(this.owner);
   }
