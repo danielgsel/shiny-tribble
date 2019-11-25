@@ -115,15 +115,15 @@ export default class Player{
             if(castype === "wood") {
                 this.Perturn.wood += 2;
             }
-            else{
+            else if (castype === "steel"){
                 this.Perturn.steel += 2;
             }
-
-
-
-
-
-                /////// FALTAN SUPER MINA Y  SUPER BOSQUE
+            else if (castype === "superSteel"){
+                this.Perturn.steel += 3;
+            }
+            else if (castype === "superForest"){
+                this.Perturn.steel += 3;
+            }
 
 
 

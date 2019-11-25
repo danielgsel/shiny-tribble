@@ -6,6 +6,9 @@ export default class CasillaSuperForest extends Casilla{
   
       this.sprite = 'casillaSuperForest';
       this.resources = true;
+
+      this.type="superForest";
+
     }
   
     construyeGranAserradero(){
