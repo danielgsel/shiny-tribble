@@ -38,6 +38,10 @@ export default class Game extends Phaser.Scene {
     this.load.image('redMortar', 'assets/imagenes/redMortar.png');
     this.load.image('blueTower', 'assets/imagenes/blueTower.png');
     this.load.image('redTower', 'assets/imagenes/redTower.png');
+
+    this.load.image('redHQ', 'assets/imagenes/redHQ.png');
+    this.load.image('blueHQ', 'assets/imagenes/blueHQ.png');
+
       
     //Unidad(es)
     this.load.image('redWorker',' assets/imagenes/worker.png' );
