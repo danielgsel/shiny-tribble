@@ -61,9 +61,7 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
         let x = Math.floor(this.scene.mouse.worldX/this.scene.squareSize - 1);
         let y = Math.floor(this.scene.mouse.worldY/this.scene.squareSize - 1);
 
-        if (x >= 0 && x < this.scene.anchoMundo && y >= 0 && y < this.scene.altoMundo && 
-            Math.abs(this.scene.selection.position.x - x) <= 1 && Math.abs(this.scene.selection.position.y - y) <= 1 &&
-            !this.scene.tablero.casillas[x][y].inexistente && this.scene.tablero.casillas[x][y].OccupiedBy === undefined && this.scene.tablero.casillas[x][y].estructurePlaced === undefined){
+        if (this.valid(x,y)){
             if (this.arrowVisible !== undefined) this.arrowVisible.visible = false;
             
             let coord = {
@@ -88,5 +86,11 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
 
             if (this.arrowVisible !== undefined) this.arrowVisible.visible = true;
         }
+    }
+
+    valid(x,y){
+        return(x >= 0 && x < this.scene.anchoMundo && y >= 0 && y < this.scene.altoMundo && 
+            Math.abs(this.scene.selection.position.x - x) <= 1 && Math.abs(this.scene.selection.position.y - y) <= 1 &&
+            !this.scene.tablero.casillas[x][y].inexistente && this.scene.tablero.casillas[x][y].OccupiedBy === undefined && this.scene.tablero.casillas[x][y].estructurePlaced === undefined)
     }
 }

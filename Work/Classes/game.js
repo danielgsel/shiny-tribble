@@ -226,6 +226,7 @@ export default class Game extends Phaser.Scene {
 
     //Mueve el icono de seleccion hacia el objetivo y lo hace visible
     this.mueveMenusWorker(unit);
+    this.menuMovimiento.updateMenu();
   }
 
   HQSelected(HQmenu){
@@ -243,17 +244,18 @@ export default class Game extends Phaser.Scene {
   mueveMenusWorker(unit){
     this.selectionIcon.x = unit.sprite.x;
     this.selectionIcon.y = unit.sprite.y;
-    this.selectionIcon.visible = true;
-
+    
     this.menuMovimiento.x = unit.sprite.x;
     this.menuMovimiento.y = unit.sprite.y;
-    this.menuMovimiento.visible = true;
-
+    
     this.menuConstruir.x = unit.sprite.x;
     this.menuConstruir.y = unit.sprite.y;
-    this.menuConstruir.visible = true;
-
+    
     this.menuConstruir.updateMenu();
+
+    this.selectionIcon.visible = true;
+    this.menuMovimiento.visible = true;
+    this.menuConstruir.visible = true;
   }
 
   updateMenus(){
@@ -276,6 +278,8 @@ export default class Game extends Phaser.Scene {
     this.selectionIcon.visible = false;
     this.menuConstruir.visible = false;
     this.menuMovimiento.visible = false;
+    if (this.menuMovimiento.arrowVisible !== undefined)this.menuMovimiento.arrowVisible.visible = false;
+    this.menuMovimiento.arrowVisible = undefined;
 
     if(this.menuHQ !== undefined) {
       this.menuHQ.unselected();
