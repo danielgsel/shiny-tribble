@@ -13,6 +13,12 @@ export default class Atacante extends Unidad{
         this.facing = facing;
         this.owner = owner;
 
+        if (this.owner.color ==="red"){
+            this.enemyColor = "blue";
+        }
+        else{
+            this.enemyColor = "red";
+        }
         this.facingRel = this.facingTo();
     }
 
@@ -48,6 +54,8 @@ export default class Atacante extends Unidad{
                 this.scene.tablero.casillas[x][y].OccupiedBy = this;
                 this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
                 this.moveUnit(x, y);
+                // this.position.x = x;
+                // this.position.y = y;
             
 
             // else if(this.scene.tablero.casillas[x][y].OccupiedBy.owner !== this.owner){
@@ -102,8 +110,34 @@ export default class Atacante extends Unidad{
         return facingTo;
     }
 
-    manageIndicator(){}
+    TryAttack(xSum, ySum){
+        try{
+        if(this.casillaValid(this.position.x + xSum ,this.position.y + ySum)){
+            if(this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].OccupiedBy !== undefined
+                && this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].OccupiedBy.owner !== this.owner) {
+                    
+                this.canAttack[this.canAttack.length] = this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].OccupiedBy;
+                }
+            else if(this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].estructurePlaced !== undefined
+                && this.scene.tablero.casillas[this.position.x + xSum1][this.position.y + ySum].estructurePlaced.owner !== this.owner){
 
+                this.canAttack[this.canAttack.length] = this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].estructurePlaced;
+            }
+            else{
+                this.canAttack[this.canAttack.length] = undefined;
+            }
+        }
+        else if((this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].base &&
+            this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].owner === this.enemyColor)){
+
+            this.scene.attackBase(this.owner);
+            this.attackingSomeOne = true;
+        }
+    }
+    catch{
+        console.log("mirando fuera");
+    }
+    }
     
 
 }

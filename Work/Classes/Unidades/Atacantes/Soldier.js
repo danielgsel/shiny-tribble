@@ -11,6 +11,7 @@ export default class Soldier extends Atacante{
         this.scene = scene;
         this.facing = facing;
 
+        this.attackingSomeOne = false;
         this.canAttack = [];
         this.attacking = undefined;
  
@@ -19,89 +20,35 @@ export default class Soldier extends Atacante{
 
     passTurn(){
         this.checkAttack();
-        if(this.attacking === undefined){
+        if(!this.attackingSomeOne){
             this.moveAuto();
                 
         }
-        else{
-            console.log("pium pium a: " +  this.attacking.position.x +  " " + this.attacking.position.y);
+        else if (this.attacking !== undefined){
 
             this.attacking.receiveDamage(this.damage);
         }
+
+        this.canAttack.length  = 0;
+
     }
 
-    checkAttack(){ //Ataca en cruz
-        
-        if(this.casillaValid(this.position.x -1,this.position.y)){
-            if(this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy !== undefined
-                && this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy.owner !== this.owner) {
+    checkAttack(){ 
+        this.attackingSomeOne = false;
 
-                this.canAttack[0] = this.scene.tablero.casillas[this.position.x -1][this.position.y].OccupiedBy;
-            }
-            else if (this.scene.tablero.casillas[this.position.x -1][this.position.y].estructurePlaced !== undefined
-                && this.scene.tablero.casillas[this.position.x -1][this.position.y].estructurePlaced.owner !== this.owner){
+        this.TryAttack(1,0);
+        this.TryAttack(-1,0);
+        this.TryAttack(0,1);
+        this.TryAttack(0,-1);
 
-                this.canAttack[0] = this.scene.tablero.casillas[this.position.x -1][this.position.y].estructurePlaced;
-            }
-            else{
-                this.canAttack[0] = undefined;
-            }
-        }
-
-        if(this.casillaValid(this.position.x +1,this.position.y)){
-            if(this.scene.tablero.casillas[this.position.x + 1][this.position.y].OccupiedBy !== undefined
-                && this.scene.tablero.casillas[this.position.x + 1][this.position.y].OccupiedBy.owner !== this.owner) {
-                    
-                    this.canAttack[1] = this.scene.tablero.casillas[this.position.x + 1][this.position.y].OccupiedBy;
-            }
-            else if(this.scene.tablero.casillas[this.position.x + 1][this.position.y].estructurePlaced !== undefined
-                && this.scene.tablero.casillas[this.position.x + 1][this.position.y].estructurePlaced.owner !== this.owner){
-
-                    this.canAttack[1] = this.scene.tablero.casillas[this.position.x + 1][this.position.y].estructurePlaced;
-            }
-            else{
-                this.canAttack[1] = undefined;
-            }
-        }
-
-        if(this.casillaValid(this.position.x,this.position.y-1)){
-            if(this.scene.tablero.casillas[this.position.x][this.position.y - 1].OccupiedBy !== undefined
-                && this.scene.tablero.casillas[this.position.x][this.position.y - 1].OccupiedBy.owner !== this.owner) {
-                    
-                    this.canAttack[2] = this.scene.tablero.casillas[this.position.x][this.position.y - 1].OccupiedBy;
-                }
-            else if(this.scene.tablero.casillas[this.position.x][this.position.y - 1].estructurePlaced !== undefined
-                && this.scene.tablero.casillas[this.position.x][this.position.y - 1].estructurePlaced.owner !== this.owner){
-
-                    this.canAttack[2] = this.scene.tablero.casillas[this.position.x][this.position.y - 1].estructurePlaced;
-            }
-            else{
-                    this.canAttack[2] = undefined;
-                }
-        }
-        if(this.casillaValid(this.position.x ,this.position.y+1)){
-            if(this.scene.tablero.casillas[this.position.x][this.position.y + 1].OccupiedBy !== undefined
-                && this.scene.tablero.casillas[this.position.x][this.position.y + 1].OccupiedBy.owner !== this.owner) {
-                    
-                    this.canAttack[3] = this.scene.tablero.casillas[this.position.x][this.position.y + 1].OccupiedBy;
-                }
-                else if(this.scene.tablero.casillas[this.position.x][this.position.y + 1].estructurePlaced !== undefined
-                    && this.scene.tablero.casillas[this.position.x][this.position.y + 1].estructurePlaced.owner !== this.owner){
-
-                    this.canAttack[3] = this.scene.tablero.casillas[this.position.x][this.position.y + 1].estructurePlaced;
-                }
-                else{
-                    this.canAttack[3] = undefined;
-            }
-        }
         let i = 0;
-        let attackingSomeOne = false;
-        while(i<this.canAttack.length && !attackingSomeOne){
+        
+        while(i<this.canAttack.length && !this.attackingSomeOne){
             this.attacking = this.canAttack[i];
             if(this.canAttack[i] !== undefined) {
-                attackingSomeOne = true;
+                this.attackingSomeOne = true;
             }
             i++;
-        }
+        }        
     }
 }

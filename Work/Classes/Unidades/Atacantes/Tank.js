@@ -10,38 +10,32 @@ export default class Tank extends Atacante{
         this.position = {x: positionx, y: positiony};   
         this.scene = scene;
         this.facing = facing;
+        this.attackingSomeOne = false;
 
         this.attacking = undefined;
  
         this.damage = 10;
+
+        this.canAttack = [];
+
     }
 
     passTurn(){
         this.checkAttack();
-        if(this.attacking === undefined){
-            this.moveAuto();     
+        if(!this.attackingSomeOne){
+            this.moveAuto();
                 
         }
-        else{
-            console.log("pium pium a: " +  this.attacking.position.x +  " " + this.attacking.position.y);
+        else if (this.attacking !== undefined){
 
             this.attacking.receiveDamage(this.damage);
         }
+        this.canAttack.length  = 0;
+
     }
-    checkAttack(){ //Ataqu
-        let facingTo = this.facingTo();
-        let dest = this.scene.tablero.casillas[facingTo.x][facingTo.y];
-        if(this.casillaValid(facingTo.x,facingTo.y)){
-            console.log(dest.estructurePlaced !== undefined);
-            if(dest.OccupiedBy !== undefined && dest.OccupiedBy.owner !== this.owner) {
-                this.attacking = this.scene.tablero.casillas[facingTo.x][facingTo.y].OccupiedBy;
-            }
-            else if (dest.estructurePlaced !== undefined && dest.estructurePlaced.owner !== this.owner){
-                this.attacking = dest.estructurePlaced;
-            }
-            else{
-                this.attacking = undefined;
-            }
-        }
+    checkAttack(){
+        
+        this.TryAttack(this.facingRel.x, this.facingRel.y);
+
     }
 }

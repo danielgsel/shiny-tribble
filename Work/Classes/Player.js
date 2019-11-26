@@ -6,6 +6,7 @@ import Cannon from "./Estructuras/Cannon.js"
 import Tower from "./Estructuras/Torre.js"
 import Mortar from "./Estructuras/Morterto.js"
 import Cuartel from "./Estructuras/Cuartel.js"
+import Base from "./Casillas/base.js"
 
 export default class Player{
     constructor(game, color){
@@ -28,6 +29,7 @@ export default class Player{
         this.steelNumberMenu ;
         this.perTurnSteelMenu;
 
+        this.base = new Base(this);
         
         this.color = color;
         if(color === "blue"){

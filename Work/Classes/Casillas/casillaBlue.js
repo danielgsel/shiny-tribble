@@ -6,5 +6,6 @@ export default class CasillaBlue extends Casilla{
   
       this.sprite = 'casillaBlue';
       this.base = true;
+      this.owner = "blue";
     }
   }

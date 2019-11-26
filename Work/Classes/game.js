@@ -138,11 +138,11 @@ export default class Game extends Phaser.Scene {
 
       //TEST DE UNIDADES
 
-      this.bluePlayer.newUnit(4,4, 'tank', 'upright');
-      this.bluePlayer.newUnit(2,7, 'worker', 'up');
+      // this.bluePlayer.newUnit(4,4, 'tank', 'upright');
+      // this.bluePlayer.newUnit(2,7, 'worker', 'up');
 
-      this.redPlayer.newUnit(2,3, 'archer', 'downright');
-      this.redPlayer.newUnit(7,6, 'soldier', 'upleft');
+      // this.redPlayer.newUnit(2,3, 'archer', 'downright');
+      // this.redPlayer.newUnit(7,6, 'soldier', 'upleft');
 
       ///////////////////////////////////
 
@@ -376,6 +376,15 @@ export default class Game extends Phaser.Scene {
 
   buildStructure(i){
     this.selection.owner.newStructure(i);
+  }
+
+  attackBase(player){
+    if(player.color === "blue"){
+      this.redPlayer.base.recieveDamage();
+    }
+    else{
+      this.bluePlayer.base.recieveDamage();
+    }
   }
 
 
