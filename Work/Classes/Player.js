@@ -53,18 +53,22 @@ export default class Player{
     }
 
     newUnit(x,y,unitType,direction){
-        if (unitType === 'archer'){
-            this.Units.push(new Archer(this.scene, x,y, this.SpriteArcher, direction, this));
-            this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
+        if(this.Resources.steel >= 5){
+    
+            if (unitType === 'archer'){
+                this.Units.push(new Archer(this.scene, x,y, this.SpriteArcher, direction, this));
+                this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
+            }
+            else if (unitType === 'soldier'){
+                this.Units.push(new Soldier(this.scene, x,y, this.SpriteSoldier, direction, this));
+                this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
+            }
+            else if (unitType === 'tank'){
+                this.Units.push(new Tank(this.scene, x,y, this.SpriteTank, direction, this));
+                this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
         }
-        else if (unitType === 'soldier'){
-            this.Units.push(new Soldier(this.scene, x,y, this.SpriteSoldier, direction, this));
-            this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
-        }
-        else if (unitType === 'tank'){
-            this.Units.push(new Tank(this.scene, x,y, this.SpriteTank, direction, this));
-            this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
-        }
+        this.Resources.steel -= 5;
+    }
         
     }
 
@@ -101,16 +105,22 @@ export default class Player{
             this.Structures.push(new Cannon(this, [this.scene.selection.position.x, this.scene.selection.position.y], 0, 0, this.scene));
             this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
             this.scene.selection.destroyMe();
+            this.Resources.wood -= 5;
+
             break;
           case 1:   //Tower
           this.Structures.push(new Tower(this, [this.scene.selection.position.x, this.scene.selection.position.y], 0, 0, this.scene));
           this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
           this.scene.selection.destroyMe();
+          this.Resources.wood -= 5;
+
             break;
           case 2:   //Mortar
           this.Structures.push(new Mortar(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene));
           this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
           this.scene.selection.destroyMe();
+          this.Resources.wood -= 5;
+
             break;
           case 3:   //Recursos
             let castype = this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].type;

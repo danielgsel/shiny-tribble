@@ -21,6 +21,6 @@ export default class Cuartel extends Estructura{
 
     spawnUnit(pos, dir, unitType){
         this.owner.newUnit(pos[0], pos[1], unitType, dir);
-        console.log("Spawning unit at " + pos[0] + " " + pos[1] + " direction " + dir);
+        //console.log("Spawning unit at " + pos[0] + " " + pos[1] + " direction " + dir);
     }
 }

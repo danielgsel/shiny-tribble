@@ -64,8 +64,13 @@ export default class MenuConstruir extends Phaser.GameObjects.Container{
         }
         else if (casilla.vacia){
             this.factoryMenuUnav();
-            this.constructionMenuAv();
             this.HQMenuAv();
+            if(this.scene.selection.owner.Resources.wood >= 5){
+                this.constructionMenuAv();
+            }
+            else{
+                this.constructionMenuUnav();
+            }
         }
         else {
             this.HQMenuUnav();
@@ -118,6 +123,8 @@ export default class MenuConstruir extends Phaser.GameObjects.Container{
         this.buildCannon.visible = true;
         this.buildTower.visible = true;
         this.buildMortar.visible = true;
+
+        this.HQmenu.visible = false;
     }
 
     desactivateDefensesMenu(){

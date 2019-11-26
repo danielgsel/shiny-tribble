@@ -7,6 +7,6 @@ export default class Base{
     recieveDamage(){
         this.hp--;
         console.log("Vida base "+this.owner.color + " " + this.hp);
-        if(this.hp <= 0) console.log("Rip");
+        if(this.hp <= 0) console.log("Rip color " + this.owner.color);
     }
 }
