@@ -27,7 +27,10 @@ export default class Trabajador extends Unidad {
     this.moveIndicator;
     this.indicatorCreated = false;
     //this.printIndicator();
-    
+    this.position = {
+      x: positionx,
+      y: positiony
+    }
 
     this.positionx = positionx;
     this.positiony = positiony;

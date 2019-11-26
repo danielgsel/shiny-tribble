@@ -119,7 +119,7 @@ export default class Atacante extends Unidad{
                 this.canAttack[this.canAttack.length] = this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].OccupiedBy;
                 }
             else if(this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].estructurePlaced !== undefined
-                && this.scene.tablero.casillas[this.position.x + xSum1][this.position.y + ySum].estructurePlaced.owner !== this.owner){
+                && this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].estructurePlaced.owner !== this.owner){
 
                 this.canAttack[this.canAttack.length] = this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].estructurePlaced;
             }

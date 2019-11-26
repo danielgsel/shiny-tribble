@@ -5,6 +5,6 @@ export default class Torre extends Defensa{
         let sprite = undefined;
         if (owner.color === 'blue') sprite = 'blueTower';
         else sprite = 'redTower';
-        super(sprite, 10, 2, 30, owner, tabPos, x, y, scene);
+        super(sprite, 10, 2, 1000, owner, tabPos, x, y, scene);
     }
 } 
