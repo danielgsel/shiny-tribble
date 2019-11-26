@@ -70,6 +70,8 @@ export default class MenuConstruir extends Phaser.GameObjects.Container{
             }
             else{
                 this.constructionMenuUnav();
+                console.log("no tienes recursos suficientes para defensas");
+
             }
         }
         else {

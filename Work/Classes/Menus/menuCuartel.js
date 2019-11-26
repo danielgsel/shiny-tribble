@@ -36,9 +36,22 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
         this.settingDirection = false;
         this.unitToSpawn = undefined;
 
-        this.soldierMenu.visible = true;
-        this.knightMenu.visible = true;
-        this.bowMenu.visible = true;
+        if ((this.HQ.owner.color === 'blue' && this.scene.bluePlayer.Resources.steel >= 5) ||
+        (this.HQ.owner.color === 'red' && this.scene.redPlayer.Resources.steel >= 5 )
+        ){
+            this.soldierMenu.visible = true;
+            this.knightMenu.visible = true;
+            this.bowMenu.visible = true;
+        }
+        else{
+            this.soldierMenu.visible = false;
+            this.knightMenu.visible = false;
+            this.bowMenu.visible = false;
+
+            console.log("no tienes recursos suficientes");
+            
+        }
+        
 
         this.visible = true;
     }

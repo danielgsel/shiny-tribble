@@ -68,6 +68,8 @@ export default class Player{
                 this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
         }
         this.Resources.steel -= 5;
+        this.updateResourcesMenus();
+
     }
         
     }
