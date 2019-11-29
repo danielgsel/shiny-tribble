@@ -7,6 +7,10 @@ import Tower from "./Estructuras/Torre.js"
 import Mortar from "./Estructuras/Morterto.js"
 import Cuartel from "./Estructuras/Cuartel.js"
 import Base from "./Casillas/base.js"
+import Mina from "./Estructuras/Mina.js"
+import SuperMina from "./Estructuras/SuperMina.js"
+import Aserradero from "./Estructuras/Aserradero.js"
+import SuperAserradero from "./Estructuras/SuperAserradero.js"
 
 export default class Player{
     constructor(game, color){
@@ -128,18 +132,20 @@ export default class Player{
             let castype = this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].type;
             if(castype === "wood") {
                 this.Perturn.wood += 2;
+                this.Structures.push(new Aserradero(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
             }
             else if (castype === "steel"){
                 this.Perturn.steel += 2;
+                this.Structures.push(new Mina(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
             }
             else if (castype === "superSteel"){
                 this.Perturn.steel += 3;
+                this.Structures.push(new SuperMina(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
             }
             else if (castype === "superForest"){
                 this.Perturn.steel += 3;
+                this.Structures.push(new SuperAserradero(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
             }
-
-
 
             this.scene.selection.destroyMe();
             this.updateResourcesMenus();

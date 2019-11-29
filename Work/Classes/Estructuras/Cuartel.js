@@ -7,7 +7,7 @@ export default class Cuartel extends Estructura{
         if (owner.color === 'red') sName = 'redHQ';
         else sName = 'blueHQ';
         
-        super(sName, 50, owner, tabPos, x, y, scene);
+        super(sName, 45, owner, tabPos, x, y, scene);
 
         this.MenuCuartel = new MenuCuartel(this, this.scene, tabPos[0] * scene.squareSize + scene.offset, tabPos[1] * scene.squareSize + scene.offset);
         this.MenuCuartel.visible = false;
