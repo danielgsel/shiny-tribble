@@ -11,7 +11,6 @@ import Cannon from "./Estructuras/Cannon.js"
 import Tower from "./Estructuras/Torre.js"
 import Mortar from "./Estructuras/Morterto.js"
 import Player from "./Player.js"
-import MeenuPasarTurno from "./Menus/menuPasarTurno.js"
 import MenuPasarTurno from "./Menus/menuPasarTurno.js";
 import MenuNewWorker from "./Menus/menuNewWorker.js";
 
