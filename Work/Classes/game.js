@@ -345,6 +345,13 @@ export default class Game extends Phaser.Scene {
             player.Units[i].passTurn();
            
       }
+
+      for (let i = 0; i < player.Structures.length; i++){
+            try{
+              player.Structures[i].passTurn();
+            }
+            catch{}  
+      }
       player.passTurn(); 
     }
 }

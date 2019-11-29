@@ -53,7 +53,7 @@ export default class Defensa extends Estructura{
     }
 
     attackUnit(){   //Realiza el daño a la unidad
-        if (this.unitAttached !== undefined){
+        if (this.unitAttached !== undefined && !this.destroyMe){
             this.unitAttached.receiveDamage(this.damage);
             console.log('enemigo atacado (-' + this.damage + ')');
         }
