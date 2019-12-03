@@ -79,6 +79,13 @@ export default class Game extends Phaser.Scene {
     this.load.image('healthBar', 'assets/imagenes/health.png');
     this.load.image('blueHealthBar', 'assets/imagenes/blueHealth.png');
 
+    this.load.image('blueHealthBase', 'assets/imagenes/blueHealthBase.png');
+    this.load.image('redHealthBase', 'assets/imagenes/redHealthBase.png');
+    
+    this.load.image('blured2', 'assets/imagenes/blured2.png');
+
+
+
     this.load.image('cannonMenu', 'assets/imagenes/cannonMenu.png');
     this.load.image('towerMenu', 'assets/imagenes/towerMenu.png');
     this.load.image('mortarMenu', 'assets/imagenes/mortarMenu.png');
@@ -103,6 +110,11 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+
+      this.add.image(650,650,'blured2').setScale(5);
+
+
+
       this.input.mouse.disableContextMenu();
       this.mouse = this.input.activePointer;
       this.mouseAvaliable = true;

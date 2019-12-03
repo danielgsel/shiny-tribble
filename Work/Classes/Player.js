@@ -41,19 +41,46 @@ export default class Player{
             this.SpriteWorker = "blueWorker";
             this.SpriteSoldier = "blueSoldier";
             this.SpriteTank = "blueTank";
+            this.HealthBase = "blueHealthBase";
             this.h = 50;
+            this.HealthH = 150;
         }
         else{
             this.SpriteArcher = "redArcher";
             this.SpriteWorker = "redWorker";
             this.SpriteSoldier = "redSoldier";
             this.SpriteTank = "redTank"; 
+            this.HealthBase = "redHealthBase"
             this.h = 1250;
+            this.HealthH = 1150;
         }
 
-        
+        this.health = 3;
+
+        this.loadHealthBase();
         this.loadResourcesMenus();
 
+    }
+
+    loadHealthBase(){
+        this.health1 = this.scene.add.image(180, this.HealthH, this.HealthBase).setScale(0.7);
+        this.health2 = this.scene.add.image(250, this.HealthH, this.HealthBase).setScale(0.7);
+        this.health3 = this.scene.add.image(320, this.HealthH, this.HealthBase).setScale(0.7);
+
+    }
+
+    updateHealthBase(){
+        if(this.health === 3){
+            this.health3.destroy();
+        }
+        if(this.health === 2){
+            this.health2.destroy();
+        }
+        if(this.health === 1){
+            this.health1.destroy();
+            this.lose();
+        }
+        this.health--;
     }
 
     newUnit(x,y,unitType,direction){
@@ -195,6 +222,17 @@ export default class Player{
           this.Resources.steel = this.Resources.steel + this.Perturn.steel;
 
           this.updateResourcesMenus();
+      }
+
+      lose(){
+        if(this.color === "blue"){
+            this.scene.scene.start('winnermenu', {winner: 1});
+        }
+        else{
+            this.scene.scene.start('winnermenu', {winner: 0});
+
+        }
+
       }
 
  
