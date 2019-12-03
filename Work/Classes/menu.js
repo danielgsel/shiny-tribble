@@ -9,6 +9,7 @@ export default class Game extends Phaser.Scene {
   preload() {  
     
     this.load.image('blured', 'assets/imagenes/blured.png');
+    this.load.image('trlogo', 'assets/imagenes/trlogo.png');
     this.load.image('play', 'assets/imagenes/start.png');
     
   }
@@ -17,12 +18,13 @@ export default class Game extends Phaser.Scene {
       this.input.mouse.disableContextMenu();
       
       this.add.image(650,650,'blured').setScale(1.4);
+      //debug
       this.KeyR = this.input.keyboard.addKey('R');
       this.KeyB = this.input.keyboard.addKey('B');
 
       this.mouse =this.input.activePointer;
 
-
+      //this.add.image(650, 400, 'trlogo').setScale(1);
       this.play = this.add.image(650, 650, 'play').setScale(0.75).setInteractive();
       //Se configuran las interacciones con los iconos
       {
