@@ -160,18 +160,25 @@ export default class Player{
             if(castype === "wood") {
                 this.Perturn.wood += 2;
                 this.Structures.push(new Aserradero(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
+                this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
             }
             else if (castype === "steel"){
                 this.Perturn.steel += 2;
-                this.Structures.push(new Mina(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
+                this.Structures.push(new Mina(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene));
+                this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
+
             }
             else if (castype === "superSteel"){
                 this.Perturn.steel += 3;
                 this.Structures.push(new SuperMina(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
+                this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
+
             }
             else if (castype === "superForest"){
                 this.Perturn.steel += 3;
                 this.Structures.push(new SuperAserradero(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
+                this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
+
             }
 
             this.scene.selection.destroyMe();
