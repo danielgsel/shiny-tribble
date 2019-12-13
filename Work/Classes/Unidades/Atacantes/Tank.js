@@ -37,5 +37,15 @@ export default class Tank extends Atacante{
         
         this.TryAttack(this.facingRel.x, this.facingRel.y);
 
+        let i = 0;
+        
+        while(i<this.canAttack.length && !this.attackingSomeOne){
+            this.attacking = this.canAttack[i];
+            if(this.canAttack[i] !== undefined) {
+                this.attackingSomeOne = true;
+            }
+            i++;
+        }       
+
     }
 }
