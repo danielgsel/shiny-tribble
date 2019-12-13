@@ -9,4 +9,7 @@ export default class Mina extends Estructura {
 
         super(name, 50, owner, tabPos, x, y, scene);
     }
+    lowerResources(){
+        this.owner.upgradeDied(2, "steel");
+    }
 }

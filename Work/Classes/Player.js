@@ -165,7 +165,15 @@ export default class Player{
         this.Resources.wood -= 5;
     }
 
-    
+    upgradeDied(value, type){
+        if(type === "wood"){
+            this.Perturn.wood -= value;
+        }
+        else{
+            this.Perturn.steel -= value;
+        }
+        this.updateResourcesMenus();
+    }
     newStructure(i){
 
 
@@ -188,19 +196,22 @@ export default class Player{
             let castype = this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].type;
             if(castype === "wood") {
                 this.pushResource(Aserradero);
+                this.Perturn.wood += 2;
+
             }
             else if (castype === "steel"){
                 this.pushResource(Mina);
+                this.Perturn.steel += 2;
 
             }
             else if (castype === "superSteel"){
                 this.pushResource(SuperMina);
-
+                this.Perturn.steel += 3;
 
             }
             else if (castype === "superForest"){
                 this.pushResource(SuperAserradero);
-
+                this.Perturn.wood += 3;
 
             }
 
@@ -222,8 +233,8 @@ export default class Player{
         this.scene.selection = undefined;
     }
 
-    pushResource(type){
-        this.Perturn.wood += 2;
+    pushResource(type, ){
+        
         this.Structures.push(new type(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
         this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
     }

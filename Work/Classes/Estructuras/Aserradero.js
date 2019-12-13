@@ -10,4 +10,8 @@ export default class Aserradero extends Estructura {
         super(name, 50, owner, tabPos, x, y, scene);
 
     }
+
+    lowerResources(){
+        this.owner.upgradeDied(2, "wood");
+    }
 }
