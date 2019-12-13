@@ -72,7 +72,34 @@ export default class Trabajador extends Unidad {
   }
 
   passTurn(){
+    //this.manageIndicator();
   }
   
+  // manageIndicator(){
+  //   if (this.owner.color === "red")
+  //   {
+  //     if(this.scene.blueTurn){
+  //         if(!this.indicatorCreated)this.printIndicator();
+  //         this.showIndicator();
+  //     }
+  //     else{
+  //       if(this.indicatorCreated)this.hideIndicator();
+
+  //     }
+  //   }
+  //   else{
+  //     if(this.scene.blueTurn){
+  //       if(this.indicatorCreated)this.hideIndicator();
+
+  //     }
+  //     else{
+  //         if(!this.indicatorCreated)this.printIndicator();
+  //         this.showIndicator();
+
+  //     }
+
+  //   }
+
+  // }
   
 }

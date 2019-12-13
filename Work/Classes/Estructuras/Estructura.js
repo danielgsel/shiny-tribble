@@ -34,12 +34,6 @@ export default class Estructura extends Phaser.GameObjects.Sprite {
         this.scene.tablero.casillas[this.position.x][this.position.y].estructurePlaced = undefined;
         this.scene.selection = undefined;
 
-        try{
-          this.lowerResources();
-        }
-        catch{
-          
-        }
         this.destroyMe = true;
         this.scene.deleteStructure(this.owner);
       }

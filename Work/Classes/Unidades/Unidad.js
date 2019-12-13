@@ -49,16 +49,14 @@ export default class Unidad extends Phaser.GameObjects.Sprite {
     this.healthbar.setVisible(true);
     this.healthbar.scaleX = this.hp/100;
 
-    if (this.hp <= 0) {   
-      this.destroyMe();      
-      // //Por alguna razon no puedo llamar a destroyMe desde aqui ¿?
-      // this.sprite.destroy();
-      // this.healthbar.destroy(); 
-      // this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
-      // this.scene.selection = undefined;
+    if (this.hp <= 0) {   //Por alguna razon no puedo llamar a destroyMe desde aqui ¿?
+      this.sprite.destroy();
+      this.healthbar.destroy(); 
+      this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
+      this.scene.selection = undefined;
 
-      // this.deleteMe = true;
-      // this.scene.deleteUnit(this.owner);
+      this.deleteMe = true;
+      this.scene.deleteUnit(this.owner);
     }
   }
 
