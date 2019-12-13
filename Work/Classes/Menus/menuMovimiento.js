@@ -7,13 +7,22 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
         //Se crean los sprites
         {
         this.up = scene.add.image(0, -this.distance, 'arrowup').setInteractive();
-        this.down = scene.add.image(0, this.distance, 'arrowdown').setInteractive();
-        this.left = scene.add.image(-this.distance, 0, 'arrowleft').setInteractive();
+        this.down = scene.add.image(0, this.distance, 'arrowup').setInteractive();
+        this.down.scale = -1;
+
+        this.left = scene.add.image(-this.distance, 0, 'arrowright').setInteractive();
+        this.left.scale = -1;
         this.right = scene.add.image(this.distance, 0, 'arrowright').setInteractive();
+
+
         this.upRight = scene.add.image(this.distance, -this.distance, 'arrowupright').setInteractive();
         this.upLeft = scene.add.image(-this.distance, -this.distance, 'arrowupleft').setInteractive();
-        this.downRight = scene.add.image(this.distance, this.distance, 'arrowdownright').setInteractive();
-        this.downLeft = scene.add.image(-this.distance, this.distance, 'arrowdownleft').setInteractive();
+
+        this.downRight = scene.add.image(this.distance, this.distance, 'arrowupleft').setInteractive();
+        this.downRight.scale = -1;
+
+        this.downLeft = scene.add.image(-this.distance, this.distance, 'arrowupright').setInteractive();
+        this.downLeft.scale = -1;
         }
 
         //Se ocultan
@@ -38,7 +47,33 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
         this.upLeft.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.selection.moveWorker(scene.selection.position.x - 1, scene.selection.position.y - 1)});
         this.downRight.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.selection.moveWorker(scene.selection.position.x + 1, scene.selection.position.y + 1)});
         this.downLeft.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) scene.selection.moveWorker(scene.selection.position.x - 1, scene.selection.position.y + 1)});
-        }
+       
+       
+        this.up.on('pointerover', () =>{this.up.setFrame(1);})
+        this.up.on('pointerout',() => {this.up.setFrame(0);})
+
+        this.upLeft.on('pointerover', () =>{this.upLeft.setFrame(1);})
+        this.upLeft.on('pointerout',() => {this.upLeft.setFrame(0);})
+
+        this.upRight.on('pointerover', () =>{this.upRight.setFrame(1);})
+        this.upRight.on('pointerout',() => {this.upRight.setFrame(0);})
+    
+        this.right.on('pointerover', () =>{this.right.setFrame(1);})
+        this.right.on('pointerout',() => {this.right.setFrame(0);})
+
+        this.left.on('pointerover', () =>{this.left.setFrame(1); })
+        this.left.on('pointerout',() => {this.left.setFrame(0);})
+
+        this.downLeft.on('pointerover', () =>{this.downLeft.setFrame(1); })
+        this.downLeft.on('pointerout',() => {this.downLeft.setFrame(0);})
+
+        this.downRight.on('pointerover', () =>{this.downRight.setFrame(1); })
+        this.downRight.on('pointerout',() => {this.downRight.setFrame(0);})
+
+        this.down.on('pointerover', () =>{this.down.setFrame(1); })
+        this.down.on('pointerout',() => {this.down.setFrame(0);})
+    }
+
 
         //Se añaden al container
         {
