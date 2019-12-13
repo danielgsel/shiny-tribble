@@ -30,16 +30,16 @@ export default class Game extends Phaser.Scene {
     this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 
     //Estructuras
-    this.load.image('redCannon', 'assets/imagenes/redCannon.png');
-    this.load.image('blueCannon', 'assets/imagenes/blueCannon.png');
-    this.load.image('blueMortar', 'assets/imagenes/blueMortar.png');
-    this.load.image('redMortar', 'assets/imagenes/redMortar.png');
+    this.load.image('redCannon', 'assets/imagenes/redCannon2.png');
+    this.load.image('blueCannon', 'assets/imagenes/blueCannon2.png');
+    this.load.image('blueMortar', 'assets/imagenes/blueHQ.png');
+    this.load.image('redMortar', 'assets/imagenes/redHQ.png');
     this.load.image('blueTower', 'assets/imagenes/blueTower2.png');
     this.load.image('redTower', 'assets/imagenes/redTower2.png');
     this.load.image('redFlag', 'assets/imagenes/redFlag.png');
     this.load.image('blueFlag', 'assets/imagenes/blueFlag.png');
-    this.load.image('redHQ', 'assets/imagenes/redHQ.png');
-    this.load.image('blueHQ', 'assets/imagenes/blueHQ.png');
+    this.load.image('redHQ', 'assets/imagenes/redHQ2.png');
+    this.load.image('blueHQ', 'assets/imagenes/blueHQ2.png');
 
       
     //Unidad(es)
