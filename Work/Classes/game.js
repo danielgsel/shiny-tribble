@@ -102,6 +102,8 @@ export default class Game extends Phaser.Scene {
       //Raton
       this.input.mouse.disableContextMenu();
       this.mouse = this.input.activePointer;
+      //this.input.addMoveCallback(p, this);
+
       this.mouseAvaliable = true;
       this.input.on('pointerup', pointer => {if (pointer.leftButtonReleased()) {this.mouseAvaliable = true;} });
 
@@ -211,14 +213,25 @@ export default class Game extends Phaser.Scene {
       this.load.image('casillaInexistente', 'assets/imagenes/CasillaInexistente.png');
 
       //Arrows
-      this.load.image('arrowleft', 'assets/imagenes/arrowleft.png');
-      this.load.image('arrowup', 'assets/imagenes/arrowup.png');
-      this.load.image('arrowdown', 'assets/imagenes/arrowdown.png');
-      this.load.image('arrowright', 'assets/imagenes/arrowright.png');
-      this.load.image('arrowupright', 'assets/imagenes/arrowupright.png');
-      this.load.image('arrowdownright', 'assets/imagenes/arrowdownright.png');
-      this.load.image('arrowupleft', 'assets/imagenes/arrowupleft.png');
-      this.load.image('arrowdownleft', 'assets/imagenes/arrowdownleft.png');
+      this.load.spritesheet('arrowup', 'assets/imagenes/arrowup.png', {
+        frameWidth: 44,
+        frameHeight: 63
+      });
+
+      this.load.spritesheet('arrowupleft', 'assets/imagenes/arrowupleft.png', {
+        frameWidth: 50,
+        frameHeight: 50
+      });
+      this.load.spritesheet('arrowupright', 'assets/imagenes/arrowupright.png', {
+        frameWidth: 50,
+        frameHeight: 50
+      });
+
+      this.load.spritesheet('arrowright', 'assets/imagenes/arrowright.png', {
+        frameWidth: 50,
+        frameHeight: 44
+      });
+
   }
 
   workerSelected(unit){
