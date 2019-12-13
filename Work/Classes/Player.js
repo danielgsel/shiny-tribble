@@ -96,13 +96,13 @@ export default class Player{
         if(this.Resources.steel >= 5){
             //Funcionara esto? Quien sabe, yo no, no tengo wifi
             if (unitType === 'archer'){
-                this.pushUnit(Archer);
+                this.pushUnit(Archer, x, y, direction);
             }
             else if (unitType === 'soldier'){
-                this.pushUnit(Soldier);
+                this.pushUnit(Soldier, x , y, direction);
             }
             else if (unitType === 'tank'){
-                this.pushUnit(Tank);
+                this.pushUnit(Tank, x, y, direction);
                 
         }
         this.Resources.steel -= 5;
@@ -112,8 +112,21 @@ export default class Player{
         
     }
 
-    pushUnit(unitType){
-        this.Units.push(new unitType(this.scene, x,y, this.SpriteTank, direction, this));
+    pushUnit(unitType, x,y, direction){
+        let sprite;
+        switch (unitType){
+            case Archer:
+                sprite = this.SpriteArcher;
+                break;
+            case Soldier: 
+                sprite = this.SpriteSoldier;
+                break;
+            case Tank: 
+                sprite = this.SpriteTank;
+                break;    
+
+        }
+        this.Units.push(new unitType(this.scene, x,y, sprite, direction, this));
         this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
     }
 
