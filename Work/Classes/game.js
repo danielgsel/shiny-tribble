@@ -1,24 +1,21 @@
 import Tablero from "./Tablero.js";
-import Estructura from "./Estructuras/Estructura.js";
-import Unidad from "./Unidades/Unidad.js";
+
 import MenuConstruir from "./Menus/menuConstruir.js"
 import MenuMovimiento from "./Menus/menuMovimiento.js"
-import Trabajador from "./Unidades/Trabajador.js";
-import Archer from "./Unidades/Atacantes/Archer.js";
-import Tank from "./Unidades/Atacantes/Tank.js"
-import Soldier from "./Unidades/Atacantes/Soldier.js"
-import Cannon from "./Estructuras/Cannon.js"
-import Tower from "./Estructuras/Torre.js"
-import Mortar from "./Estructuras/Morterto.js"
+
 import Player from "./Player.js"
 import MenuPasarTurno from "./Menus/menuPasarTurno.js";
 import MenuNewWorker from "./Menus/menuNewWorker.js";
+
+//Se importan las cosas que se usan ;)
 
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
     this.squareSize = 100;
+    //Espacio entre casillas
     this.offset = 150;
+    //En casillas
     this.anchoMundo = 11;
     this.altoMundo = 11;
     this.numEstructurasRecursos = 2;
@@ -28,6 +25,8 @@ export default class Game extends Phaser.Scene {
     //Casillas
     this.loadCasillas();
 
+
+    //Lo de las fuentes jaja no funciona
     this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 
     //Estructuras
@@ -39,7 +38,6 @@ export default class Game extends Phaser.Scene {
     this.load.image('redTower', 'assets/imagenes/redTower2.png');
     this.load.image('redFlag', 'assets/imagenes/redFlag.png');
     this.load.image('blueFlag', 'assets/imagenes/blueFlag.png');
-
     this.load.image('redHQ', 'assets/imagenes/redHQ.png');
     this.load.image('blueHQ', 'assets/imagenes/blueHQ.png');
 
@@ -73,35 +71,21 @@ export default class Game extends Phaser.Scene {
     this.load.image('bowMenu', 'assets/imagenes/bowMenu.png');
     this.load.image('knightMenu', 'assets/imagenes/knightMenu.png');
     this.load.image('soldierMenu', 'assets/imagenes/soldierMenu.png');
-
     this.load.image('nextTurn', 'assets/imagenes/NextTurn.png')
-
     this.load.image('healthBar', 'assets/imagenes/health.png');
     this.load.image('blueHealthBar', 'assets/imagenes/blueHealth.png');
-
     this.load.image('blueHealthBase', 'assets/imagenes/blueHealthBase.png');
     this.load.image('redHealthBase', 'assets/imagenes/redHealthBase.png');
-    
     this.load.image('blured2', 'assets/imagenes/blured2.png');
-
-
-
     this.load.image('cannonMenu', 'assets/imagenes/cannonMenu.png');
     this.load.image('towerMenu', 'assets/imagenes/towerMenu.png');
     this.load.image('mortarMenu', 'assets/imagenes/mortarMenu.png');
-
     this.load.image('blueTurn', 'assets/imagenes/blueTurn.png');
     this.load.image('redTurn', 'assets/imagenes/redTurn.png');
-
     this.load.image('nextTurnBlue', 'assets/imagenes/nextTurn.png');
     this.load.image('nextTurnRed', 'assets/imagenes/nextTurn.png');
-
-
-
     this.load.image('woodIcon', 'assets/imagenes/WoodIcon.png');
     this.load.image('steelIcon', 'assets/imagenes/steelIcon.png');
-
-
     this.load.image('canMove', 'assets/imagenes/canMoveIndicator.png');
 
 
@@ -111,38 +95,42 @@ export default class Game extends Phaser.Scene {
 
   create() {
 
+      //Fondo
       this.add.image(650,650,'blured2').setScale(5);
 
 
-
+      //Raton
       this.input.mouse.disableContextMenu();
       this.mouse = this.input.activePointer;
       this.mouseAvaliable = true;
       this.input.on('pointerup', pointer => {if (pointer.leftButtonReleased()) {this.mouseAvaliable = true;} });
 
+
+      //Crear tablero
       this.tablero = new Tablero(this, 0, 0);
       this.tablero.printTablero();
 
+      //Preparar estado de juego
       this.selection = undefined;
       this.selectionIcon = this.add.image(0, 0, 'selectionIcon').setScale(1.3);
       this.selectionIcon.visible = false;
 
+      //Menus
       this.menuConstruir = new MenuConstruir(this, 0, 0); //Menu 1 Trabajador
       this.menuConstruir.depth = 1;
       this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
       this.menuMovimiento.depth = 1;
-
       this.menuHQ = undefined;     
-
       this.newWorkers = new MenuNewWorker(this);
 
+      //Imagenes interfaz
       this.blueTurnImage = this.add.image(300, 100, 'blueTurn').setScale(0.6);
       this.redTurnImage = this.add.image(300, 100, 'redTurn').setScale(0.6);
       this.blueTurnImage.visible = false;
 
       this.nextTurnButton = new MenuPasarTurno(this, 50,620)
 
-      
+      //Crear jugadores
       this.bluePlayer = new Player(this, 'blue');
       this.redPlayer = new Player(this, 'red');
      
@@ -159,11 +147,12 @@ export default class Game extends Phaser.Scene {
 
       ///////////////////////////////////
 
-
+      //Turnos
       this.KeyN = this.input.keyboard.addKey('N');
-
       this.blueTurn = false;
-
+      this.canPassTurn = true;
+      
+      //Recursos iniciales
       this.redPlayer.Resources.wood = 2;
       this.redPlayer.Resources.steel = 2;
       this.redPlayer.Perturn.wood = 1;
@@ -181,7 +170,6 @@ export default class Game extends Phaser.Scene {
 
 
 
-      this.canPassTurn = true;
 
   }
 
@@ -313,7 +301,7 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  //Esto se usa una vez. Solo utilizar en debug. Mala idea.
+  //Solo utilizar en debug. Mala idea.
   printWorkers(){
     for (let i = 0; i < this.workers.length; i++){
       this.workers[i].stats.image = this.add.image(this.workers[i].stats.position.positionx*this.squareSize + this.offset ,this.workers[i].stats.position.positiony*this.squareSize + this.offset ,'worker');
@@ -332,6 +320,7 @@ export default class Game extends Phaser.Scene {
         this.blueTurnImage.visible = false;
         this.unselect();
         player = this.bluePlayer;
+        //Indica a sus unidades que puede mover
         for(let i = 0; i < this.bluePlayer.Units.length; i++){
           this.bluePlayer.Units[i].timesMoved = 0;
         }
@@ -344,6 +333,7 @@ export default class Game extends Phaser.Scene {
         this.blueTurnImage.visible = true;
         this.unselect();
         player = this.redPlayer;
+        //Indica a sus unidades que puede mover
         for(let i = 0; i < this.redPlayer.Units.length; i++){
           this.redPlayer.Units[i].timesMoved = 0;
         }
@@ -358,22 +348,24 @@ export default class Game extends Phaser.Scene {
            
       }
 
+      //Pasar estructuras
+
       for (let i = 0; i < player.Structures.length; i++){
             try{
               player.Structures[i].passTurn();
             }
-            catch{}  
+            catch{}  // wtf
       }
-      player.passTurn(); 
+      player.passTurn(); //Logica de recuros
     }
 }
   deleteUnit(owner){
-   // let deleted = false;
     let i = 0;
+
+    //Se hace poco y es por turnos pero uf
     while(i < owner.Units.length){
         if(owner.Units[i].deleteMe){
           owner.Units.splice(i,1);
-          //deleted = true;
         }
         i++;
     }
@@ -383,12 +375,11 @@ export default class Game extends Phaser.Scene {
 
 
   deleteStructure(owner){
-    //let deleted = false;
       let i = 0;
+      //Se hace poco y es por turnos pero uf
       while(i < owner.Structures.length){
           if(owner.Structures[i].deleteMe){
             owner.Structures.splice(i,1);
-            //deleted = true;
           }
           i++;
       }

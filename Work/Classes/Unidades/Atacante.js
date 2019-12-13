@@ -112,6 +112,8 @@ export default class Atacante extends Unidad{
 
     TryAttack(xSum, ySum){
         try{
+
+        //Parece horrible pero en realidad tiene sentido lo juro Carlos
         if(this.casillaValid(this.position.x + xSum ,this.position.y + ySum)){
             if(this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].OccupiedBy !== undefined
                 && this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].OccupiedBy.owner !== this.owner) {
@@ -135,7 +137,8 @@ export default class Atacante extends Unidad{
         }
     }
     catch{
-        console.log("mirando fuera");
+        //Esto es por culpa de los arqueros, seguro que hay una manera mejor de hacerlo pero esta funciona
+        console.log("mirando fuera"); 
     }
     }
     

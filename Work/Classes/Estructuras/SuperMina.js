@@ -9,6 +9,5 @@ export default class SuperMina extends Estructura {
         
         super(name, 50, owner, tabPos, x, y, scene);
 
-        console.log("SuperMina creada en " + tabPos[0] + " " + tabPos[1]);
     }
 }
