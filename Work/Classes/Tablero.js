@@ -129,4 +129,18 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
 
   }
 
+  copiaTablero(casillas){
+    for (let i = 0; i < this.scene.altoMundo; i++){
+      for (let j= 0; j < this.scene.anchoMundo; j++){
+        this.casillas[i][j].sprite = casillas[i][j].sprite;
+        this.casillas[i][j].OccupiedBy = casillas[i][j].OccupiedBy;  
+        this.casillas[i][j].estructurePlaced = casillas[i][j].estructurePlaced;
+        this.casillas[i][j].inexistente = casillas[i][j].inexistente;
+        this.casillas[i][j].vacia = casillas[i][j].vacia;
+        this.casillas[i][j].base = casillas[i][j].base;
+        this.casillas[i][j].resources = casillas[i][j].resources;
+      }
+    }
+  }
+
 }

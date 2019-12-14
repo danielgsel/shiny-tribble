@@ -4,6 +4,10 @@ const io = require('socket.io')(http); // Importamos `socket.io`
 
 const port = 8080; // El puerto
 var clients = [];
+var redJoined = false;
+
+var redPlayer = undefined;
+var bluePlayer = undefined;
 
 {
 app.get('/', function(req, res){
@@ -227,6 +231,35 @@ for(const elQueToca of recursosDeLosVagos) {
 io.on('connection', socket => {
   console.log('a user connected');
   clients.push(socket); // metemos el socket en el array
+
+  var color;
+
+  socket.on('joinedGame', () => {
+    if (!redJoined){
+      console.log('red player');
+  
+      color === 'red';
+      socket.emit('setColor', 'red');
+  
+      redPlayer = socket;
+      redJoined = true;
+    }
+    else{
+      console.log('blue player');
+  
+      color === 'blue';
+      socket.emit('setColor', 'blue');
+      
+      bluePlayer = socket;
+
+      redPlayer.emit('giveMeBoard');
+    }
+
+    socket.on('board', board => {
+      bluePlayer.emit('board', board);
+    });
+    
+  });
 
   socket.on('disconnect', () => {
     console.log('a user disconnected');

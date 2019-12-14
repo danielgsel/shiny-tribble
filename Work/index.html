@@ -11,7 +11,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script type="module">
         import Game from './Classes/game.js';
-        import Menu from './Classes/menu.js';
+        //import Menu from './Classes/menu.js';
         import WinnerMenu from './Classes/winnermenu.js';
 
         var config = {
@@ -29,7 +29,7 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-            scene: [Menu, Game , WinnerMenu ],
+            scene: [Game , WinnerMenu ],
             //physics: { default: 'arcade', arcade: { gravity: { y: 400 }, debug: false } }
         };
         new Phaser.Game(config);

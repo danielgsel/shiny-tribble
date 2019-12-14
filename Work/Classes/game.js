@@ -105,10 +105,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-
       this.add.image(650,650,'blured2').setScale(5);
-
-
 
       this.input.mouse.disableContextMenu();
       this.mouse = this.input.activePointer;
@@ -118,15 +115,14 @@ export default class Game extends Phaser.Scene {
       this.input.on('pointerup', pointer => {if (pointer.leftButtonReleased()) {this.mouseAvaliable = true;} });
 
       this.tablero = new Tablero(this, 0, 0);
-      this.tablero.printTablero();
 
       this.selection = undefined;
       this.selectionIcon = this.add.image(0, 0, 'selectionIcon').setScale(1.3);
       this.selectionIcon.visible = false;
 
-      this.menuConstruir = new MenuConstruir(this, 0, 0); //Menu 1 Trabajador
+      this.menuConstruir = new MenuConstruir(this, 0, 0); //Menu 1 Trabajador 
       this.menuConstruir.depth = 1;
-      this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador
+      this.menuMovimiento = new MenuMovimiento(this, 0, 0); //Menu flechas Trabajador 
       this.menuMovimiento.depth = 1;
 
       this.menuHQ = undefined;     
@@ -162,10 +158,41 @@ export default class Game extends Phaser.Scene {
 
       this.bluePlayer.updateResourcesMenus();
 
-
-
       this.canPassTurn = true;
 
+      this.color = undefined;
+
+      socket.emit('joinedGame');
+
+      if (this.color === 'red'){
+        console.log("yolo");
+        this.tablero.printTablero();
+      }
+
+      socket.on('setColor', color => {
+        if (color === 'red'){
+          console.log("soy color rojo");
+          this.color = color;
+        }
+        else{
+          console.log('soy color azul');
+          this.color = color;
+          socket.emit('giveMeBoard');
+        }
+      });
+      
+      socket.on('giveMeBoard', () =>{
+        var tab = this.tablero.casillas;
+        socket.emit('board', tab);
+        this.tablero.printTablero();
+      });
+      
+      socket.on('board', board =>{
+        console.log(this.tablero);
+        this.tablero.copiaTablero(board);
+        console.log(this.tablero);
+        this.tablero.printTablero();
+      });
   }
 
   update(time, delta) {
@@ -398,6 +425,5 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-
-
+//--------------------------------SERVER------------------------------------>
 }
