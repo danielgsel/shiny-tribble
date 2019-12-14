@@ -5,6 +5,10 @@ import Player from "./Player.js"
 import MenuPasarTurno from "./Menus/menuPasarTurno.js";
 import MenuNewWorker from "./Menus/menuNewWorker.js";
 
+const direccion = 'localhost';
+const puerto = 8080;
+const socket = io('http://' + direccion + ':' + puerto);
+
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
@@ -138,20 +142,6 @@ export default class Game extends Phaser.Scene {
       
       this.bluePlayer = new Player(this, 'blue');
       this.redPlayer = new Player(this, 'red');
-     
-     
-   
-
-      //TEST DE UNIDADES
-
-      // this.bluePlayer.newUnit(4,4, 'tank', 'upright');
-      // this.bluePlayer.newUnit(2,7, 'worker', 'up');
-
-      // this.redPlayer.newUnit(2,3, 'archer', 'downright');
-      // this.redPlayer.newUnit(7,6, 'soldier', 'upleft');
-
-      ///////////////////////////////////
-
 
       this.KeyN = this.input.keyboard.addKey('N');
 
@@ -382,9 +372,6 @@ export default class Game extends Phaser.Scene {
         i++;
     }
 }
-    
-  
-
 
   deleteStructure(owner){
     //let deleted = false;

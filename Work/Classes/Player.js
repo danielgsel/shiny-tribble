@@ -12,10 +12,6 @@ import SuperMina from "./Estructuras/SuperMina.js"
 import Aserradero from "./Estructuras/Aserradero.js"
 import SuperAserradero from "./Estructuras/SuperAserradero.js"
 
-const direccion = 'localhost';
-const puerto = 8080;
-const socket = io('http://' + direccion + ':' + puerto);
-
 export default class Player{
     constructor(game, color){
         this.scene = game;
