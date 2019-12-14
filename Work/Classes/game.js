@@ -3,13 +3,6 @@ import Estructura from "./Estructuras/Estructura.js";
 import Unidad from "./Unidades/Unidad.js";
 import MenuConstruir from "./Menus/menuConstruir.js"
 import MenuMovimiento from "./Menus/menuMovimiento.js"
-import Trabajador from "./Unidades/Trabajador.js";
-import Archer from "./Unidades/Atacantes/Archer.js";
-import Tank from "./Unidades/Atacantes/Tank.js"
-import Soldier from "./Unidades/Atacantes/Soldier.js"
-import Cannon from "./Estructuras/Cannon.js"
-import Tower from "./Estructuras/Torre.js"
-import Mortar from "./Estructuras/morterto.js"
 import Player from "./Player.js"
 import MenuPasarTurno from "./Menus/menuPasarTurno.js";
 import MenuNewWorker from "./Menus/menuNewWorker.js";
