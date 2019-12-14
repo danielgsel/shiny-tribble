@@ -123,15 +123,20 @@ export default class Player{
                 }
             }
             if(canPlace){
-                this.Units.push(new Trabajador(this.scene, x,y, this));
-                this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
-                this.Resources.wood = this.Resources.wood - 2;
-                this.Resources.steel = this.Resources.steel - 2;
-                this.updateResourcesMenus();
+                this.pushWorker(x, y);
+                this.scene.newWorker(x, y);
             }    
         }
     }
     
+    pushWorker(x, y){
+        this.Units.push(new Trabajador(this.scene, x,y, this));
+        this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
+        this.Resources.wood = this.Resources.wood - 2;
+        this.Resources.steel = this.Resources.steel - 2;
+        this.updateResourcesMenus();
+    }
+
     newStructure(i){
         switch(i){
           case 0:   //Cannon
@@ -191,6 +196,8 @@ export default class Player{
             this.scene.selection.destroyMe();
             break;
         }
+
+        this.scene.newStructure(i);
       
         this.scene.selectionIcon.visible = false;
         this.scene.menuConstruir.visible = false;

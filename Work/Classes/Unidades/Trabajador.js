@@ -15,9 +15,6 @@ export default class Trabajador extends Unidad {
     this.sprite.setInteractive();
     this.sprite.on('pointerdown', () => {
       if (this.scene.selection !== this){
-        console.log(this.owner.color === this.scene.color);
-        console.log(this.scene.myTurn);
-        console.log(this.timesMoved === 0);
         if(this.owner.color === this.scene.color && this.scene.myTurn && this.timesMoved === 0){
           this.scene.workerSelected(this);
         }
@@ -48,7 +45,7 @@ export default class Trabajador extends Unidad {
     this.timesMoved++;
     this.scene.unselect();
    
-    
+    if(this.scene.color === this.owner.color) this.scene.moveWorker(x, y);
   }
 
   printIndicator(){

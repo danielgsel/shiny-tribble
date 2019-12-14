@@ -238,6 +238,37 @@ export default class Game extends Phaser.Scene {
         player.passTurn(); 
         this.myTurn = true;
       });
+
+      socket.on('selection', selection =>{
+        this.selection = this.tablero.casillas[selection.x][selection.y].OccupiedBy;
+      });
+
+      socket.on('buildStructure', info =>{
+        if(this.color === 'red'){
+          this.bluePlayer.newStructure(info);
+        }
+        else{
+          this.redPlayer.newStructure(info);
+        }
+      });
+
+      socket.on('moveWorker', info =>{
+        if(this.color === 'red'){
+          this.selection.moveWorker(info.x, info.y);
+        }
+        else{
+          this.selection.moveWorker(info.x, info.y);
+        }
+      });
+
+      socket.on('newWorker', info =>{
+        if(this.color === 'red'){
+          this.bluePlayer.pushWorker(info.x, info.y);
+        }
+        else{
+          this.redPlayer.pushWorker(info.x, info.y);
+        }
+      });
   }
 
   update(time, delta) {
@@ -302,6 +333,11 @@ export default class Game extends Phaser.Scene {
   workerSelected(unit){
     if(this.selection !== undefined) this.selection.unselected();
     this.selection = unit;
+    var selection = {
+      x : this.selection.position.x,
+      y : this.selection.position.y
+    };
+    socket.emit('selection', selection);
 
     //Mueve el icono de seleccion hacia el objetivo y lo hace visible
     this.mueveMenusWorker(unit);
@@ -463,4 +499,24 @@ export default class Game extends Phaser.Scene {
   }
 
 //--------------------------------SERVER------------------------------------>
+
+  newStructure(info){
+    socket.emit('newStructure', info);
+  }
+
+  newWorker(x, y){
+    var info = {
+      x : x,
+      y : y
+    };
+    socket.emit('newWorker', info);
+  }
+
+  moveWorker(x, y){
+    var info = {
+      x : x,
+      y : y
+    };
+    socket.emit('moveWorker', info);
+  }
 }

@@ -9,6 +9,8 @@ var redJoined = false;
 var redPlayer = undefined;
 var bluePlayer = undefined;
 
+var turn = 'red';
+
 {
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
@@ -267,8 +269,34 @@ io.on('connection', socket => {
   });
 
   socket.on('passTurn', color => {
-    if(color === 'red') bluePlayer.emit('myTurn');
-    else redPlayer.emit('myTurn');
+    if(color === 'red'){
+      bluePlayer.emit('myTurn');
+      turn = 'blue';
+    } 
+    else{
+      redPlayer.emit('myTurn');
+      turn = 'red';
+    } 
+  });
+
+  socket.on('selection', selection => {
+    if(turn === 'red') bluePlayer.emit('selection', selection);
+    else redPlayer.emit('selection', selection);
+  });
+
+  socket.on('moveWorker', info =>{
+    if(turn === 'red') bluePlayer.emit('moveWorker', info);
+    else redPlayer.emit('moveWorker', info);
+  })
+
+  socket.on('newWorker', info => {
+    if(turn === 'red') bluePlayer.emit('newWorker', info);
+    else redPlayer.emit('newWorker', info);
+  });
+
+  socket.on('newStructure', info =>{
+    if(turn === 'red') bluePlayer.emit('buildStructure', info);
+    else redPlayer.emit('buildStructure', info);
   });
 
   socket.on('disconnect', () => {
