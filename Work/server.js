@@ -255,6 +255,11 @@ io.on('connection', socket => {
       redPlayer.emit('giveMeBoard');
     }
 
+    socket.on('ready', () =>{
+      redPlayer.emit('startGame');
+      bluePlayer.emit('startGame');
+    })
+
     socket.on('board', board => {
       bluePlayer.emit('board', board);
     });

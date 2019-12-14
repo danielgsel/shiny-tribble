@@ -114,7 +114,8 @@ export default class Game extends Phaser.Scene {
       this.mouseAvaliable = true;
       this.input.on('pointerup', pointer => {if (pointer.leftButtonReleased()) {this.mouseAvaliable = true;} });
 
-      this.tablero = new Tablero(this, 0, 0);
+      //this.tablero = new Tablero(this, 0, 0);
+      this.tablero = undefined;
 
       this.selection = undefined;
       this.selectionIcon = this.add.image(0, 0, 'selectionIcon').setScale(1.3);
@@ -164,11 +165,6 @@ export default class Game extends Phaser.Scene {
 
       socket.emit('joinedGame');
 
-      if (this.color === 'red'){
-        console.log("yolo");
-        this.tablero.printTablero();
-      }
-
       socket.on('setColor', color => {
         if (color === 'red'){
           console.log("soy color rojo");
@@ -177,22 +173,22 @@ export default class Game extends Phaser.Scene {
         else{
           console.log('soy color azul');
           this.color = color;
-          socket.emit('giveMeBoard');
         }
       });
       
       socket.on('giveMeBoard', () =>{
-        var tab = this.tablero.casillas;
-        socket.emit('board', tab);
-        this.tablero.printTablero();
+        this.tablero = new Tablero(false, undefined, this, 0, 0);
+        socket.emit('board', this.tablero.casillasCod);
       });
       
       socket.on('board', board =>{
-        console.log(this.tablero);
-        this.tablero.copiaTablero(board);
-        console.log(this.tablero);
-        this.tablero.printTablero();
+        this.tablero = new Tablero(true, board, this, 0, 0);
+        socket.emit('ready');
       });
+
+      socket.on('startGame', () => {
+        this.tablero.printTablero();
+      })
   }
 
   update(time, delta) {
