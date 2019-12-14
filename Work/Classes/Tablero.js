@@ -39,12 +39,20 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
         (i === this.scene.altoMundo - 3 && (j > 0 && j < this.scene.anchoMundo - 1)) ||
         (i === this.scene.altoMundo - 2 && ( j > 1 && j < this.scene.anchoMundo - 2)) || ( i === this.scene.altoMundo - 1 && ( j > 2 && j < this.scene.anchoMundo - 3 )))  //"escaleras" parte superior
         {
-          if (this.casillas[i][j] === undefined) this.casillas[i][j] = new CasillaVacia(scene, x, y); this.casillasCod[i][j] = 1;   //crea casilla que existe
+          if (this.casillas[i][j] === undefined){    //crea casilla que existe
+            this.casillas[i][j] = new CasillaVacia(scene, x, y);
+            this.casillasCod[i][j] = 1;  
+          } 
         }
-        else this.casillas[i][j] = new CasillaInexistente(scene, x, y); this.casillasCod[i][j] = 0; 
-        //else this.casillas[i][j] = new CasillaInexistente(scene, i, j);  //casilla no existente
+        else{
+          this.casillas[i][j] = new CasillaInexistente(scene, x, y); 
+          this.casillasCod[i][j] = 0; 
+        } 
       }
     }
+
+    console.log(this.casillas);
+    console.log(this.casillasCod);
 
     //Decide casillas forest (de un lado)
     this.DecideForests();
