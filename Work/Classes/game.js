@@ -211,7 +211,6 @@ export default class Game extends Phaser.Scene {
           player = this.redPlayer;
           for(let i = 0; i < this.redPlayer.Units.length; i++){
             this.redPlayer.Units[i].timesMoved = 0;
-            console.log(this.redPlayer.Units[0].timesMoved);
           }
   
         }
@@ -269,6 +268,16 @@ export default class Game extends Phaser.Scene {
           this.redPlayer.pushWorker(info.x, info.y);
         }
       });
+
+      socket.on('newUnit', info =>{
+        if(this.color === 'red'){
+          this.bluePlayer.newUnit(info.x, info.y, info.unitType, info.direction);
+        }
+        else{
+          console.log("entra a newUnit");
+          this.redPlayer.newUnit(info.x, info.y, info.unitType, info.direction);
+        }
+      })
   }
 
   update(time, delta) {
@@ -518,5 +527,15 @@ export default class Game extends Phaser.Scene {
       y : y
     };
     socket.emit('moveWorker', info);
+  }
+
+  newUnit(x, y, unitType, direction){
+    var info = {
+      x : x,
+      y : y,
+      unitType : unitType,
+      direction : direction
+    };
+    socket.emit('newUnit', info);
   }
 }

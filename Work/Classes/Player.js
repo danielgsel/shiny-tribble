@@ -84,6 +84,7 @@ export default class Player{
     }
 
     newUnit(x,y,unitType,direction){
+        console.log("esoo");
         if(this.Resources.steel >= 5){
     
             if (unitType === 'archer'){
@@ -101,6 +102,10 @@ export default class Player{
         this.Resources.steel -= 5;
         this.updateResourcesMenus();
 
+        if(this.scene.color === this.color){
+            console.log("entra a eso");
+            this.scene.newUnit(x, y, unitType, direction);
+        } 
     }
         
     }
@@ -124,7 +129,7 @@ export default class Player{
             }
             if(canPlace){
                 this.pushWorker(x, y);
-                this.scene.newWorker(x, y);
+                if(this.scene.color === this.color) this.scene.newWorker(x, y);
             }    
         }
     }
@@ -197,7 +202,7 @@ export default class Player{
             break;
         }
 
-        this.scene.newStructure(i);
+        if(this.scene.color === this.color) this.scene.newStructure(i);
       
         this.scene.selectionIcon.visible = false;
         this.scene.menuConstruir.visible = false;

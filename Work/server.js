@@ -299,6 +299,11 @@ io.on('connection', socket => {
     else redPlayer.emit('buildStructure', info);
   });
 
+  socket.on('newUnit', info =>{
+    if(turn === 'red') bluePlayer.emit('newUnit', info);
+    else redPlayer.emit('newUnit', info);
+  })
+
   socket.on('disconnect', () => {
     console.log('a user disconnected');
     clients.splice(clients.indexOf(socket), 1); // lo sacamos del array
