@@ -51,9 +51,6 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
       }
     }
 
-    console.log(this.casillas);
-    console.log(this.casillasCod);
-
     //Decide casillas forest (de un lado)
     this.DecideForests();
 

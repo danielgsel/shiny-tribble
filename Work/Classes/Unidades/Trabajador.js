@@ -15,13 +15,12 @@ export default class Trabajador extends Unidad {
     this.sprite.setInteractive();
     this.sprite.on('pointerdown', () => {
       if (this.scene.selection !== this){
-        if(this.owner.color == "red" && !this.scene.blueTurn && this.timesMoved === 0){
+        console.log(this.owner.color === this.scene.color);
+        console.log(this.scene.myTurn);
+        console.log(this.timesMoved === 0);
+        if(this.owner.color === this.scene.color && this.scene.myTurn && this.timesMoved === 0){
           this.scene.workerSelected(this);
         }
-        else if(this.owner.color == "blue" && this.scene.blueTurn && this.timesMoved === 0){
-          this.scene.workerSelected(this);
-        }
-        
       }
     })
     this.moveIndicator;

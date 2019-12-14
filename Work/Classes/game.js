@@ -128,13 +128,13 @@ export default class Game extends Phaser.Scene {
 
       this.menuHQ = undefined;     
 
-      this.newWorkers = new MenuNewWorker(this);
+      this.newWorkers = undefined;
 
       this.blueTurnImage = this.add.image(300, 100, 'blueTurn').setScale(0.6);
       this.redTurnImage = this.add.image(300, 100, 'redTurn').setScale(0.6);
       this.blueTurnImage.visible = false;
 
-      this.nextTurnButton = new MenuPasarTurno(this, 50,620)
+      this.nextTurnButton = undefined;
 
       
       this.bluePlayer = new Player(this, 'blue');
@@ -143,22 +143,25 @@ export default class Game extends Phaser.Scene {
       this.KeyN = this.input.keyboard.addKey('N');
 
       this.blueTurn = false;
+      this.myTurn = undefined;
+      
+      {
+        this.redPlayer.Resources.wood = 2;
+        this.redPlayer.Resources.steel = 2;
+        this.redPlayer.Perturn.wood = 1;
+        this.redPlayer.Perturn.steel = 1;
 
-      this.redPlayer.Resources.wood = 2;
-      this.redPlayer.Resources.steel = 2;
-      this.redPlayer.Perturn.wood = 1;
-      this.redPlayer.Perturn.steel = 1;
+        this.redPlayer.updateResourcesMenus();
 
-      this.redPlayer.updateResourcesMenus();
+        this.bluePlayer.Resources.wood = 2;
+        this.bluePlayer.Resources.steel = 2;
 
-      this.bluePlayer.Resources.wood = 2;
-      this.bluePlayer.Resources.steel = 2;
+        this.bluePlayer.Perturn.wood = 1;
+        this.bluePlayer.Perturn.steel = 1;
 
-      this.bluePlayer.Perturn.wood = 1;
-      this.bluePlayer.Perturn.steel = 1;
-
-      this.bluePlayer.updateResourcesMenus();
-
+        this.bluePlayer.updateResourcesMenus();
+      }
+      
       this.canPassTurn = true;
 
       this.color = undefined;
@@ -188,7 +191,53 @@ export default class Game extends Phaser.Scene {
 
       socket.on('startGame', () => {
         this.tablero.printTablero();
-      })
+        this.newWorkers = new MenuNewWorker(this);
+        this.nextTurnButton = new MenuPasarTurno(this, 50,620);
+        if (this.color === 'red') {
+          this.myTurn = true;
+        }
+        else{
+          this.myTurn = false;
+        } 
+      });
+
+      socket.on('myTurn', () =>{
+        console.log("your turn");
+        let player;
+        if(this.color === 'red'){
+          this.redTurnImage.visible = true;
+          this.blueTurnImage.visible = false;
+          this.unselect();
+          player = this.redPlayer;
+          for(let i = 0; i < this.redPlayer.Units.length; i++){
+            this.redPlayer.Units[i].timesMoved = 0;
+            console.log(this.redPlayer.Units[0].timesMoved);
+          }
+  
+        }
+        else{
+          this.redTurnImage.visible = false;
+          this.blueTurnImage.visible = true;
+          this.unselect();
+          player = this.bluePlayer;
+          for(let i = 0; i < this.bluePlayer.Units.length; i++){
+            this.bluePlayer.Units[i].timesMoved = 0;
+          }
+        }
+
+        for (let i = 0; i < player.Units.length; i++){
+          player.Units[i].passTurn();
+        }
+
+        for (let i = 0; i < player.Structures.length; i++){
+          try{
+            player.Structures[i].passTurn();
+          }
+          catch{}  
+        }
+        player.passTurn(); 
+        this.myTurn = true;
+      });
   }
 
   update(time, delta) {
@@ -202,12 +251,12 @@ export default class Game extends Phaser.Scene {
     if(this.KeyN.isDown && this.pasable){
       this.passTurn();
       this.pasable = false;
-  }
+    }
 
     
-  if(this.KeyN.isUp){
-    this.pasable = true;
-  }
+    if(this.KeyN.isUp){
+      this.pasable = true;
+    }
     
 
 
@@ -339,50 +388,42 @@ export default class Game extends Phaser.Scene {
 
 
   passTurn(){
-
-    let player;
-    if(this.pasable){
-      if(this.blueTurn){
-        this.blueTurn = false;
-        this.redTurn = false;
-        this.redTurnImage.visible = true;
-        this.blueTurnImage.visible = false;
-        this.unselect();
-        player = this.bluePlayer;
-        for(let i = 0; i < this.bluePlayer.Units.length; i++){
-          this.bluePlayer.Units[i].timesMoved = 0;
+    if (this.myTurn){
+        socket.emit('passTurn', this.color);
+        let player;
+        if(this.color === 'red'){
+          this.redTurnImage.visible = false;
+          this.blueTurnImage.visible = true;
+          this.unselect();
+          player = this.bluePlayer;
+          for(let i = 0; i < this.redPlayer.Units.length; i++){
+            this.redPlayer.Units[i].timesMoved = 0;
+          }
+  
+        }
+        else{
+          this.redTurnImage.visible = true;
+          this.blueTurnImage.visible = false;
+          this.unselect();
+          player = this.redPlayer;
+          for(let i = 0; i < this.bluePlayer.Units.length; i++){
+            this.bluePlayer.Units[i].timesMoved = 0;
+          }
         }
 
-      }
-      else if(!this.blueTurn){
-        this.redTurn = true;
-        this.blueTurn = true;
-        this.redTurnImage.visible = false;
-        this.blueTurnImage.visible = true;
-        this.unselect();
-        player = this.redPlayer;
-        for(let i = 0; i < this.redPlayer.Units.length; i++){
-          this.redPlayer.Units[i].timesMoved = 0;
+        for (let i = 0; i < player.Units.length; i++){
+          player.Units[i].passTurn();
         }
-      }
-      this.pasable = false;
 
-
-      //Pasar Unidades
-    
-      for (let i = 0; i < player.Units.length; i++){
-            player.Units[i].passTurn();
-           
+        for (let i = 0; i < player.Structures.length; i++){
+          try{
+            player.Structures[i].passTurn();
+          }
+          catch{}  
+        }
+        player.passTurn(); 
+        this.myTurn = false;
       }
-
-      for (let i = 0; i < player.Structures.length; i++){
-            try{
-              player.Structures[i].passTurn();
-            }
-            catch{}  
-      }
-      player.passTurn(); 
-    }
 }
   deleteUnit(owner){
    // let deleted = false;

@@ -258,12 +258,17 @@ io.on('connection', socket => {
     socket.on('ready', () =>{
       redPlayer.emit('startGame');
       bluePlayer.emit('startGame');
-    })
+    });
 
     socket.on('board', board => {
       bluePlayer.emit('board', board);
     });
     
+  });
+
+  socket.on('passTurn', color => {
+    if(color === 'red') bluePlayer.emit('myTurn');
+    else redPlayer.emit('myTurn');
   });
 
   socket.on('disconnect', () => {
