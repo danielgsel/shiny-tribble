@@ -7,14 +7,23 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
 
         //Se crean los sprites
         {
-        this.up = scene.add.image(0, -this.distance, 'arrowup').setInteractive();
-        this.down = scene.add.image(0, this.distance, 'arrowdown').setInteractive();
-        this.left = scene.add.image(-this.distance, 0, 'arrowleft').setInteractive();
-        this.right = scene.add.image(this.distance, 0, 'arrowright').setInteractive();
-        this.upRight = scene.add.image(this.distance, -this.distance, 'arrowupright').setInteractive();
-        this.upLeft = scene.add.image(-this.distance, -this.distance, 'arrowupleft').setInteractive();
-        this.downRight = scene.add.image(this.distance, this.distance, 'arrowdownright').setInteractive();
-        this.downLeft = scene.add.image(-this.distance, this.distance, 'arrowdownleft').setInteractive();
+            this.up = scene.add.image(0, -this.distance, 'arrowup').setInteractive();
+            this.down = scene.add.image(0, this.distance, 'arrowup').setInteractive();
+            this.down.scale = -1;
+    
+            this.left = scene.add.image(-this.distance, 0, 'arrowright').setInteractive();
+            this.left.scale = -1;
+            this.right = scene.add.image(this.distance, 0, 'arrowright').setInteractive();
+    
+    
+            this.upRight = scene.add.image(this.distance, -this.distance, 'arrowupright').setInteractive();
+            this.upLeft = scene.add.image(-this.distance, -this.distance, 'arrowupleft').setInteractive();
+    
+            this.downRight = scene.add.image(this.distance, this.distance, 'arrowupleft').setInteractive();
+            this.downRight.scale = -1;
+    
+            this.downLeft = scene.add.image(-this.distance, this.distance, 'arrowupright').setInteractive();
+            this.downLeft.scale = -1;
         }
 
         //Se ocultan

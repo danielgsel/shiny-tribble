@@ -72,7 +72,7 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
 
         this.down.on('pointerover', () =>{this.down.setFrame(1); })
         this.down.on('pointerout',() => {this.down.setFrame(0);})
-    }
+        }
 
 
         //Se añaden al container
