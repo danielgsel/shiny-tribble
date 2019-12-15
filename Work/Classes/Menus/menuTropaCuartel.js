@@ -48,6 +48,30 @@ export default class MenuMovimiento extends Phaser.GameObjects.Container{
         this.upLeft.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) HQmenu.setDirection("upleft")});
         this.downRight.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) HQmenu.setDirection("downright")});
         this.downLeft.on('pointerdown', () => {if (this.scene.mouse.leftButtonDown()) HQmenu.setDirection("downleft")});
+
+        this.up.on('pointerover', () =>{this.up.setFrame(1);})
+        this.up.on('pointerout',() => {this.up.setFrame(0);})
+
+        this.upLeft.on('pointerover', () =>{this.upLeft.setFrame(1);})
+        this.upLeft.on('pointerout',() => {this.upLeft.setFrame(0);})
+
+        this.upRight.on('pointerover', () =>{this.upRight.setFrame(1);})
+        this.upRight.on('pointerout',() => {this.upRight.setFrame(0);})
+    
+        this.right.on('pointerover', () =>{this.right.setFrame(1);})
+        this.right.on('pointerout',() => {this.right.setFrame(0);})
+
+        this.left.on('pointerover', () =>{this.left.setFrame(1); })
+        this.left.on('pointerout',() => {this.left.setFrame(0);})
+
+        this.downLeft.on('pointerover', () =>{this.downLeft.setFrame(1); })
+        this.downLeft.on('pointerout',() => {this.downLeft.setFrame(0);})
+
+        this.downRight.on('pointerover', () =>{this.downRight.setFrame(1); })
+        this.downRight.on('pointerout',() => {this.downRight.setFrame(0);})
+
+        this.down.on('pointerover', () =>{this.down.setFrame(1); })
+        this.down.on('pointerout',() => {this.down.setFrame(0);})
         }
 
         //Se añaden al container

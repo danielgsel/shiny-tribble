@@ -1,7 +1,5 @@
 import Unidad from "./Unidad.js";
 
-
-
 export default class Atacante extends Unidad{
     constructor(scene, positionx, positiony, unitHP, unitSpriteName, facing, owner){
 
@@ -54,13 +52,6 @@ export default class Atacante extends Unidad{
                 this.scene.tablero.casillas[x][y].OccupiedBy = this;
                 this.scene.tablero.casillas[this.position.x][this.position.y].OccupiedBy = undefined;
                 this.moveUnit(x, y);
-                // this.position.x = x;
-                // this.position.y = y;
-            
-
-            // else if(this.scene.tablero.casillas[x][y].OccupiedBy.owner !== this.owner){
-            //     console.log(" un rojo");
-            // }
         }
     }
 

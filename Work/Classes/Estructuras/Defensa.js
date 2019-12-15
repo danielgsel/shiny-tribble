@@ -46,9 +46,11 @@ export default class Defensa extends Estructura{
     }
 
     checkUnitAvaliable(){   //Comprueba que la tropa fijada anteriormente sigue en rango y sigue viva
-        if (this.unitAttached !== undefined &&
-            !(Math.abs(this.unitAttached.position.x - this.position.x) <= this.range && Math.abs(this.unitAttached.position.y - this.position.y) <= this.range)){    //no ha salido de rango
-            this.unitAttached = undefined;
+        if (this.unitAttached !== undefined) {
+            if (!(Math.abs(this.unitAttached.position.x - this.position.x) <= this.range && Math.abs(this.unitAttached.position.y - this.position.y) <= this.range)
+                 || !(this.unitAttached.hp > 0)){    //ha salido de rango o ha muerto 
+                this.unitAttached = undefined;
+            }
         }
     }
 
