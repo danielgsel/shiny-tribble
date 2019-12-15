@@ -183,7 +183,7 @@ export default class Player{
 
             }
             else if (castype === "superForest"){
-                this.Perturn.steel += 3;
+                this.Perturn.wood += 3;
                 this.Structures.push(new SuperAserradero(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
                 this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
 
