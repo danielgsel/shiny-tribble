@@ -84,6 +84,7 @@ export default class Player{
     }
 
     newUnit(x,y,unitType,direction){
+        console.log("esoo");
         if(this.Resources.steel >= 5){
     
             if (unitType === 'archer'){
@@ -102,6 +103,7 @@ export default class Player{
         this.updateResourcesMenus();
 
         if(this.scene.color === this.color){
+            console.log("entra a eso");
             this.scene.newUnit(x, y, unitType, direction);
         } 
     }
