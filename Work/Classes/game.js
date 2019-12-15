@@ -274,7 +274,6 @@ export default class Game extends Phaser.Scene {
           this.bluePlayer.newUnit(info.x, info.y, info.unitType, info.direction);
         }
         else{
-          console.log("entra a newUnit");
           this.redPlayer.newUnit(info.x, info.y, info.unitType, info.direction);
         }
       })
