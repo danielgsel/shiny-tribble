@@ -289,10 +289,7 @@ export default class Game extends Phaser.Scene {
 
   update(time, delta) {
 
-    if (this.loadingIcon !== undefined){
-      this.loadingIcon.angle = this.loadingIcon.angle + 1;
-      console.log(this.loadingIcon.angle);
-    } 
+    if (this.loadingIcon !== undefined) this.loadingIcon.angle = this.loadingIcon.angle + 5;
 
     this.checkMouseInput();
 
