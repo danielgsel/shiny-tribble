@@ -28,9 +28,9 @@ export default class Game extends Phaser.Scene {
     //Estructuras
     this.load.image('redCannon', 'assets/imagenes/redCannon2.png');
     this.load.image('blueCannon', 'assets/imagenes/blueCannon2.png');
-    this.load.image('blueMortar', 'assets/imagenes/blueMortar2.png');
+    this.load.image('blueMortar', 'assets/imagenes/blueHQ.png');
     this.load.image('redMortar', 'assets/imagenes/redHQ.png');
-    this.load.image('blueTower', 'assets/imagenes/blueHQ.png');
+    this.load.image('blueTower', 'assets/imagenes/blueTower2.png');
     this.load.image('redTower', 'assets/imagenes/redTower2.png');
     this.load.image('redFlag', 'assets/imagenes/redFlag.png');
     this.load.image('blueFlag', 'assets/imagenes/blueFlag.png');
