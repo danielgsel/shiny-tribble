@@ -220,7 +220,10 @@ const recursosDeLosVagos = [
 '/assets/imagenes/trlogo.png',
 '/assets/imagenes/WoodIcon.png',
 '/assets/imagenes/worker.png',
-'/assets/imagenes/workerSelected.png']
+'/assets/imagenes/workerSelected.png',
+'/assets/imagenes/iconoCarga.png',
+'/assets/imagenes/pantallaDeCarga.png'
+]
 
 for(const elQueToca of recursosDeLosVagos) {
   app.get(elQueToca, function(req, res){

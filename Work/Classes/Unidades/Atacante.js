@@ -117,17 +117,17 @@ export default class Atacante extends Unidad{
             else{
                 this.canAttack[this.canAttack.length] = undefined;
             }
-        }
-        else if((this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].base &&
-            this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].owner === this.enemyColor)){
+            }
+            else if((this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].base &&
+                this.scene.tablero.casillas[this.position.x + xSum][this.position.y + ySum].owner === this.enemyColor)){
 
-            this.scene.attackBase(this.owner);
-            this.attackingSomeOne = true;
+                this.scene.attackBase(this.owner);
+                this.attackingSomeOne = true;
+            }
         }
-    }
-    catch{
-        console.log("mirando fuera");
-    }
+        catch{
+            console.log("mirando fuera");
+        }
     }
     
 

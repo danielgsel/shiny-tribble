@@ -13,8 +13,7 @@ export default class Cuartel extends Estructura{
         this.MenuCuartel.visible = false;
 
         this.sprite.setInteractive();
-        this.sprite.on('pointerdown', () => {if (scene.mouse.leftButtonDown()) if(scene.myTurn && owner.color === scene.color||
-        (!scene.myTurn && owner.color === scene.color)){
+        this.sprite.on('pointerdown', () => {if (scene.mouse.leftButtonDown()) if(scene.myTurn && owner.color === scene.color){
             scene.HQSelected(this.MenuCuartel); this.MenuCuartel.selected();}
         });
     }
