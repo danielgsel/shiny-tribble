@@ -138,6 +138,7 @@ export default class Game extends Phaser.Scene {
 
       this.nextTurnButton = undefined;
       this.waitingScreen = undefined;
+      this.loadingIcon = undefined;
       
       this.bluePlayer = new Player(this, 'blue');
       this.redPlayer = new Player(this, 'red');
@@ -175,6 +176,7 @@ export default class Game extends Phaser.Scene {
           console.log("soy color rojo");
           this.color = color;
           this.waitingScreen = this.add.image(660, 660, 'pantallaEspera').setScale(1.5);
+          this.loadingIcon = this.add.image(660, 800, 'iconoCarga').setScale(0.1);
         }
         else{
           console.log('soy color azul');
@@ -199,6 +201,8 @@ export default class Game extends Phaser.Scene {
         if (this.color === 'red') {
           this.myTurn = true;
           this.waitingScreen.destroy();
+          this.loadingIcon.destroy();
+          this.loadingIcon = undefined;
         }
         else{
           this.myTurn = false;
@@ -284,6 +288,11 @@ export default class Game extends Phaser.Scene {
   }
 
   update(time, delta) {
+
+    if (this.loadingIcon !== undefined){
+      this.loadingIcon.angle = this.loadingIcon.angle + 1;
+      console.log(this.loadingIcon.angle);
+    } 
 
     this.checkMouseInput();
 
