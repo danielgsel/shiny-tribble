@@ -5,7 +5,7 @@ import Player from "./Player.js"
 import MenuPasarTurno from "./Menus/menuPasarTurno.js";
 import MenuNewWorker from "./Menus/menuNewWorker.js";
 
-const direccion = 'localhost';
+const direccion = '147.96.153.229';
 const puerto = 8080;
 const socket = io('http://' + direccion + ':' + puerto);
 
