@@ -9,6 +9,10 @@ export default class SuperAserradero extends Estructura {
         
         super(name, 50, owner, tabPos, x, y, scene);
 
-        console.log("SuperAserradero creado en " + tabPos[0] + " " + tabPos[1]);
+        //console.log("SuperAserradero creado en " + tabPos[0] + " " + tabPos[1]);
+    }
+
+    lowerResources(){
+        this.owner.upgradeDied(2, "wood");
     }
 }

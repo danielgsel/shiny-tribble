@@ -87,16 +87,19 @@ export default class Player{
         if(this.Resources.steel >= 5){
     
             if (unitType === 'archer'){
-                this.Units.push(new Archer(this.scene, x,y, this.SpriteArcher, direction, this));
-                this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
+
+                this.pushUnit(Archer, x, y, direction);
+               
             }
             else if (unitType === 'soldier'){
-                this.Units.push(new Soldier(this.scene, x,y, this.SpriteSoldier, direction, this));
-                this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
+                this.pushUnit(Soldier, x , y, direction);
+
+                
             }
             else if (unitType === 'tank'){
-                this.Units.push(new Tank(this.scene, x,y, this.SpriteTank, direction, this));
-                this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
+                this.pushUnit(Tank, x, y, direction);
+
+                
         }
         this.Resources.steel -= 5;
         this.updateResourcesMenus();
@@ -106,6 +109,23 @@ export default class Player{
         } 
     }
         
+    }
+    pushUnit(unitType, x,y, direction){
+        let sprite;
+        switch (unitType){
+            case Archer:
+                sprite = this.SpriteArcher;
+                break;
+            case Soldier: 
+                sprite = this.SpriteSoldier;
+                break;
+            case Tank: 
+                sprite = this.SpriteTank;
+                break;    
+
+        }
+        this.Units.push(new unitType(this.scene, x,y, sprite, direction, this));
+        this.scene.tablero.casillas[x][y].OccupiedBy = this.Units[this.Units.length - 1];
     }
 
     newWorker(){
@@ -143,50 +163,49 @@ export default class Player{
     newStructure(i){
         switch(i){
           case 0:   //Cannon
-            this.Structures.push(new Cannon(this, [this.scene.selection.position.x, this.scene.selection.position.y], 0, 0, this.scene));
-            this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
-            this.scene.selection.destroyMe();
-            this.Resources.wood -= 5;
+          this.pushStructure(Cannon);
+          this.Resources.wood -= 5;
+
+
 
             break;
           case 1:   //Tower
-          this.Structures.push(new Tower(this, [this.scene.selection.position.x, this.scene.selection.position.y], 0, 0, this.scene));
-          this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
-          this.scene.selection.destroyMe();
+          this.pushStructure(Tower);
           this.Resources.wood -= 5;
+
+
 
             break;
           case 2:   //Mortar
-          this.Structures.push(new Mortar(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene));
-          this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
-          this.scene.selection.destroyMe();
+          this.pushStructure(Mortar);
           this.Resources.wood -= 5;
+
+
 
             break;
           case 3:   //Recursos
             let castype = this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].type;
             if(castype === "wood") {
-                this.Perturn.wood += 2;
-                this.Structures.push(new Aserradero(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
-                this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
+                this.pushStructure(Aserradero);
+                this.Perturn.wood += 1;
+
             }
             else if (castype === "steel"){
+                this.pushStructure(Mina);
                 this.Perturn.steel += 2;
-                this.Structures.push(new Mina(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene));
-                this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
 
             }
             else if (castype === "superSteel"){
+                this.pushStructure(SuperMina);
                 this.Perturn.steel += 3;
-                this.Structures.push(new SuperMina(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
-                this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
+
 
             }
             else if (castype === "superForest"){
-                this.Perturn.wood += 3;
-                this.Structures.push(new SuperAserradero(this, [this.scene.selection.position.x,this.scene.selection.position.y], 0, 0, this.scene))
-                this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
+                this.pushStructure(SuperAserradero);
 
+                this.Perturn.wood += 2;
+               
             }
 
             this.scene.selection.destroyMe();
@@ -194,9 +213,8 @@ export default class Player{
             break;    
           case 4:
             //Cuarteles
-            this.Structures.push(new Cuartel(this, [this.scene.selection.position.x, this.scene.selection.position.y], 0, 0, this.scene));
-            this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
-            this.scene.selection.destroyMe();
+            this.pushStructure(Mortar);
+
             break;
         }
 
@@ -208,6 +226,25 @@ export default class Player{
       
         this.scene.selection = undefined;
       }
+
+      pushStructure(type){
+        this.Structures.push(new type(this, [this.scene.selection.position.x, this.scene.selection.position.y], 0, 0, this.scene));
+        this.scene.tablero.casillas[this.scene.selection.position.x][this.scene.selection.position.y].estructurePlaced = this.Structures[this.Structures.length - 1];
+        this.scene.selection.destroyMe();
+    }
+    
+
+    upgradeDied(value, type){
+        if(type === "wood"){
+            this.Perturn.wood -= value;
+        }
+        else{
+            this.Perturn.steel -= value;
+        }
+        this.updateResourcesMenus();
+    }
+
+
 
       loadResourcesMenus(){
           this.woodIcon = this.scene.add.image(950,this.h, 'woodIcon').setScale(0.2);
