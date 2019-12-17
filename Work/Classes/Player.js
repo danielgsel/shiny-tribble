@@ -292,9 +292,11 @@ export default class Player{
       lose(){
         if(this.color === "blue"){
             this.scene.scene.start('winnermenu', {winner: 1, disconnect : false});
+            if(this.scene.color === 'red') this.scene.gameEnded();
         }
         else{
             this.scene.scene.start('winnermenu', {winner: 0, disconnect : false});
+            if(this.scene.color === 'red') this.scene.gameEnded();
         }
 
       }

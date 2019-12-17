@@ -6,6 +6,7 @@ const port = 8080; // El puerto
 var clients = [];
 var redJoined = false;
 var blueJoined = false;
+var matchEnded = false;
 
 var redPlayer = undefined;
 var bluePlayer = undefined;
@@ -272,6 +273,7 @@ io.on('connection', socket => {
     socket.on('ready', () =>{
       redPlayer.emit('startGame');
       bluePlayer.emit('startGame');
+      matchEnded = false;
     });
 
     socket.on('board', board => {
@@ -317,19 +319,23 @@ io.on('connection', socket => {
   });
 
   socket.on('gameEnded', () => {
-    clients.splice(clients.indexOf(bluePlayer), 1);
-    clients.splice(client.indexOf(redPlayer), 1);
-    console.log('Game ended, waiting for new players');
+    //clients.splice(clients.indexOf(bluePlayer), 1);
+    //clients.splice(client.indexOf(redPlayer), 1);
+    matchEnded = true;
+    blueJoined = false;
+    redJoined = false;
+
+    console.log('----------Game ended, waiting for new players----------------');
   });
 
   socket.on('disconnect', () => {
-    if (socket === redPlayer){
+    if (socket === redPlayer && !matchEnded){
       console.log('red player disconected');
       bluePlayer.emit('oponentLeft');
       blueJoined = false;
       redJoined = false;
     } 
-    else if (socket === bluePlayer){
+    else if (socket === bluePlayer && !matchEnded){
       console.log('blue player disconected');
       redPlayer.emit('oponentLeft');
       blueJoined = false;

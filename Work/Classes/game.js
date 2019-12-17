@@ -558,4 +558,8 @@ export default class Game extends Phaser.Scene {
     };
     socket.emit('newUnit', info);
   }
+
+  gameEnded(){
+    socket.emit('gameEnded');
+  }
 }
