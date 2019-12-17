@@ -136,16 +136,16 @@ export default class Tablero extends Phaser.GameObjects.Sprite {
   }
 
   printTablero(){
+    let squareSize = this.scene.squareSize;
+    let offset = this.scene.offset;
+
     for (let i = 0; i < this.scene.altoMundo; i++){
       for (let j = 0; j < this.scene.anchoMundo; j++){
         //Dibujar la casilla dependiendo de su tipo
-        let squareSize = this.scene.squareSize;
-        let offset = this.scene.offset;
 
         if (this.casillas[i][j] !== undefined) this.casillas[i][j].print(i * squareSize + offset , j * squareSize + offset);
       }
     }
-
   }
 
   copiaTablero(cas){
