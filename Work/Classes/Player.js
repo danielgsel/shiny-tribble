@@ -243,16 +243,22 @@ export default class Player{
 
       lose(){
         if(this.color === "blue"){
-            this.scene.scene.start('winnermenu', {winner: 1});
+            this.scene.scene.start('winnermenu', {winner: 1, disconnect : false});
         }
         else{
-            this.scene.scene.start('winnermenu', {winner: 0});
-
+            this.scene.scene.start('winnermenu', {winner: 0, disconnect : false});
         }
 
       }
 
- 
+      opponentLeft(){
+        if(this.color === "blue"){
+            this.scene.scene.start('winnermenu', {winner: 1, disconnect : true});
+        }
+        else{
+            this.scene.scene.start('winnermenu', {winner: 0, disconnect : true});
+        }
+      }
 
 
 }

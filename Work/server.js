@@ -5,12 +5,14 @@ const io = require('socket.io')(http); // Importamos `socket.io`
 const port = 8080; // El puerto
 var clients = [];
 var redJoined = false;
+var blueJoined = false;
 
 var redPlayer = undefined;
 var bluePlayer = undefined;
 
 var turn = 'red';
 
+//Carga de archivos para el servidor
 {
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
@@ -222,7 +224,8 @@ const recursosDeLosVagos = [
 '/assets/imagenes/worker.png',
 '/assets/imagenes/workerSelected.png',
 '/assets/imagenes/iconoCarga.png',
-'/assets/imagenes/pantallaDeCarga.png'
+'/assets/imagenes/pantallaDeCarga.png',
+'/assets/imagenes/panelTRIVALS.png'
 ]
 
 for(const elQueToca of recursosDeLosVagos) {
@@ -249,16 +252,21 @@ io.on('connection', socket => {
       redPlayer = socket;
       redJoined = true;
     }
-    else{
+    else if(!blueJoined){
       console.log('blue player');
   
       color === 'blue';
       socket.emit('setColor', 'blue');
-      
+
       bluePlayer = socket;
+      blueJoined = true;
 
       redPlayer.emit('giveMeBoard');
     }
+    else {
+      console.log('Limit of players in the game reached');
+    }
+    
 
     socket.on('ready', () =>{
       redPlayer.emit('startGame');
@@ -305,11 +313,32 @@ io.on('connection', socket => {
   socket.on('newUnit', info =>{
     if(turn === 'red') bluePlayer.emit('newUnit', info);
     else redPlayer.emit('newUnit', info);
-  })
+  });
+
+  socket.on('gameEnded', () => {
+    clients.splice(clients.indexOf(bluePlayer), 1);
+    clients.splice(client.indexOf(redPlayer), 1);
+    console.log('Game ended, waiting for new players');
+  });
 
   socket.on('disconnect', () => {
-    console.log('a user disconnected');
-    clients.splice(clients.indexOf(socket), 1); // lo sacamos del array
+    if (socket === redPlayer){
+      console.log('red player disconected');
+      bluePlayer.emit('oponentLeft');
+      blueJoined = false;
+      redJoined = false;
+    } 
+    else if (socket === bluePlayer){
+      console.log('blue player disconected');
+      redPlayer.emit('oponentLeft');
+      blueJoined = false;
+      redJoined = false;
+    } 
+    else{
+      console.log('a user disconnected');
+    } 
+    
+    clients.splice(clients.indexOf(socket), 1); 
   });
 });
 

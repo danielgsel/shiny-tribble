@@ -7,6 +7,7 @@ export default class Game extends Phaser.Scene {
 
   init(data){
     this.winner = data.winner;
+    this.enemyLeft = data.disconnect;
   }
 
 
@@ -16,6 +17,7 @@ export default class Game extends Phaser.Scene {
     
     this.load.image('blured', 'assets/imagenes/blured.png');
     this.load.image('cont', 'assets/imagenes/continue.png');
+    this.load.image('panel', 'assets/imagenes/panelTRIVALS.png');
     
   }
 
@@ -23,6 +25,7 @@ export default class Game extends Phaser.Scene {
       this.input.mouse.disableContextMenu();
       
       this.add.image(650,650,'blured').setScale(1.4);
+      this.add.image(650, 550, 'panel').setScale(2);
       this.KeyN = this.input.keyboard.addKey('N');
       this.mouse = this.input.activePointer;
       if(this.winner === 1){
@@ -31,14 +34,11 @@ export default class Game extends Phaser.Scene {
       else{
         this.add.text(430, 400,  "BLUE WINS" , { fontFamily: 'Freckle Face', fontSize: 90, color: '#00FFFF' });
       }
-
-      this.play = this.add.image(650, 650, 'cont').setInteractive();
-      //Se configuran las interacciones con los iconos
-      {
-        this.play.on('pointerdown', () => {if (this.mouse.leftButtonDown()) this.goTogame();});
-        
+      
+      if(this.enemyLeft) {
+        this.add.text(275, 525,  "Your enemy has disconnected :(" , { fontFamily: 'Freckle Face', fontSize: 60, color: '#000000' });
+        this.add.text(200, 650,  "Refresh website to find another game" , { fontFamily: 'Freckle Face', fontSize: 60, color: '#000000' });
       }
-
 
   }
 

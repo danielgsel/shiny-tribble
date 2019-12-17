@@ -5,7 +5,7 @@ import Player from "./Player.js"
 import MenuPasarTurno from "./Menus/menuPasarTurno.js";
 import MenuNewWorker from "./Menus/menuNewWorker.js";
 
-const direccion = '147.96.153.229';
+const direccion = 'localhost';
 const puerto = 8080;
 const socket = io('http://' + direccion + ':' + puerto);
 
@@ -78,8 +78,6 @@ export default class Game extends Phaser.Scene {
     this.load.image('redHealthBase', 'assets/imagenes/redHealthBase.png');
     
     this.load.image('blured2', 'assets/imagenes/blured2.png');
-
-
 
     this.load.image('cannonMenu', 'assets/imagenes/cannonMenu.png');
     this.load.image('towerMenu', 'assets/imagenes/towerMenu.png');
@@ -284,7 +282,16 @@ export default class Game extends Phaser.Scene {
         else{
           this.redPlayer.newUnit(info.x, info.y, info.unitType, info.direction);
         }
-      })
+      });
+
+      socket.on('oponentLeft', () =>{
+        if(this.color === 'red'){
+          this.bluePlayer.opponentLeft(true);
+        }
+        else{
+          this.redPlayer.opponentLeft(true);
+        }
+      });
   }
 
   update(time, delta) {
