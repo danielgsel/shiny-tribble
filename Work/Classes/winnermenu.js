@@ -37,9 +37,9 @@ export default class Game extends Phaser.Scene {
       
       if(this.enemyLeft) {
         this.add.text(275, 525,  "Your enemy has disconnected :(" , { fontFamily: 'Freckle Face', fontSize: 60, color: '#000000' });
-        this.add.text(200, 650,  "Refresh website to find another game" , { fontFamily: 'Freckle Face', fontSize: 60, color: '#000000' });
       }
 
+      this.add.text(200, 650,  "Refresh website to find another game" , { fontFamily: 'Freckle Face', fontSize: 60, color: '#000000' });
   }
 
   goTogame(){
