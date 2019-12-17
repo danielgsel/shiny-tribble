@@ -149,6 +149,7 @@ app.get('/Classes/Unidades/Atacantes/Tank.js', function(req, res){
 //-----------------------Imagenes-------------------------------->
 
 const recursosDeLosVagos = [
+'/assets/fonts/8bitlim.ttf',
 '/assets/imagenes/arrowdown.png',
 '/assets/imagenes/arrowdownleft.png',
 '/assets/imagenes/arrowdownright.png',

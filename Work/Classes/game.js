@@ -22,7 +22,7 @@ export default class Game extends Phaser.Scene {
   preload() {  
     //Casillas
     this.loadCasillas();
-
+    //this.load.bitmapFont('myfont', 'assets/font/8bitlim.png', 'assets/font/8bitlim.fnt');
     this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 
     //Estructuras
@@ -113,7 +113,7 @@ export default class Game extends Phaser.Scene {
 
       this.mouseAvaliable = true;
       this.input.on('pointerup', pointer => {if (pointer.leftButtonReleased()) {this.mouseAvaliable = true;} });
-
+     
       //this.tablero = new Tablero(this, 0, 0);
       this.tablero = undefined;
 
@@ -130,8 +130,8 @@ export default class Game extends Phaser.Scene {
 
       this.newWorkers = undefined;
 
-      this.blueTurnImage = this.add.image(300, 100, 'blueTurn').setScale(0.6);
-      this.redTurnImage = this.add.image(300, 100, 'redTurn').setScale(0.6);
+      this.blueTurnImage = this.add.image(200, 50, 'blueTurn').setScale(0.9);
+      this.redTurnImage = this.add.image(200, 50, 'redTurn').setScale(0.9);
       this.blueTurnImage.visible = false;
 
       this.nextTurnButton = undefined;
