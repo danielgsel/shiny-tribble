@@ -83,6 +83,8 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
             this.unitToSpawn = this.scene.add.image(0, 0, 'redSoldier').setInteractive();
         }
         this.unitName = 'soldier';
+        this.unitToSpawn.alpha = 0.5; 
+
     }
 
     tankSelected(){
@@ -93,6 +95,8 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
             this.unitToSpawn = this.scene.add.image(0, 0, 'redTank').setInteractive();
         }
         this.unitName = 'tank';
+        this.unitToSpawn.alpha = 0.5; 
+
     }
 
     archerSelected(){
@@ -103,6 +107,8 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
             this.unitToSpawn = this.scene.add.image(0, 0, 'redArcher').setInteractive();
         }
         this.unitName = 'archer';
+        this.unitToSpawn.alpha = 0.5; 
+
     }
 
     updateMenu(){
@@ -129,6 +135,7 @@ export default class MenuCuartel extends Phaser.GameObjects.Container{
 
             this.unitToSpawn.x = (this.HQ.position.x + coord.x) * this.scene.squareSize + this.scene.offset;
             this.unitToSpawn.y = (this.HQ.position.y + coord.y) * this.scene.squareSize + this.scene.offset;
+          //  this.unitToSpawn.sprite.alpha = 0.5; 
 
             if (this.scene.mouse.leftButtonDown()){
                 this.pos = [x, y];

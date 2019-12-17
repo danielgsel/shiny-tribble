@@ -20,6 +20,7 @@ export default class Trabajador extends Unidad {
         }
       }
     })
+
     this.moveIndicator;
     this.indicatorCreated = false;
     //this.printIndicator();
@@ -45,7 +46,11 @@ export default class Trabajador extends Unidad {
     this.timesMoved++;
     this.scene.unselect();
    
-    if(this.scene.color === this.owner.color) this.scene.moveWorker(x, y);
+    if(this.scene.color === this.owner.color){
+       this.scene.moveWorker(x, y);
+       this.sprite.alpha = 0.5; 
+
+    }
   }
 
   printIndicator(){

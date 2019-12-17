@@ -213,7 +213,7 @@ export default class Player{
             break;    
           case 4:
             //Cuarteles
-            this.pushStructure(Mortar);
+            this.pushStructure(Cuartel);
 
             break;
         }

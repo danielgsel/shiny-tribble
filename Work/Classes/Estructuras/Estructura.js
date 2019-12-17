@@ -29,6 +29,12 @@ export default class Estructura extends Phaser.GameObjects.Sprite {
       this.healthbar.scaleX = this.hp/100;
 
       if (this.hp <= 0) {
+        try {
+          this.lowerResources();
+        
+        }
+
+        catch{}
         this.sprite.destroy();
         this.healthbar.destroy(); 
         this.scene.tablero.casillas[this.position.x][this.position.y].estructurePlaced = undefined;

@@ -459,6 +459,8 @@ export default class Game extends Phaser.Scene {
           player = this.bluePlayer;
           for(let i = 0; i < this.redPlayer.Units.length; i++){
             this.redPlayer.Units[i].timesMoved = 0;
+            this.redPlayer.Units[i].sprite.alpha = 1; 
+
           }
   
         }
@@ -469,6 +471,8 @@ export default class Game extends Phaser.Scene {
           player = this.redPlayer;
           for(let i = 0; i < this.bluePlayer.Units.length; i++){
             this.bluePlayer.Units[i].timesMoved = 0;
+            this.bluePlayer.Units[i].sprite.alpha = 1; 
+
           }
         }
 
