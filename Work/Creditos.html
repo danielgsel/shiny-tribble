@@ -6,6 +6,24 @@
     <title>Trivals</title>
    
     <style media='screen' type='text/css'>
+       .button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 80px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  font-family: "font1";
+
+}
+.button:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
         @font-face {
           font-family: font1;
           src: url('/assets/fonts/8bitlim.ttf');
@@ -21,6 +39,8 @@ ul {
   padding: 0;
   overflow: hidden;
   background-color: #333;
+  font-family: "font1";
+
 }
 
 li {
@@ -71,11 +91,20 @@ li.dropdown {
   text-align: left;
 }
 
+.center {
+  margin: auto;
+  width: 10%;
+  padding: 400px 0;
+  /* padding: 10px; */
+}
+
 .dropdown-content a:hover {background-color: #f1f1f1;}
 
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+
 </style>
 <div style="font-family:font1; position:absolute; left:-1000px; visibility:hidden;">.</div>
 </head>
