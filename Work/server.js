@@ -18,6 +18,15 @@ var turn = 'red';
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
+app.get('/Juego.html', function(req, res){
+  res.sendFile(__dirname + '/Juego.html');
+});
+app.get('/Tutorial.html', function(req, res){
+  res.sendFile(__dirname + '/Tutorial.html');
+});
+app.get('/Creditos.html', function(req, res){
+  res.sendFile(__dirname + '/Creditos.html');
+});
 //----------------------------Classes--------------------->
 
 app.get('/Classes/game.js', function(req, res){

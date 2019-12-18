@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Trivals</title>
+   
+    <style media='screen' type='text/css'>
+        @font-face {
+          font-family: font1;
+          src: url('/assets/fonts/8bitlim.ttf');
+          font-weight:400;
+          font-weight:normal;
+        }
+        p{
+          font-family: "font1";
+        }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+li a, .dropbtn {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+
+li.dropdown {
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+</style>
+<div style="font-family:font1; position:absolute; left:-1000px; visibility:hidden;">.</div>
+</head>
+<body>
+
+
+
+    <header id="header">
+        <div class="container main-menu">
+            <div class="row align-items-center justify-content-between d-flex">
+              
+              <nav id="nav-menu-container">
+                
+                <ul class="nav-menu">
+                  <li><a href="/">Inicio</a></li>
+                  <li><a href="Juego.html">Juego</a></li>
+                  <li><a href="Creditos.html">Creditos</a></li>
+                  <li><a href="Tutorial.html">Como Jugar</a></li>
+                  
+                  <li class="dropdown"><a href="javascript:void(0)" class = "dropbtn">Mas Informacion</a>
+                    <ul>
+                    <div class = "dropdown-content"></li>
+                      <li><a href="#">Carlos</a></li>
+                      <li><a href="#">Ponnos</a></li>
+                      <li><a href="#">Un</a></li>
+                      <li><a href="#">10</a></li>
+                    </div>
+                    </ul>
+                  </li>	
+                  
+                </ul>
+              </nav><!-- #nav-menu-container -->		    		
+            </div>
+        </div>
+      </header>
+
+      <section class="Credits">
+				<div class="container">
+							<h1>Conceptos básicos</h1>
+							<p>
+                En Trivals dos jugadores se enfrentan, y gana el primero en destruir la base del rival (que ocurrira cuando sea atacada tres veces).
+              </p>
+              <p>
+                Para ello debes generar trabajadores (en el boton donde tu base), con los cuales puedes construir mejoras en montañas y aserraderos, defensas, y cuarteles.
+              </p>
+              <p>
+                Desde los cuarteles puedes generar unidades, y mandarlas en una dirección que seguirán hasta encontrarse con alguien o algo contra lo que luchar.
+              </p>
+              <p></p><p>
+                <h2> Generacion de recursos:</h2>
+                  <p> Asserradero base: +1 Madera/ turno </p>
+                  <p> Asserradero central: +2 Madera/ turno </p>
+                  <p> Mina base: +2 Acero/ turno </p>
+                  <p> Mina central: +3 Acero/ turno </p>
+              </p>
+              <p></p>
+              <p><h2>Costes de recursos:</h2></p>
+                <p> Trabajador: 2 madera + 2 acero </p>
+                <p> Atacante: 5 acero</p>
+                <p> Defensa: 5 madera</p>
+
+						</div>
+					
+			</section>
+    
+</body>
+
+</html>

@@ -1,3 +1,0 @@
-docs: pagina en github. cambiar de vez en cuando
-entregas: --
-work: trabajar aqui
