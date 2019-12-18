@@ -340,13 +340,13 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     if (socket === redPlayer && !matchEnded){
       console.log('red player disconected');
-      bluePlayer.emit('oponentLeft');
+      if(bluePlayer !== undefined) bluePlayer.emit('oponentLeft');
       blueJoined = false;
       redJoined = false;
     } 
     else if (socket === bluePlayer && !matchEnded){
       console.log('blue player disconected');
-      redPlayer.emit('oponentLeft');
+      if(redPlayer !== undefined) redPlayer.emit('oponentLeft');
       blueJoined = false;
       redJoined = false;
     } 
